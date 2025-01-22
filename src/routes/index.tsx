@@ -1,7 +1,13 @@
+import Palette from "@/components/palette"
+import Picker from "@/components/picker"
+import Sidebar from "@/components/sidebar"
+
 export default function Editor() {
   return (
-    <div className="h-screen flex flex-col items-center justify-center gap-6">
-      <h1 className="">Editor</h1>
-    </div>
+    <main className="grid grid-cols-[1fr,18rem] grid-rows-[1fr,4rem] h-screen overflow-hidden divide-x divide-y">
+      <Picker className="col-span-1 row-span-1" />
+      <Sidebar className="col-span-1 row-span-2" />
+      <Palette className="col-span-1 row-span-1" />
+    </main>
   )
 }

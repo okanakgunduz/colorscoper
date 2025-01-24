@@ -9,33 +9,34 @@ interface Props {
 export default function Picker({ className }: Props) {
   return (
     <div className={cx(className)}>
-      <Tabs.Root defaultValue="hue-saturation-wheel" className="bg-muted-background h-full w-full grid place-items-center relative">
+      <Tabs.Root
+        defaultValue="hue-saturation-wheel"
+        className="bg-muted-background relative grid h-full w-full place-items-center"
+      >
         <Tabs.List
           aria-label="Select your color picker type."
-          className="absolute top-4 bg-white border rounded-xl -space-x-1 p-1 text-sm text-gray-600 font-medium"
+          className="absolute top-4 -space-x-1.5 rounded-xl border bg-white p-1 text-sm text-gray-600"
         >
-          <Tabs.Trigger
-            value="hue-saturation-wheel"
-            className="px-4 py-1 radix-state-active:bg-muted-accent radix-state-active:text-accent transition-all rounded-lg"
-          >
-            Hue - Saturation Wheel
-          </Tabs.Trigger>
-          <Tabs.Trigger
-            value="hue-white-balance"
-            className="px-4 py-1 radix-state-active:bg-muted-accent radix-state-active:text-accent transition-all rounded-lg"
-          >
-            Hue - White Balance
-          </Tabs.Trigger>
-          <Tabs.Trigger
-            value="saturation-white-balance"
-            className="px-4 py-1 radix-state-active:bg-muted-accent radix-state-active:text-accent transition-all rounded-lg"
-          >
-            Saturation - White Balance
-          </Tabs.Trigger>
+          {Object.entries({
+            "hue-saturation-wheel": "Hue - Saturation Wheel",
+            "hue-white-balance": "Hue - White Balance",
+            "saturation-white-balance": "Saturation - White Balance",
+          }).map(([key, value]) => (
+            <Tabs.Trigger
+              value={key}
+              className="state-active:bg-muted-accent state-active:text-accent cursor-pointer rounded-lg px-5 py-1"
+            >
+              {value}
+            </Tabs.Trigger>
+          ))}
         </Tabs.List>
-        <Tabs.Content value="hue-saturation-wheel">hue-saturation-wheel</Tabs.Content>
+        <Tabs.Content value="hue-saturation-wheel">
+          hue-saturation-wheel
+        </Tabs.Content>
         <Tabs.Content value="hue-white-balance">hue-white-balance</Tabs.Content>
-        <Tabs.Content value="saturation-white-balance">saturation-white-balance</Tabs.Content>
+        <Tabs.Content value="saturation-white-balance">
+          saturation-white-balance
+        </Tabs.Content>
       </Tabs.Root>
     </div>
   )

@@ -1,0 +1,105 @@
+@custom-variant disabled {
+  &[data-disabled] {
+    @slot;
+  }
+}
+
+@custom-variant highlighted {
+  &[data-highlighted] {
+    @slot;
+  }
+}
+
+/* State (On) */
+
+@custom-variant state-on {
+  &[data-state="on"] {
+    @slot;
+  }
+}
+
+@custom-variant state-off {
+  &[data-state="off"] {
+    @slot;
+  }
+}
+
+/* State (Checked) */
+
+@custom-variant state-checked {
+  &[data-state="checked"] {
+    @slot;
+  }
+}
+
+@custom-variant state-unchecked {
+  &[data-state="unchecked"] {
+    @slot;
+  }
+}
+
+@custom-variant state-indeterminate {
+  &[data-state="indeterminate"] {
+    @slot;
+  }
+}
+
+/* State (Active) */
+
+@custom-variant state-active {
+  &[data-state="active"] {
+    @slot;
+  }
+}
+
+@custom-variant state-inactive {
+  &[data-state="inactive"] {
+    @slot;
+  }
+}
+
+/* State (Open) */
+
+@custom-variant state-open {
+  &[data-state="open"] {
+    @slot;
+  }
+}
+
+@custom-variant state-closed {
+  &[data-state="closed"] {
+    @slot;
+  }
+}
+
+@custom-variant state-delayed-open {
+  &[data-state="delayed-open"] {
+    @slot;
+  }
+}
+
+@custom-variant state-instant-open {
+  &[data-state="instant-open"] {
+    @slot;
+  }
+}
+
+/* State (Complete) */
+
+@custom-variant state-complete {
+  &[data-state="complete"] {
+    @slot;
+  }
+}
+
+@custom-variant state-indeterminate {
+  &[data-state="indeterminate"] {
+    @slot;
+  }
+}
+
+@custom-variant state-loading {
+  &[data-state="loading"] {
+    @slot;
+  }
+}

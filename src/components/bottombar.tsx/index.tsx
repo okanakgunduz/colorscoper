@@ -5,6 +5,6 @@ interface Props {
   className?: ClassValue
 }
 
-export default function Palette({ className }: Props) {
-  return <div className={cx(className)}>Palette</div>
+export default function BottomBar({ className }: Props) {
+  return <div className={cx(className)}>BottomBar</div>
 }

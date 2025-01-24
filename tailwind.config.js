@@ -5,9 +5,10 @@ export default {
     extend: {
       colors: {
         accent: "#098BE7",
+        "muted-accent": "#ebf7ff",
         "muted-background": "#F8F8F8",
       },
     },
   },
-  plugins: [],
+  plugins: [require("tailwindcss-radix")()],
 }

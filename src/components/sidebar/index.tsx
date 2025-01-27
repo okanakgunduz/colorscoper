@@ -8,7 +8,7 @@ interface Props {
 
 export default function Sidebar({ className }: Props) {
   return (
-    <div className={cx(className, "relative")}>
+    <div className={cx(className, "text-paragraph relative")}>
       Sidebar
       <Help className="absolute right-5 bottom-5" />
     </div>

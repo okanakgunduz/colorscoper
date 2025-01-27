@@ -24,7 +24,7 @@ export default function Picker({ className }: Props) {
       >
         <Tabs.List
           aria-label="Select your color picker type."
-          className="absolute top-4 -space-x-1.5 rounded-xl border bg-white p-1 text-sm text-gray-500"
+          className="text-paragraph absolute top-4 -space-x-1.5 rounded-xl border bg-white p-1 text-gray-600"
         >
           {Object.entries({
             [TabKeys.HueSaturationWheel]: "Hue &#45; Saturation Wheel",

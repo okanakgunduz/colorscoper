@@ -7,9 +7,9 @@
   --color-accent: #098be7;
   --color-muted-accent: #ebf7ff;
   --color-muted-background: #f8f8f8;
+  --color-muted: #636669; /* Text */
 
   /* Font Theming */
-
   --font-body: "Inter Variable", sans-serif;
 
   --text-*: initial;
@@ -71,5 +71,6 @@
   body {
     font-variation-settings: "opsz" 32;
     font-family: var(--font-body);
+    @apply text-paragraph;
   }
 }

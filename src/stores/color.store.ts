@@ -1,6 +1,6 @@
 import { create } from "zustand"
 import chroma from "chroma-js"
-import createEnum from "@/utils/createEnum"
+import createEnum from "@/utils/create-enum"
 import type { Color } from "chroma-js"
 
 const BaseColorSelectionType = createEnum({
@@ -19,7 +19,7 @@ interface BaseColorState {
 }
 
 export const useBaseColorStore = create<BaseColorState>((set) => ({
-  baseColor: null,
+  baseColor: chroma("#013B00"),
   selectionType: BaseColorSelectionType.Insert,
   clearBaseColor: () => set({ baseColor: null }),
   setBaseColor: (color: Color) => set({ baseColor: color }),

@@ -1,7 +1,14 @@
-export default async function loadPolyfills() {
-  const popoverSupport = "popover" in HTMLElement.prototype
-  const anchorSupport = CSS.supports("position-anchor", "top")
+import {
+  apply as applyPopoverPolyfill,
+  isSupported as popoverSupported,
+} from "@oddbird/popover-polyfill/fn"
 
-  if (!popoverSupport) await import("@oddbird/popover-polyfill")
-  if (!anchorSupport) await import("@oddbird/css-anchor-positioning")
+import applyAnchorPolyfill from "@oddbird/css-anchor-positioning/fn"
+
+export default async function loadPolyfills() {
+  // const popoverSupported = "popover" in HTMLElement.prototype
+  const anchorSupport = "anchorName" in document.documentElement.style // CSS.supports("position-anchor", "top")
+
+  if (!popoverSupported()) applyPopoverPolyfill() // await import(...)
+  if (!anchorSupport) await applyAnchorPolyfill() // await import(...)
 }

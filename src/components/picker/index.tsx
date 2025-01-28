@@ -4,6 +4,7 @@ import * as Tabs from "@radix-ui/react-tabs"
 import HueSaturationWheel from "./hue-saturation-wheel"
 import HueWBMap from "./hue-wb-map"
 import SaturationWBPyramid from "./saturation-wb-pyramid"
+import For from "@/components/shared/for"
 
 interface Props {
   className?: ClassValue
@@ -22,37 +23,49 @@ export default function Picker({ className }: Props) {
         defaultValue={TabKeys.HueWBMap}
         className="bg-muted-background relative grid h-full w-full place-items-center"
       >
+        {/* Picker Select */}
+
         <Tabs.List
           aria-label="Select your color picker type."
           className="text-paragraph absolute top-4 -space-x-1.5 rounded-xl border bg-white p-1 text-gray-600"
         >
-          {Object.entries({
-            [TabKeys.HueSaturationWheel]: "Hue &#45; Saturation Wheel",
-            [TabKeys.HueWBMap]: "Hue &#45; W/B Map",
-            [TabKeys.SaturationWBPyramid]: "Saturation &#45; W/B Pyramid",
-          }).map(([key, value]) => (
-            <Tabs.Trigger
-              key={`tab-${key}`}
-              value={key}
-              className="state-active:bg-muted-accent state-active:text-accent cursor-pointer rounded-lg px-5 py-1 transition"
-              dangerouslySetInnerHTML={{ __html: value }}
-            />
-          ))}
+          <For
+            each={Object.entries({
+              [TabKeys.HueSaturationWheel]: "Hue &#45; Saturation Wheel",
+              [TabKeys.HueWBMap]: "Hue &#45; W/B Map",
+              [TabKeys.SaturationWBPyramid]: "Saturation &#45; W/B Pyramid",
+            })}
+          >
+            {([key, value]) => (
+              <Tabs.Trigger
+                key={`tab-${key}`}
+                value={key}
+                className="state-active:bg-muted-accent text-paragraph state-active:text-accent cursor-pointer rounded-lg px-5 py-1 font-[480] transition"
+                dangerouslySetInnerHTML={{ __html: value }}
+              />
+            )}
+          </For>
         </Tabs.List>
 
-        {Object.entries({
-          [TabKeys.HueSaturationWheel]: HueSaturationWheel,
-          [TabKeys.HueWBMap]: HueWBMap,
-          [TabKeys.SaturationWBPyramid]: SaturationWBPyramid,
-        }).map(([key, Component]) => (
-          <Tabs.Content
-            key={`tab-content-${key}`}
-            value={key}
-            className="size-full"
-          >
-            <Component />
-          </Tabs.Content>
-        ))}
+        {/* Pickers */}
+
+        <For
+          each={Object.entries({
+            [TabKeys.HueSaturationWheel]: HueSaturationWheel,
+            [TabKeys.HueWBMap]: HueWBMap,
+            [TabKeys.SaturationWBPyramid]: SaturationWBPyramid,
+          })}
+        >
+          {([key, Component]) => (
+            <Tabs.Content
+              key={`tab-content-${key}`}
+              value={key}
+              className="size-full"
+            >
+              <Component />
+            </Tabs.Content>
+          )}
+        </For>
       </Tabs.Root>
     </div>
   )

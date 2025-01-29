@@ -1,13 +1,12 @@
-import cx from "@/utils/cx"
-import type { ClassValue } from "clsx"
+import cx, { type Class } from "@/utils/cx"
 import * as Tabs from "@radix-ui/react-tabs"
 import HueSaturationWheel from "./hue-saturation-wheel"
 import HueWBMap from "./hue-wb-map"
 import SaturationWBPyramid from "./saturation-wb-pyramid"
-import For from "@/components/shared/for"
+import For from "@/components/common/for"
 
 interface Props {
-  className?: ClassValue
+  className?: Class
 }
 
 enum TabKeys {

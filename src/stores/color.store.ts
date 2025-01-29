@@ -1,26 +1,40 @@
 import { create } from "zustand"
 import chroma from "chroma-js"
-import createEnum from "@/utils/create-enum"
 import type { Color } from "chroma-js"
 
-const BaseColorSelectionType = createEnum({
+const BaseColorSelectionType = {
   Insert: "insert",
   Update: "update",
-})
+  None: "none",
+} as const
 
-type BaseColorSelectionType =
-  (typeof BaseColorSelectionType)[keyof typeof BaseColorSelectionType]
+type BaseColorSelectionType = Enumize<typeof BaseColorSelectionType>
 
-interface BaseColorState {
-  baseColor: Color | null
-  selectionType: BaseColorSelectionType
+interface BaseColorStateCommon {
   clearBaseColor: () => void
-  setBaseColor: (color: Color) => void
+  setBaseColor: (
+    color: Color,
+    selectionType: Exclude<BaseColorSelectionType, "none">,
+  ) => void
 }
 
-export const useBaseColorStore = create<BaseColorState>((set) => ({
-  baseColor: chroma("#013B00"),
-  selectionType: BaseColorSelectionType.Insert,
-  clearBaseColor: () => set({ baseColor: null }),
-  setBaseColor: (color: Color) => set({ baseColor: color }),
-}))
+interface BaseColorWithColor extends BaseColorStateCommon {
+  selectionType: Exclude<BaseColorSelectionType, "none">
+  baseColor: Color
+}
+
+interface BaseColorNone extends BaseColorStateCommon {
+  selectionType: "none"
+  baseColor: null
+}
+
+export const useBaseColorStore = create<BaseColorWithColor | BaseColorNone>(
+  (set) => ({
+    baseColor: chroma("#013B00"),
+    selectionType: BaseColorSelectionType.Insert,
+    clearBaseColor: () => set({ baseColor: null, selectionType: "none" }),
+    setBaseColor: (color, selectionType = "insert") => {
+      set({ baseColor: color, selectionType })
+    },
+  }),
+)

@@ -1,3 +1,4 @@
+import For from "@/components/common/for"
 import { useBaseColorStore } from "@/stores/color.store"
 import getOptimizedTextColor from "@/utils/get-optimized-text-color"
 import { Hexagon } from "@phosphor-icons/react"
@@ -15,9 +16,7 @@ export default function ColorSlots() {
       {/* Color Slots */}
 
       <div className="mb-4 flex justify-between">
-        {new Array(6).fill(null).map((_, i) => (
-          <Slot index={i} key={`color-slot-${i}`} />
-        ))}
+        <For times={6}>{(i) => <Slot index={i} key={`color-slot-${i}`} />}</For>
       </div>
 
       {/* Buttons */}

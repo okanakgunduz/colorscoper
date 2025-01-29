@@ -1,20 +1,19 @@
-import cx from "@/utils/cx"
-import type { ClassValue } from "clsx"
+import cx, { type Class } from "@/utils/cx"
 import Help from "@/components/help"
-import { useBaseColorStore } from "@/stores/color.store"
 import EmptyState from "./empty-state"
 import ColorState from "./color-state"
+import { useBaseColorStore } from "@/stores/color.store"
 
 interface Props {
-  className?: ClassValue
+  className?: Class
 }
 
 export default function Sidebar({ className }: Props) {
-  const baseColor = useBaseColorStore((state) => state.baseColor)
+  const selection = useBaseColorStore((state) => state.selectionType)
 
   return (
     <div className={cx(className, "relative")}>
-      {baseColor === null ? <EmptyState /> : <ColorState />}
+      {selection === "none" ? <EmptyState /> : <ColorState />}
       <Help className="absolute right-5 bottom-5" />
     </div>
   )

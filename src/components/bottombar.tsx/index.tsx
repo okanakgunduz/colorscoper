@@ -1,8 +1,7 @@
-import cx from "@/utils/cx"
-import type { ClassValue } from "clsx"
+import cx, { type Class } from "@/utils/cx"
 
 interface Props {
-  className?: ClassValue
+  className?: Class
 }
 
 export default function BottomBar({ className }: Props) {

@@ -26,3 +26,5 @@ interface JSON {
   ): Stringified<T>
   parse<T>(str: Stringified<T>, replacer?: null | undefined): JsonifiedObject<T>
 }
+
+type Enumize<T> = T[keyof T]

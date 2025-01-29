@@ -28,6 +28,8 @@ interface BaseColorNone extends BaseColorStateCommon {
   baseColor: null
 }
 
+/* Default Store Values */
+
 export const useBaseColorStore = create<BaseColorWithColor | BaseColorNone>(
   (set) => ({
     baseColor: chroma("#013B00"),

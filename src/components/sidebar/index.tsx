@@ -1,5 +1,5 @@
-import cx, { type Class } from "@/utils/cx"
-import Help from "@/components/help"
+import cx, { type Class } from "@utils/cx"
+import Help from "@components/help"
 import EmptyState from "./empty-state"
 import ColorState from "./color-state"
 import { useBaseColorStore } from "@stores/base-color.store"

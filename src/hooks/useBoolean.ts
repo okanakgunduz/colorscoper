@@ -9,7 +9,7 @@ type UseBooleanReturn = {
   toggle: () => void
 }
 
-export function useBoolean(defaultValue = false): UseBooleanReturn {
+export default function useBoolean(defaultValue = false): UseBooleanReturn {
   if (typeof defaultValue !== "boolean") {
     throw new Error("defaultValue must be `true` or `false`")
   }

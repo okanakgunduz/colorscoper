@@ -1,4 +1,4 @@
-import { useBoolean } from "@hooks/useBoolean"
+import useBoolean from "@hooks/useBoolean"
 import { useCallback, useEffect } from "react"
 
 interface Props {

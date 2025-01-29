@@ -10,6 +10,8 @@ import { ColumnsPlusRight } from "@phosphor-icons/react/dist/ssr"
 import { Color } from "chroma-js"
 import useCopyToClipboard from "@hooks/useCopyToClipboard"
 import useColorToString from "@hooks/useColorToString"
+import { useRef } from "react"
+import { useHover } from "@/hooks/useHover"
 
 export default function ColorSlots() {
   const { selectionType, baseColor } = useBaseColorStore()
@@ -40,28 +42,33 @@ export default function ColorSlots() {
 
 function ColorDisplay({ color }: { color: Color }) {
   const colorToString = useColorToString()
-
+  const [ref, hovering] = useHover<HTMLButtonElement>()
   const { copied, copy } = useCopyToClipboard({
     data: colorToString(color),
   })
 
   return (
-    <button
-      type="button"
+    <div
       className="mb-3 flex w-full items-center justify-between rounded p-4"
       style={{
         background: color.css(),
         color: getOptimizedTextColor(color).css(),
       }}
-      onClick={copy}
     >
       <span className="flex gap-1 font-medium">
         <Hexagon weight="fill" size={20} />
-        {copied ? "Copied" : "Base"}
+        Base
       </span>
 
-      <span className="text-caption no-opsz">{color.hex().toUpperCase()}</span>
-    </button>
+      <button
+        type="button"
+        onClick={copy}
+        className="text-caption no-opsz w-16 cursor-pointer text-end"
+        ref={ref}
+      >
+        {copied ? "Copied!" : hovering ? "Copy" : colorToString(color)}
+      </button>
+    </div>
   )
 }
 

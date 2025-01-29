@@ -15,6 +15,8 @@ interface ColorModeStore {
   setColorMode: (mode: ColorMode) => void
 }
 
+/* Default Store Values */
+
 export const useColorModeStore = create<ColorModeStore>((set) => ({
   mode: ColorMode.HEX,
   setColorMode: (mode) => set({ mode }),

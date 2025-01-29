@@ -1,36 +1,50 @@
 import cx, { type Class } from "@/utils/cx"
 import { cva, type VariantProps } from "class-variance-authority"
-import { PropsWithChildren } from "react"
+import { HTMLProps, PropsWithChildren } from "react"
 import type { Icon } from "@phosphor-icons/react"
 
 const button = cva(
-  "transition-colors duration-150 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed focus:outline-none",
+  "transition-colors active:opacity-50 duration-150 cursor-pointer rounded-full select-none inline-flex items-center justify-center",
   {
     variants: {
       type: {
-        default: null,
+        default: "text-muted",
+        fill: "bg-muted-accent text-accent",
       },
       disabled: {
         false: null,
-        true: null,
+        true: "pointer-events-none text-gray-400",
+      },
+      size: {
+        sm: "px-3 py-0.5 font-medium gap-1",
+        md: null,
+        lg: null,
       },
       iconPlacement: {
-        leading: null,
-        trailing: null,
+        leading: "pl-[10px]",
+        trailing: "pr-[10px] flex-row-reverse",
         none: null,
       },
     },
 
+    compoundVariants: [
+      {
+        type: "fill",
+        disabled: true,
+        class: "bg-gray-100",
+      },
+    ],
+
     defaultVariants: {
       type: "default",
+      size: "sm",
       iconPlacement: "none",
       disabled: false,
     },
   },
 )
 
-interface CommonProps
-  extends Exclude<VariantProps<typeof button>, "iconPlacement"> {
+interface CommonProps {
   className?: Class
 }
 
@@ -44,7 +58,9 @@ interface ButtonWithoutIconProps extends CommonProps {
   iconPlacement?: "none"
 }
 
-type ButtonProps = ButtonWithIconProps | ButtonWithoutIconProps
+type ButtonProps = (ButtonWithIconProps | ButtonWithoutIconProps) &
+  HTMLProps<HTMLButtonElement> &
+  Exclude<VariantProps<typeof button>, "iconPlacement">
 
 export default function Button({
   className,
@@ -53,19 +69,26 @@ export default function Button({
   icon: IconComponent,
   type,
   children,
+  size,
+  ...rest
 }: PropsWithChildren<ButtonProps>) {
   return (
     <button
       className={cx(
         button({
           type,
+          size,
           disabled,
           iconPlacement: IconComponent ? (iconPlacement ?? "leading") : "none",
         }),
         className,
       )}
+      {...{ disabled }}
+      {...rest}
     >
-      {IconComponent && <IconComponent />}
+      {IconComponent && (
+        <IconComponent weight={type === "fill" ? "fill" : "regular"} />
+      )}
       {children}
     </button>
   )

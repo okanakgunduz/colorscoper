@@ -1,13 +1,20 @@
-import For from "@/components/common/for"
-import { useBaseColorStore } from "@/stores/color.store"
-import getOptimizedTextColor from "@/utils/get-optimized-text-color"
+import Button from "@components/common/button"
+import For from "@components/common/for"
+import {
+  BaseColorSelectionType,
+  useBaseColorStore,
+} from "@stores/base-color.store"
+import getOptimizedTextColor from "@utils/get-optimized-text-color"
 import { Hexagon } from "@phosphor-icons/react"
+import { ColumnsPlusRight } from "@phosphor-icons/react/dist/ssr"
 import { Color } from "chroma-js"
+import useCopyToClipboard from "@hooks/useCopyToClipboard"
+import useColorToString from "@hooks/useColorToString"
 
 export default function ColorSlots() {
-  const { baseColor } = useBaseColorStore()
+  const { selectionType, baseColor } = useBaseColorStore()
 
-  if (!baseColor) return
+  if (selectionType === BaseColorSelectionType.None) return
 
   return (
     <div className="px-sidebar">
@@ -21,15 +28,23 @@ export default function ColorSlots() {
 
       {/* Buttons */}
 
-      <div className="float-right space-x-3">
-        <button>Clean</button>
-        <button>Insert</button>
+      <div className="float-right flex items-center gap-0.5">
+        <Button>Clean</Button>
+        <Button type="fill" icon={ColumnsPlusRight}>
+          Insert
+        </Button>
       </div>
     </div>
   )
 }
 
 function ColorDisplay({ color }: { color: Color }) {
+  const colorToString = useColorToString()
+
+  const { copied, copy } = useCopyToClipboard({
+    data: colorToString(color),
+  })
+
   return (
     <button
       type="button"
@@ -38,10 +53,11 @@ function ColorDisplay({ color }: { color: Color }) {
         background: color.css(),
         color: getOptimizedTextColor(color).css(),
       }}
+      onClick={copy}
     >
       <span className="flex gap-1 font-medium">
         <Hexagon weight="fill" size={20} />
-        Base
+        {copied ? "Copied" : "Base"}
       </span>
 
       <span className="text-caption no-opsz">{color.hex().toUpperCase()}</span>

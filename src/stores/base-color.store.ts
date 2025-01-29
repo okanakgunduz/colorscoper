@@ -2,7 +2,7 @@ import { create } from "zustand"
 import chroma from "chroma-js"
 import type { Color } from "chroma-js"
 
-const BaseColorSelectionType = {
+export const BaseColorSelectionType = {
   Insert: "insert",
   Update: "update",
   None: "none",

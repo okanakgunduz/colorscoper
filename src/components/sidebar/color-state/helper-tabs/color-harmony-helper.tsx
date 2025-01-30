@@ -1,6 +1,7 @@
 import Button from "@components/common/button"
 import For from "@components/common/for"
 import Select from "@components/common/select"
+import { Shuffle } from "@phosphor-icons/react"
 import { capitalize } from "@utils/casing"
 
 export const ColorRelationship = {
@@ -24,7 +25,7 @@ export type ColorRelationship = Enumize<typeof ColorRelationship>
 export default function ColorHarmonyHelper() {
   return (
     <div>
-      <div className="px-sidebar flex justify-between">
+      <div className="px-sidebar flex items-end justify-between">
         <Select title="Relationship" defaultValue={ColorRelationship.Analogous}>
           <For each={Object.entries(ColorRelationship)}>
             {([name, key]) => (
@@ -32,7 +33,9 @@ export default function ColorHarmonyHelper() {
             )}
           </For>
         </Select>
-        <Button type="fill">Shuffle</Button>
+        <Button type="fill" content="icon-only">
+          <Shuffle weight="bold" />
+        </Button>
       </div>
     </div>
   )

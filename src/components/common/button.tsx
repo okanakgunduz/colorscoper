@@ -11,6 +11,7 @@ const button = cva(
         default: "text-muted",
         fill: "bg-muted-accent text-accent",
       },
+
       disabled: {
         false: null,
         true: "pointer-events-none text-gray-400",
@@ -19,6 +20,10 @@ const button = cva(
         sm: "px-3 py-0.5 font-medium gap-1",
         md: null,
         lg: null,
+      },
+      content: {
+        "icon-only": "rounded p-2",
+        text: "",
       },
       iconPlacement: {
         leading: "pl-[10px]",
@@ -33,11 +38,17 @@ const button = cva(
         disabled: true,
         class: "bg-gray-100",
       },
+      {
+        type: "fill",
+        content: "icon-only",
+        class: "bg-muted-background",
+      },
     ],
 
     defaultVariants: {
       type: "default",
       size: "sm",
+      content: "text",
       iconPlacement: "none",
       disabled: false,
     },
@@ -69,6 +80,7 @@ export default function Button({
   icon: IconComponent,
   type,
   children,
+  content,
   size,
   ...rest
 }: PropsWithChildren<ButtonProps>) {
@@ -79,6 +91,7 @@ export default function Button({
           type,
           size,
           disabled,
+          content,
           iconPlacement: IconComponent ? (iconPlacement ?? "leading") : "none",
         }),
         className,

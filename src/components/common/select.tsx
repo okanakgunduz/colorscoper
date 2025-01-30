@@ -20,6 +20,7 @@ import {
   SelectItemProps,
   SelectItemText,
   SelectItemIndicator,
+  SelectProps as RootProps,
 } from "@radix-ui/react-select"
 import { ElementRef, forwardRef, type ReactNode } from "react"
 
@@ -28,31 +29,37 @@ import { ElementRef, forwardRef, type ReactNode } from "react"
 type SelectProps = {
   title: string
   defaultValue?: string
+  placeholder?: string
   children?: ReactNode[] | ReactNode
-}
+} & RootProps
 
-export default function Select({ title, defaultValue, children }: SelectProps) {
+export default function Select({
+  title,
+  defaultValue,
+  children,
+  placeholder,
+}: SelectProps) {
   return (
-    <Root>
+    <Root defaultValue={defaultValue}>
       <div className="flex flex-col">
         <p aria-label={title} className="text-caption text-muted">
           {title}
         </p>
-        <SelectTrigger className="flex items-center gap-1" aria-label={title}>
-          <SelectValue />
+        <SelectTrigger
+          className="flex items-center gap-1 font-medium focus-visible:ring-0"
+          aria-label={title}
+        >
+          <SelectValue {...{ placeholder }} />
           <SelectIcon>
             <CaretDown weight="bold" />
           </SelectIcon>
         </SelectTrigger>
         <SelectPortal>
-          <SelectContent>
-            <SelectScrollUpButton>
+          <SelectContent className="rounded-xl border bg-white p-2 shadow-xl select-none">
+            <SelectScrollUpButton className="flex h-3 cursor-default items-center justify-center bg-white">
               <CaretUp />
             </SelectScrollUpButton>
             <SelectViewport>{children}</SelectViewport>
-            <SelectScrollDownButton>
-              <CaretDown />
-            </SelectScrollDownButton>
           </SelectContent>
         </SelectPortal>
       </div>
@@ -64,10 +71,14 @@ export default function Select({ title, defaultValue, children }: SelectProps) {
 
 const Option = forwardRef<ElementRef<typeof SelectItem>, SelectItemProps>(
   ({ children, ...rest }, ref) => (
-    <SelectItem {...rest} ref={ref}>
+    <SelectItem
+      {...rest}
+      ref={ref}
+      className="group state-checked:text-accent state-checked:bg-muted-accent highlighted:bg-muted-accent highlighted:text-accent flex cursor-pointer items-center justify-between gap-4 rounded-md py-1.5 pr-3 pl-2 font-[480] text-gray-900 not-first:not-last:-my-1 focus:outline-hidden"
+    >
       <SelectItemText>{children}</SelectItemText>
-      <SelectItemIndicator className="absolute left-0 inline-flex w-[25px] items-center justify-center">
-        <Check />
+      <SelectItemIndicator className="text-accent inline-flex items-center justify-center">
+        <Check weight="bold" />
       </SelectItemIndicator>
     </SelectItem>
   ),

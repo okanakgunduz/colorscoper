@@ -91,7 +91,7 @@
   }
 
   button:focus-visible {
-    @apply ring-accent/50 ring-4 outline-hidden;
+    @apply ring-accent/50 rounded ring-4 outline-hidden;
   }
 }
 

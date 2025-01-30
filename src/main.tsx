@@ -12,6 +12,11 @@ const root = document.getElementById("root")!
 
 createRoot(root).render(
   <StrictMode>
-    <RouterProvider {...{ router }} />
+    <RouterProvider
+      future={{
+        v7_startTransition: true,
+      }}
+      router={router}
+    />
   </StrictMode>,
 )

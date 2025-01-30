@@ -1,4 +1,8 @@
-import { createBrowserRouter, createRoutesFromElements, Route } from "react-router-dom"
+import {
+  createBrowserRouter,
+  createRoutesFromElements,
+  Route,
+} from "react-router-dom"
 import Editor from "@/routes"
 
 const routes = createRoutesFromElements(
@@ -7,6 +11,10 @@ const routes = createRoutesFromElements(
   </>,
 )
 
-const router = createBrowserRouter(routes)
+const router = createBrowserRouter(routes, {
+  future: {
+    v7_relativeSplatPath: true,
+  },
+})
 
 export default router

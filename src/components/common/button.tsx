@@ -4,7 +4,7 @@ import { HTMLProps, PropsWithChildren } from "react"
 import type { Icon } from "@phosphor-icons/react"
 
 const button = cva(
-  "transition-colors active:opacity-50 duration-150 cursor-pointer rounded-full select-none inline-flex items-center justify-center",
+  "transition-colors h-fit active:opacity-50 duration-150 cursor-pointer rounded-full select-none inline-flex items-center justify-center",
   {
     variants: {
       type: {

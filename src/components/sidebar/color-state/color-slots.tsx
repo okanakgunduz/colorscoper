@@ -10,7 +10,6 @@ import { ColumnsPlusRight } from "@phosphor-icons/react/dist/ssr"
 import { Color } from "chroma-js"
 import useCopyToClipboard from "@hooks/useCopyToClipboard"
 import useColorToString from "@hooks/useColorToString"
-import { useRef } from "react"
 import { useHover } from "@/hooks/useHover"
 
 export default function ColorSlots() {
@@ -19,7 +18,7 @@ export default function ColorSlots() {
   if (selectionType === BaseColorSelectionType.None) return
 
   return (
-    <div className="px-sidebar">
+    <div className="px-sidebar mb-5">
       <ColorDisplay color={baseColor} />
 
       {/* Color Slots */}
@@ -30,7 +29,7 @@ export default function ColorSlots() {
 
       {/* Buttons */}
 
-      <div className="float-right flex items-center gap-0.5">
+      <div className="flex items-center justify-end gap-0.5">
         <Button>Clean</Button>
         <Button type="fill" icon={ColumnsPlusRight}>
           Insert
@@ -42,7 +41,9 @@ export default function ColorSlots() {
 
 function ColorDisplay({ color }: { color: Color }) {
   const colorToString = useColorToString()
-  const [ref, hovering] = useHover<HTMLButtonElement>()
+  const [ref, hovering] = useHover<HTMLButtonElement>({
+    delay: 1000,
+  })
   const { copied, copy } = useCopyToClipboard({
     data: colorToString(color),
   })

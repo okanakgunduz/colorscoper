@@ -8,7 +8,6 @@ import {
   SelectPortal,
   SelectContent,
   SelectScrollUpButton,
-  SelectScrollDownButton,
   SelectViewport,
   SelectGroupProps,
   SelectGroup,

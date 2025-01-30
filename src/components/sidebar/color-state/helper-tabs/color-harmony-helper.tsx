@@ -3,6 +3,8 @@ import For from "@components/common/for"
 import Select from "@components/common/select"
 import { Shuffle } from "@phosphor-icons/react"
 import { capitalize } from "@utils/casing"
+import ColorHarmonyWheel from "./color-harmony-wheel"
+import { useBaseColorStore } from "@/stores/base-color.store"
 
 export const ColorRelationship = {
   Monochromatic: "monochromatic",
@@ -23,6 +25,8 @@ export const ColorRelationship = {
 export type ColorRelationship = Enumize<typeof ColorRelationship>
 
 export default function ColorHarmonyHelper() {
+  const baseColor = useBaseColorStore((state) => state.baseColor)
+
   return (
     <div>
       <div className="px-sidebar flex items-end justify-between">
@@ -37,6 +41,7 @@ export default function ColorHarmonyHelper() {
           <Shuffle weight="bold" />
         </Button>
       </div>
+      <ColorHarmonyWheel baseColor={baseColor!} />
     </div>
   )
 }

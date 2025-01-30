@@ -32,7 +32,7 @@ interface BaseColorNone extends BaseColorStateCommon {
 
 export const useBaseColorStore = create<BaseColorWithColor | BaseColorNone>(
   (set) => ({
-    baseColor: chroma("#013B00"),
+    baseColor: chroma("#f3d000"),
     selectionType: BaseColorSelectionType.Insert,
     clearBaseColor: () => set({ baseColor: null, selectionType: "none" }),
     setBaseColor: (color, selectionType = "insert") => {

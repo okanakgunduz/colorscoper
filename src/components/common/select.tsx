@@ -27,19 +27,18 @@ import { ElementRef, forwardRef, type ReactNode } from "react"
 
 type SelectProps = {
   title: string
-  defaultValue?: string
   placeholder?: string
   children?: ReactNode[] | ReactNode
 } & RootProps
 
 export default function Select({
   title,
-  defaultValue,
   children,
   placeholder,
+  ...rest
 }: SelectProps) {
   return (
-    <Root defaultValue={defaultValue}>
+    <Root {...rest}>
       <div className="flex flex-col">
         <p aria-label={title} className="text-caption text-muted">
           {title}

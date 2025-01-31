@@ -5,6 +5,9 @@ import { Shuffle } from "@phosphor-icons/react"
 import { capitalize } from "@utils/casing"
 import ColorHarmonyWheel from "./color-harmony-wheel"
 import { useBaseColorStore } from "@/stores/base-color.store"
+import { useState } from "react"
+import { useDebug } from "@/hooks/useDebug"
+import { pickRandom } from "@/utils/array"
 
 export const ColorRelationship = {
   Monochromatic: "monochromatic",
@@ -27,21 +30,39 @@ export type ColorRelationship = Enumize<typeof ColorRelationship>
 export default function ColorHarmonyHelper() {
   const baseColor = useBaseColorStore((state) => state.baseColor)
 
+  const [relationship, setRelationship] = useState<ColorRelationship>(
+    ColorRelationship.Triad,
+  )
+
+  useDebug(relationship)
+
   return (
-    <div>
+    <div className="space-y-4">
       <div className="px-sidebar flex items-end justify-between">
-        <Select title="Relationship" defaultValue={ColorRelationship.Analogous}>
+        <Select
+          title="Relationship"
+          value={relationship}
+          onValueChange={(value) => setRelationship(value as ColorRelationship)}
+        >
           <For each={Object.entries(ColorRelationship)}>
             {([name, key]) => (
-              <Select.Option value={key}>{capitalize(name)}</Select.Option>
+              <Select.Option value={key} key={key}>
+                {capitalize(name)}
+              </Select.Option>
             )}
           </For>
         </Select>
-        <Button type="fill" content="icon-only">
+        <Button
+          type="fill"
+          content="icon-only"
+          onClick={() =>
+            setRelationship(pickRandom(Object.values(ColorRelationship)))
+          }
+        >
           <Shuffle weight="bold" />
         </Button>
       </div>
-      <ColorHarmonyWheel baseColor={baseColor!} />
+      <ColorHarmonyWheel baseColor={baseColor!} relationship={relationship} />
     </div>
   )
 }

@@ -31,7 +31,7 @@ export default function ColorHarmonyHelper() {
   const baseColor = useBaseColorStore((state) => state.baseColor)
 
   const [relationship, setRelationship] = useState<ColorRelationship>(
-    ColorRelationship.Triad,
+    ColorRelationship.SquareTetrad,
   )
 
   useDebug(relationship)

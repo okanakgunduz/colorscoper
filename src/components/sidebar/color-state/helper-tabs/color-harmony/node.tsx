@@ -4,6 +4,8 @@ import { Variants } from "motion/react"
 import { Dispatch, SetStateAction } from "react"
 import { motion } from "motion/react"
 
+const NODE_RADIUS = 20
+
 interface NodeProps {
   color: Color
   section: number
@@ -37,26 +39,43 @@ export default function Node({
   circleRadius = 140,
 }: NodeProps) {
   return (
-    <motion.circle
+    <motion.foreignObject
+      x={
+        r *
+          circleRadius *
+          Math.cos(((((section + 12) % 12) - 3) * Math.PI) / 6) -
+        NODE_RADIUS
+      }
+      y={
+        r *
+          circleRadius *
+          Math.sin(((((section + 12) % 12) - 3) * Math.PI) / 6) -
+        NODE_RADIUS
+      }
+      width={NODE_RADIUS * 2}
+      height={NODE_RADIUS * 2}
       variants={nodeVariants}
       initial="hidden"
       animate="visible"
       exit="hidden"
       whileHover="hover"
       transition={{ type: "spring", stiffness: 300, damping: 30 }}
-      cx={
-        r * circleRadius * Math.cos(((((section + 12) % 12) - 3) * Math.PI) / 6)
-      }
-      cy={
-        r * circleRadius * Math.sin(((((section + 12) % 12) - 3) * Math.PI) / 6)
-      }
-      r={20}
-      fill={color.css()}
-      stroke="white"
-      strokeWidth={4}
-      className={cx(className, "cursor-pointer outline-hidden")}
       onMouseEnter={() => setHovering(section)}
       onMouseLeave={() => setHovering(null)}
-    />
+    >
+      <button
+        className={cx(
+          className,
+          "cursor-pointer rounded-full border-4 border-white",
+        )}
+        // @ts-expect-error (Not supported yet, but polyfilled)
+        popovertarget="pop"
+        style={{
+          backgroundColor: color.css(),
+          width: NODE_RADIUS * 2,
+          height: NODE_RADIUS * 2,
+        }}
+      ></button>
+    </motion.foreignObject>
   )
 }

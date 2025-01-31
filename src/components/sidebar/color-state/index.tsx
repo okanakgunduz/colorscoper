@@ -1,7 +1,7 @@
 import Accordion from "@components/common/accordion"
 import ColorSlots from "./color-slots"
 import Header from "./header"
-import ColorHarmonyHelper from "./helper-tabs/color-harmony-helper"
+import ColorHarmonyHelper from "./helper-tabs/color-harmony"
 import ContrastHelper from "./helper-tabs/contrast-helper"
 import ZonesHelper from "./helper-tabs/zones-helper"
 

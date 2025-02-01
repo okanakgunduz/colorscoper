@@ -1,13 +1,15 @@
 import Button from "@components/common/button"
 import For from "@components/common/for"
 import Select from "@components/common/select"
+import chroma from "chroma-js"
 import { Shuffle } from "@phosphor-icons/react"
 import { capitalize } from "@utils/casing"
 import ColorHarmonyWheel from "./color-harmony-wheel"
-import { useBaseColorStore } from "@/stores/base-color.store"
+
 import { useState } from "react"
 import { useDebug } from "@/hooks/useDebug"
 import { pickRandom } from "@/utils/array"
+import { useSelectionStore } from "@/stores/selection.store"
 
 export const ColorRelationship = {
   Monochromatic: "monochromatic",
@@ -28,7 +30,9 @@ export const ColorRelationship = {
 export type ColorRelationship = Enumize<typeof ColorRelationship>
 
 export default function ColorHarmonyHelper() {
-  const baseColor = useBaseColorStore((state) => state.baseColor)
+  const baseColor = useSelectionStore(
+    (state) => state.color?.value ?? chroma("white"),
+  )
 
   const [relationship, setRelationship] = useState<ColorRelationship>(
     ColorRelationship.SquareTetrad,

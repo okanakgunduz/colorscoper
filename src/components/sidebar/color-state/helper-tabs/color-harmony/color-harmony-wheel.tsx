@@ -52,7 +52,7 @@ export default function ColorHarmonyWheel({ baseColor, relationship }: Props) {
     <svg
       viewBox="-160 -160 320 320"
       xmlns="http://www.w3.org/2000/svg"
-      className="px-sidebar mx-auto"
+      className="px-sidebar mx-auto w-full"
     >
       {/* Color Wheel Slices */}
       <g id="color-wheel" transform="rotate(-15)">

@@ -2,19 +2,19 @@ import cx, { type Class } from "@utils/cx"
 import Help from "@components/help"
 import EmptyState from "./empty-state"
 import ColorState from "./color-state"
-import { useBaseColorStore } from "@stores/base-color.store"
+import { useSelectionStore } from "@/stores/selection.store"
 
 interface Props {
   className?: Class
 }
 
 export default function Sidebar({ className }: Props) {
-  const selection = useBaseColorStore((state) => state.selectionType)
+  const selectionType = useSelectionStore((state) => state.type)
 
   return (
-    <div className={cx(className, "relative")}>
-      {selection === "none" ? <EmptyState /> : <ColorState />}
+    <section className={cx(className, "relative")}>
+      {selectionType === null ? <EmptyState /> : <ColorState />}
       <Help className="absolute right-5 bottom-5" />
-    </div>
+    </section>
   )
 }

@@ -1,9 +1,6 @@
 import Button from "@components/common/button"
 import For from "@components/common/for"
-import {
-  BaseColorSelectionType,
-  useBaseColorStore,
-} from "@stores/base-color.store"
+
 import getOptimizedTextColor from "@utils/get-optimized-text-color"
 import { Hexagon } from "@phosphor-icons/react"
 import { ColumnsPlusRight } from "@phosphor-icons/react/dist/ssr"
@@ -11,15 +8,16 @@ import { Color } from "chroma-js"
 import useCopyToClipboard from "@hooks/useCopyToClipboard"
 import useColorToString from "@hooks/useColorToString"
 import { useHover } from "@/hooks/useHover"
+import { useSelectionStore } from "@/stores/selection.store"
 
 export default function ColorSlots() {
-  const { selectionType, baseColor } = useBaseColorStore()
+  const { type: selectionType, color } = useSelectionStore()
 
-  if (selectionType === BaseColorSelectionType.None) return
+  if (selectionType === null) return
 
   return (
     <div className="px-sidebar mb-5">
-      <ColorDisplay color={baseColor} />
+      <ColorDisplay color={color.value} />
 
       {/* Color Slots */}
 

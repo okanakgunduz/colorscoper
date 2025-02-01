@@ -5,5 +5,5 @@ interface Props {
 }
 
 export default function BottomBar({ className }: Props) {
-  return <div className={cx(className)}>BottomBar</div>
+  return <section className={cx(className)}>BottomBar</section>
 }

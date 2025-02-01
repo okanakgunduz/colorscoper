@@ -1,6 +1,7 @@
-import { ColorMode, useColorModeStore } from "@stores/color-mode.store"
 import type { Color } from "chroma-js"
 import { useCallback } from "react"
+
+import { ColorMode, useColorModeStore } from "@stores/color-mode.store"
 
 export default function useColorToString() {
   const mode = useColorModeStore.use.mode()

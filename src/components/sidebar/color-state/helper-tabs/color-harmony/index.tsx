@@ -1,11 +1,14 @@
+import { Shuffle } from "@phosphor-icons/react"
+import { useState } from "react"
+
 import Button from "@components/common/button"
 import For from "@components/common/for"
 import Select from "@components/common/select"
-import { Shuffle } from "@phosphor-icons/react"
-import { capitalize } from "@utils/casing"
-import ColorHarmonyWheel from "./color-harmony-wheel"
-import { useState } from "react"
+
 import { pickRandom } from "@utils/array"
+import { capitalize } from "@utils/casing"
+
+import ColorHarmonyWheel from "./color-harmony-wheel"
 
 export const ColorRelationship = {
   Monochromatic: "monochromatic",

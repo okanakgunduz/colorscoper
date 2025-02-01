@@ -1,4 +1,17 @@
 {
-    "semi": false,
-    "plugins": ["prettier-plugin-tailwindcss"]
+  "semi": false,
+  "plugins": [
+    "prettier-plugin-tailwindcss",
+    "@trivago/prettier-plugin-sort-imports"
+  ],
+  "importOrderSeparation": true,
+  "importOrderSortSpecifiers": true,
+  "importOrder": [
+    "^@routes/(.*)$",
+    "^@components/(.*)$",
+    "^@hooks/(.*)$",
+    "^@utils/(.*)$",
+    "^@stores/(.*)$",
+    "^[./]"
+  ]
 }

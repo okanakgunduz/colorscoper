@@ -1,5 +1,6 @@
-import useBoolean from "@hooks/useBoolean"
 import { useCallback, useEffect } from "react"
+
+import useBoolean from "@hooks/useBoolean"
 
 interface Props {
   timeout?: number

@@ -1,7 +1,8 @@
 import { useCallback, useRef } from "react"
 import type { RefObject } from "react"
-import useEventListener from "@hooks/useEventListener"
+
 import useBoolean from "@hooks/useBoolean"
+import useEventListener from "@hooks/useEventListener"
 
 export function useHover<T extends HTMLElement = HTMLElement>({
   delay = 0,

@@ -1,14 +1,17 @@
-import Button from "@components/common/button"
-import For from "@components/common/for"
-
-import getOptimizedTextColor from "@utils/get-optimized-text-color"
 import { Hexagon } from "@phosphor-icons/react"
 import { ColumnsPlusRight } from "@phosphor-icons/react/dist/ssr"
 import { Color } from "chroma-js"
-import useCopyToClipboard from "@hooks/useCopyToClipboard"
+
+import Button from "@components/common/button"
+import For from "@components/common/for"
+
 import useColorToString from "@hooks/useColorToString"
-import { useHover } from "@/hooks/useHover"
-import { useSelectionStore } from "@/stores/selection.store"
+import useCopyToClipboard from "@hooks/useCopyToClipboard"
+import { useHover } from "@hooks/useHover"
+
+import getOptimizedTextColor from "@utils/get-optimized-text-color"
+
+import { useSelectionStore } from "@stores/selection.store"
 
 export default function ColorSlots() {
   const hasSelection = useSelectionStore.use.hasSelection()

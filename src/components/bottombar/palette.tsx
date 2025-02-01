@@ -1,4 +1,4 @@
-import cx, { Class } from "@/utils/cx"
+import cx, { Class } from "@utils/cx"
 
 interface Props {
   className?: Class

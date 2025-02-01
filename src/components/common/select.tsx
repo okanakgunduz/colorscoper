@@ -1,27 +1,26 @@
-import { CaretUp, Check } from "@phosphor-icons/react"
-import { CaretDown } from "@phosphor-icons/react/dist/ssr"
+import { CaretDown, CaretUp, Check } from "@phosphor-icons/react"
 import {
   Root,
-  SelectTrigger,
-  SelectValue,
-  SelectIcon,
-  SelectPortal,
+  SelectProps as RootProps,
   SelectContent,
-  SelectScrollUpButton,
-  SelectViewport,
-  SelectGroupProps,
   SelectGroup,
-  SelectSeparator,
-  SelectSeparatorProps,
-  SelectLabel,
-  SelectLabelProps,
+  SelectGroupProps,
+  SelectIcon,
   SelectItem,
+  SelectItemIndicator,
   SelectItemProps,
   SelectItemText,
-  SelectItemIndicator,
-  SelectProps as RootProps,
+  SelectLabel,
+  SelectLabelProps,
+  SelectPortal,
+  SelectScrollUpButton,
+  SelectSeparator,
+  SelectSeparatorProps,
+  SelectTrigger,
+  SelectValue,
+  SelectViewport,
 } from "@radix-ui/react-select"
-import { ElementRef, forwardRef, type ReactNode } from "react"
+import { ElementRef, type ReactNode, forwardRef } from "react"
 
 /* Root */
 

@@ -1,13 +1,15 @@
-import { ColorRelationship } from "."
-import For from "@/components/common/for"
-
-import cx from "@/utils/cx"
 import { AnimatePresence } from "motion/react"
 import { useState } from "react"
 
-import Node from "./node"
+import For from "@components/common/for"
+
+import cx from "@utils/cx"
+
+import { useSelectionStore } from "@stores/selection.store"
+
+import { ColorRelationship } from "."
 import Line from "./line"
-import { useSelectionStore } from "@/stores/selection.store"
+import Node from "./node"
 
 const relationshipMap: Record<ColorRelationship, Array<number>> = {
   monochromatic: [0],

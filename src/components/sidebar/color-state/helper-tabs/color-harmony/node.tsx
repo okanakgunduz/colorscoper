@@ -1,8 +1,9 @@
-import cx, { Class } from "@/utils/cx"
 import { Color } from "chroma-js"
 import { Variants } from "motion/react"
-import { Dispatch, SetStateAction } from "react"
 import { motion } from "motion/react"
+import { Dispatch, SetStateAction } from "react"
+
+import cx, { Class } from "@utils/cx"
 
 const NODE_RADIUS = 20
 

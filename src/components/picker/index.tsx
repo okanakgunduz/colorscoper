@@ -1,9 +1,12 @@
-import cx, { type Class } from "@/utils/cx"
 import * as Tabs from "@radix-ui/react-tabs"
+
+import For from "@components/common/for"
+
+import cx, { type Class } from "@utils/cx"
+
 import HueSaturationWheel from "./hue-saturation-wheel"
 import HueWBMap from "./hue-wb-map"
 import SaturationWBPyramid from "./saturation-wb-pyramid"
-import For from "@/components/common/for"
 
 interface Props {
   className?: Class

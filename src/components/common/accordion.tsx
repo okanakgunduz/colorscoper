@@ -1,18 +1,19 @@
-import cx, { Class } from "@/utils/cx"
 import { CaretDown } from "@phosphor-icons/react"
 import {
-  Root,
-  AccordionItem,
-  AccordionTrigger,
   AccordionContent,
-  AccordionHeader,
-  AccordionMultipleProps,
-  AccordionItemProps,
-  AccordionSingleProps,
-  AccordionTriggerProps,
   AccordionContentProps,
+  AccordionHeader,
+  AccordionItem,
+  AccordionItemProps,
+  AccordionMultipleProps,
+  AccordionSingleProps,
+  AccordionTrigger,
+  AccordionTriggerProps,
+  Root,
 } from "@radix-ui/react-accordion"
 import { ElementRef, PropsWithChildren, ReactNode, forwardRef } from "react"
+
+import cx, { Class } from "@utils/cx"
 
 /* Root */
 

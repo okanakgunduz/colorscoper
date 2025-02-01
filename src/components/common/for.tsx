@@ -1,4 +1,4 @@
-import { Fragment, ReactNode, ElementType } from "react"
+import { ElementType, Fragment, ReactNode } from "react"
 
 interface BaseProps {
   element?: ElementType

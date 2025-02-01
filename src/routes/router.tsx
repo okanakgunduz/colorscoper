@@ -1,9 +1,10 @@
 import {
+  Route,
   createBrowserRouter,
   createRoutesFromElements,
-  Route,
 } from "react-router-dom"
-import Editor from "@/routes"
+
+import Editor from "."
 
 const routes = createRoutesFromElements(
   <>

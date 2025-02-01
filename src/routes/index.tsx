@@ -1,6 +1,6 @@
-import BottomBar from "@/components/bottombar"
-import Picker from "@/components/picker"
-import Sidebar from "@/components/sidebar"
+import BottomBar from "@components/bottombar"
+import Picker from "@components/picker"
+import Sidebar from "@components/sidebar"
 
 export default function Editor() {
   return (

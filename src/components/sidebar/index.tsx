@@ -1,8 +1,11 @@
-import cx, { type Class } from "@utils/cx"
 import Help from "@components/help"
-import EmptyState from "./empty-state"
+
+import cx, { type Class } from "@utils/cx"
+
+import { useSelectionStore } from "@stores/selection.store"
+
 import ColorState from "./color-state"
-import { useSelectionStore } from "@/stores/selection.store"
+import EmptyState from "./empty-state"
 
 interface Props {
   className?: Class

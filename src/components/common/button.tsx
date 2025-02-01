@@ -1,7 +1,8 @@
-import cx, { type Class } from "@/utils/cx"
-import { cva, type VariantProps } from "class-variance-authority"
-import { HTMLProps, PropsWithChildren } from "react"
 import type { Icon } from "@phosphor-icons/react"
+import { type VariantProps, cva } from "class-variance-authority"
+import { HTMLProps, PropsWithChildren } from "react"
+
+import cx, { type Class } from "@utils/cx"
 
 const button = cva(
   "transition-colors h-fit active:opacity-50 duration-150 cursor-pointer rounded-full select-none inline-flex items-center justify-center",

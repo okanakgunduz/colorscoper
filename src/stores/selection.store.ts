@@ -1,7 +1,8 @@
-import createSelectors from "@/utils/create-selectors"
 import chroma, { Color } from "chroma-js"
 import { create } from "zustand"
-import { rotateHue } from "@/utils/color"
+
+import { rotateHue } from "@utils/color"
+import createSelectors from "@utils/create-selectors"
 
 const SelectionType = {
   Picker: "picker",

@@ -17,7 +17,7 @@ export default function ColorSlots() {
   const hasSelection = useSelectionStore.use.hasSelection()
   const color = useSelectionStore.use.color()
 
-  if (!hasSelection() || color === null) return
+  if (!hasSelection || color === null) return
 
   return (
     <div className="px-sidebar mb-5">

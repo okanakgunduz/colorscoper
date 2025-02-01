@@ -16,7 +16,7 @@ export default function Sidebar({ className }: Props) {
 
   return (
     <section className={cx(className, "relative")}>
-      {hasSelection() ? <ColorState /> : <EmptyState />}
+      {hasSelection ? <ColorState /> : <EmptyState />}
       <Help className="absolute right-5 bottom-5" />
     </section>
   )

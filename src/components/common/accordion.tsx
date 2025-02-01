@@ -57,7 +57,7 @@ const Header = forwardRef<
   <AccordionHeader>
     <AccordionTrigger
       className={cx(
-        "px-sidebar group flex h-12 w-full cursor-pointer items-center justify-between font-[450]",
+        "px-sidebar group text-heading-2 flex h-14 w-full cursor-pointer items-center justify-between font-[500]",
         className,
       )}
       {...props}

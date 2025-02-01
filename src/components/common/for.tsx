@@ -1,7 +1,10 @@
 import { ElementType, Fragment, ReactNode } from "react"
 
+import { Class } from "@utils/cx"
+
 interface BaseProps {
   element?: ElementType
+  className?: Class
 }
 
 interface TimesProps extends BaseProps {
@@ -19,11 +22,12 @@ function For<T>(props: EachProps<T>): Array<ReactNode> | ReactNode
 
 function For<T>({
   element: Element = Fragment,
+  className,
   ...props
 }: TimesProps | EachProps<T>) {
   if ("times" in props)
     return (
-      <Element>
+      <Element className={className}>
         {Array.from({ length: props.times }).map((_, index) =>
           props.children(index, props.times),
         )}
@@ -31,7 +35,7 @@ function For<T>({
     )
 
   return (
-    <Element>
+    <Element className={className}>
       {props.each.map((item, index) => props.children(item, index, props.each))}
     </Element>
   )

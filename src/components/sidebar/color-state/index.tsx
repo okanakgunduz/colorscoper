@@ -1,4 +1,8 @@
+import { motion } from "motion/react"
+
 import Accordion from "@components/common/accordion"
+
+import { fade } from "@utils/animation"
 
 import ColorSlots from "./color-slots"
 import Header from "./header"
@@ -8,7 +12,13 @@ import ZonesHelper from "./helper-tabs/zones-helper"
 
 export default function ColorState() {
   return (
-    <div className="size-full">
+    <motion.aside
+      variants={fade}
+      initial="hidden"
+      animate="visible"
+      exit="hidden"
+      className="size-full"
+    >
       <Header />
       <ColorSlots />
       <Accordion type="multiple" defaultValue={["color-harmony"]}>
@@ -31,6 +41,6 @@ export default function ColorState() {
           </Accordion.Content>
         </Accordion.Section>
       </Accordion>
-    </div>
+    </motion.aside>
   )
 }

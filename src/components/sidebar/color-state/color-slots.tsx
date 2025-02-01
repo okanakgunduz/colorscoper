@@ -48,11 +48,12 @@ function ColorDisplay({ color }: { color: Color }) {
   })
   const { copied, copy } = useCopyToClipboard({
     data: colorToString(color),
+    timeout: 1000,
   })
 
   return (
     <div
-      className="mb-3 flex w-full items-center justify-between rounded p-4"
+      className="mb-3 flex w-full items-center justify-between rounded p-4 transition"
       style={{
         background: color.css(),
         color: getOptimizedTextColor(color).css(),
@@ -66,7 +67,7 @@ function ColorDisplay({ color }: { color: Color }) {
       <button
         type="button"
         onClick={copy}
-        className="text-caption no-opsz w-16 cursor-pointer text-end"
+        className="text-caption no-opsz cursor-pointer text-end"
         ref={ref}
       >
         {copied ? "Copied!" : hovering ? "Copy" : colorToString(color)}

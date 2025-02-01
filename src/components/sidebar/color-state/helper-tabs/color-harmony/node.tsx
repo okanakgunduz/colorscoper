@@ -4,6 +4,8 @@ import { motion } from "motion/react"
 import { Dispatch, SetStateAction } from "react"
 
 import cx, { Class } from "@utils/cx"
+import getOptimizedTextColor from "@utils/get-optimized-text-color"
+import romanize from "@utils/romanize"
 
 const NODE_RADIUS = 20
 
@@ -60,14 +62,13 @@ export default function Node({
       animate="visible"
       exit="hidden"
       whileHover="hover"
-      transition={{ type: "spring", stiffness: 300, damping: 30 }}
       onMouseEnter={() => setHovering(section)}
       onMouseLeave={() => setHovering(null)}
     >
       <button
         className={cx(
           className,
-          "cursor-pointer rounded-full border-4 border-white",
+          "cursor-pointer rounded-full border-4 border-white font-medium transition",
         )}
         // @ts-expect-error (Not supported yet, but polyfilled)
         popovertarget="pop"
@@ -75,8 +76,11 @@ export default function Node({
           backgroundColor: color.css(),
           width: NODE_RADIUS * 2,
           height: NODE_RADIUS * 2,
+          color: getOptimizedTextColor(color).css(),
         }}
-      ></button>
+      >
+        {romanize(section + 1)}
+      </button>
     </motion.foreignObject>
   )
 }

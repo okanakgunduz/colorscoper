@@ -1,3 +1,5 @@
+import { AnimatePresence } from "motion/react"
+
 import Help from "@components/help"
 
 import cx, { type Class } from "@utils/cx"
@@ -16,7 +18,9 @@ export default function Sidebar({ className }: Props) {
 
   return (
     <section className={cx(className, "relative")}>
-      {hasSelection ? <ColorState /> : <EmptyState />}
+      <AnimatePresence initial={false}>
+        {hasSelection ? <ColorState /> : <EmptyState />}
+      </AnimatePresence>
       <Help className="absolute right-5 bottom-5" />
     </section>
   )

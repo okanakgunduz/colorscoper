@@ -18,7 +18,7 @@ export default function Palette({ className }: Props) {
   const paletteColors = usePaletteStore.use.colors()
 
   return (
-    <div className={cx(className, "pl-sidebar flex items-center gap-4")}>
+    <div className={cx(className, "pl-sidebar flex items-center gap-6")}>
       <h2 className="text-paragraph-bold opacity-80">Palette</h2>
 
       <div className="flex items-center gap-2">

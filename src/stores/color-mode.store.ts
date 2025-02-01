@@ -10,7 +10,7 @@ export const ColorMode = {
   OKLCH: "oklch",
 } as const
 
-type ColorMode = Enumize<typeof ColorMode>
+export type ColorMode = Enumize<typeof ColorMode>
 
 interface ColorModeStore {
   mode: ColorMode

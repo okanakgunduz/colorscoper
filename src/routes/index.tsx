@@ -1,4 +1,4 @@
-import BottomBar from "@/components/bottombar.tsx"
+import BottomBar from "@/components/bottombar"
 import Picker from "@/components/picker"
 import Sidebar from "@/components/sidebar"
 

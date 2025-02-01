@@ -1,5 +1,7 @@
+import createSelectors from "@/utils/create-selectors"
 import chroma, { Color } from "chroma-js"
 import { create } from "zustand"
+import { rotateHue } from "@/utils/color"
 
 const SelectionType = {
   Picker: "picker",
@@ -29,17 +31,20 @@ type NoneSelection = Selection<null, null>
 type PickerSelection = Selection<typeof SelectionType.Picker, PickerColor>
 type PaletteSelection = Selection<typeof SelectionType.Palette, PaletteColor>
 
-type SelectionStore = (NoneSelection | PickerSelection | PaletteSelection) & {
+type State = NoneSelection | PickerSelection | PaletteSelection
+type Action = {
   setPickerSelection: (color: Color) => void
   setPaletteSelection: (color: Color, index: number) => void
   clearSelection: () => void
+  hasSelection: () => boolean
+  getHueRotated: (angle: number) => Color | null
 }
 
-export const useSelectionStore = create<SelectionStore>((set) => ({
+const useSelectionStoreBase = create<State & Action>()((set, get) => ({
   /* State */
   type: SelectionType.Picker,
   color: {
-    value: chroma("red"),
+    value: chroma("#027FFE"),
   },
 
   /* Utils */
@@ -50,4 +55,11 @@ export const useSelectionStore = create<SelectionStore>((set) => ({
     set({ type: SelectionType.Palette, color: { value: color, index } }),
 
   clearSelection: () => set({ type: null, color: null }),
+
+  hasSelection: () => get().type !== null,
+
+  getHueRotated: (angle) =>
+    get().hasSelection() ? rotateHue(get()!.color!.value, angle) : null,
 }))
+
+export const useSelectionStore = createSelectors(useSelectionStoreBase)

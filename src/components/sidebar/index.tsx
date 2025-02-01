@@ -9,11 +9,11 @@ interface Props {
 }
 
 export default function Sidebar({ className }: Props) {
-  const selectionType = useSelectionStore((state) => state.type)
+  const hasSelection = useSelectionStore.use.hasSelection()
 
   return (
     <section className={cx(className, "relative")}>
-      {selectionType === null ? <EmptyState /> : <ColorState />}
+      {hasSelection() ? <ColorState /> : <EmptyState />}
       <Help className="absolute right-5 bottom-5" />
     </section>
   )

@@ -1,3 +1,4 @@
+import createSelectors from "@/utils/create-selectors"
 import { create } from "zustand"
 
 export const ColorMode = {
@@ -17,7 +18,9 @@ interface ColorModeStore {
 
 /* Default Store Values */
 
-export const useColorModeStore = create<ColorModeStore>((set) => ({
+const useColorModeStoreBase = create<ColorModeStore>()((set) => ({
   mode: ColorMode.HEX,
   setColorMode: (mode) => set({ mode }),
 }))
+
+export const useColorModeStore = createSelectors(useColorModeStoreBase)

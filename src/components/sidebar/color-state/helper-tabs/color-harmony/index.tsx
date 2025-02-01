@@ -1,15 +1,11 @@
 import Button from "@components/common/button"
 import For from "@components/common/for"
 import Select from "@components/common/select"
-import chroma from "chroma-js"
 import { Shuffle } from "@phosphor-icons/react"
 import { capitalize } from "@utils/casing"
 import ColorHarmonyWheel from "./color-harmony-wheel"
-
 import { useState } from "react"
-import { useDebug } from "@/hooks/useDebug"
-import { pickRandom } from "@/utils/array"
-import { useSelectionStore } from "@/stores/selection.store"
+import { pickRandom } from "@utils/array"
 
 export const ColorRelationship = {
   Monochromatic: "monochromatic",
@@ -30,15 +26,9 @@ export const ColorRelationship = {
 export type ColorRelationship = Enumize<typeof ColorRelationship>
 
 export default function ColorHarmonyHelper() {
-  const baseColor = useSelectionStore(
-    (state) => state.color?.value ?? chroma("white"),
-  )
-
   const [relationship, setRelationship] = useState<ColorRelationship>(
     ColorRelationship.SquareTetrad,
   )
-
-  useDebug(relationship)
 
   return (
     <div className="space-y-4">
@@ -66,7 +56,7 @@ export default function ColorHarmonyHelper() {
           <Shuffle weight="bold" />
         </Button>
       </div>
-      <ColorHarmonyWheel baseColor={baseColor!} relationship={relationship} />
+      <ColorHarmonyWheel relationship={relationship} />
       <div
         // @ts-expect-error (Not supported yet, but polyfilled)
         popover="auto"

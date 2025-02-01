@@ -3,7 +3,7 @@ import type { Color } from "chroma-js"
 import { useCallback } from "react"
 
 export default function useColorToString() {
-  const mode = useColorModeStore((state) => state.mode)
+  const mode = useColorModeStore.use.mode()
 
   return useCallback(
     (color: Color) => {

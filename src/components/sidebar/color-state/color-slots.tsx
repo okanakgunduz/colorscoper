@@ -11,9 +11,10 @@ import { useHover } from "@/hooks/useHover"
 import { useSelectionStore } from "@/stores/selection.store"
 
 export default function ColorSlots() {
-  const { type: selectionType, color } = useSelectionStore()
+  const hasSelection = useSelectionStore.use.hasSelection()
+  const color = useSelectionStore.use.color()
 
-  if (selectionType === null) return
+  if (!hasSelection() || color === null) return
 
   return (
     <div className="px-sidebar mb-5">

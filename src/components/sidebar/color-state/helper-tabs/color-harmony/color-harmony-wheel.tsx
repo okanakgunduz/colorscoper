@@ -1,18 +1,13 @@
-import type { Color } from "chroma-js"
 import { ColorRelationship } from "."
 import For from "@/components/common/for"
-import rotateHue from "@/utils/rotate-color"
+
 import cx from "@/utils/cx"
 import { AnimatePresence } from "motion/react"
 import { useState } from "react"
 
 import Node from "./node"
 import Line from "./line"
-
-interface Props {
-  baseColor: Color
-  relationship: ColorRelationship
-}
+import { useSelectionStore } from "@/stores/selection.store"
 
 const relationshipMap: Record<ColorRelationship, Array<number>> = {
   monochromatic: [0],
@@ -45,7 +40,12 @@ const slices = [
   "M 0 0 L -70 -121 A 140 140 0 0 1 0 -140 Z",
 ]
 
-export default function ColorHarmonyWheel({ baseColor, relationship }: Props) {
+interface Props {
+  relationship: ColorRelationship
+}
+
+export default function ColorHarmonyWheel({ relationship }: Props) {
+  const getHueRotated = useSelectionStore.use.getHueRotated()
   const [hovering, setHovering] = useState<number | null>(null)
 
   return (
@@ -57,13 +57,13 @@ export default function ColorHarmonyWheel({ baseColor, relationship }: Props) {
       {/* Color Wheel Slices */}
       <g id="color-wheel" transform="rotate(-15)">
         <For each={slices}>
-          {(path, i) => (
+          {(path, section) => (
             <path
-              key={`harmony-slices-${i}`}
+              key={`harmony-slices-${section}`}
               d={path}
-              fill={rotateHue(baseColor, i * 30).css()}
+              fill={getHueRotated(section * 30)!.css()}
               className={cx("transition", {
-                "opacity-50": hovering !== null && hovering !== i,
+                "opacity-50": hovering !== null && hovering !== section,
               })}
             />
           )}
@@ -108,7 +108,7 @@ export default function ColorHarmonyWheel({ baseColor, relationship }: Props) {
             <Node
               key={`relationship-node-${section}`}
               r={1}
-              color={rotateHue(baseColor, section * 30)}
+              color={getHueRotated(section * 30)!}
               {...{ setHovering, section }}
             />
           )}

@@ -1,15 +1,12 @@
 import { Hexagon } from "@phosphor-icons/react"
 import { ColumnsPlusRight } from "@phosphor-icons/react/dist/ssr"
 import { Color } from "chroma-js"
-
 import Button from "@components/common/button"
 import For from "@components/common/for"
-
 import useCopyToClipboard from "@hooks/useCopyToClipboard"
 import { useHover } from "@hooks/useHover"
-
 import getOptimizedTextColor from "@utils/get-optimized-text-color"
-
+import { useColorModeStore } from "@stores/color-mode.store"
 import { useSelectionStore } from "@stores/selection.store"
 
 export default function ColorSlots() {
@@ -41,15 +38,16 @@ export default function ColorSlots() {
 }
 
 function ColorDisplay({ color }: { color: Color }) {
-  const getColorString = useSelectionStore.use.getColorString()
+  const getColorString = useColorModeStore.use.getColorString()
+  const getRoundedColorString = useColorModeStore.use.getRoundedColorString()
   const [ref, hovering] = useHover<HTMLButtonElement>({
     delay: 1000,
   })
 
-  const colorString = getColorString()
+  const colorString = getRoundedColorString(color)
 
   const { copied, copy } = useCopyToClipboard({
-    data: colorString,
+    data: getColorString(color),
     timeout: 1000,
   })
 

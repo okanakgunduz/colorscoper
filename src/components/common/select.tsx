@@ -1,4 +1,4 @@
-import { CaretDown, CaretUp, Check } from "@phosphor-icons/react"
+import { CaretDown, Check } from "@phosphor-icons/react"
 import {
   Root,
   SelectProps as RootProps,
@@ -13,7 +13,6 @@ import {
   SelectLabel,
   SelectLabelProps,
   SelectPortal,
-  SelectScrollUpButton,
   SelectSeparator,
   SelectSeparatorProps,
   SelectTrigger,
@@ -53,10 +52,7 @@ export default function Select({
         </SelectTrigger>
         <SelectPortal>
           <SelectContent className="rounded-xl border bg-white p-2 shadow-xl select-none">
-            <SelectScrollUpButton className="flex h-3 cursor-default items-center justify-center bg-white">
-              <CaretUp />
-            </SelectScrollUpButton>
-            <SelectViewport>{children}</SelectViewport>
+            <SelectViewport className="h-full">{children}</SelectViewport>
           </SelectContent>
         </SelectPortal>
       </div>

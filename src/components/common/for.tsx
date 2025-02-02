@@ -25,16 +25,27 @@ function For<T>({
   className,
   ...props
 }: TimesProps | EachProps<T>) {
-  if ("times" in props)
-    return (
+  if ("times" in props) {
+    return Element === Fragment ? (
+      <>
+        {Array.from({ length: props.times }).map((_, index) =>
+          props.children(index, props.times),
+        )}
+      </>
+    ) : (
       <Element className={className}>
         {Array.from({ length: props.times }).map((_, index) =>
           props.children(index, props.times),
         )}
       </Element>
     )
+  }
 
-  return (
+  return Element === Fragment ? (
+    <>
+      {props.each.map((item, index) => props.children(item, index, props.each))}
+    </>
+  ) : (
     <Element className={className}>
       {props.each.map((item, index) => props.children(item, index, props.each))}
     </Element>

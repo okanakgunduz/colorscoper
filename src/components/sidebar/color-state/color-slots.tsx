@@ -5,7 +5,6 @@ import { Color } from "chroma-js"
 import Button from "@components/common/button"
 import For from "@components/common/for"
 
-import useColorToString from "@hooks/useColorToString"
 import useCopyToClipboard from "@hooks/useCopyToClipboard"
 import { useHover } from "@hooks/useHover"
 
@@ -42,12 +41,15 @@ export default function ColorSlots() {
 }
 
 function ColorDisplay({ color }: { color: Color }) {
-  const colorToString = useColorToString()
+  const getColorString = useSelectionStore.use.getColorString()
   const [ref, hovering] = useHover<HTMLButtonElement>({
     delay: 1000,
   })
+
+  const colorString = getColorString()
+
   const { copied, copy } = useCopyToClipboard({
-    data: colorToString(color),
+    data: colorString,
     timeout: 1000,
   })
 
@@ -70,7 +72,7 @@ function ColorDisplay({ color }: { color: Color }) {
         className="text-caption no-opsz cursor-pointer text-end"
         ref={ref}
       >
-        {copied ? "Copied!" : hovering ? "Copy" : colorToString(color)}
+        {copied ? "Copied!" : hovering ? "Copy" : colorString}
       </button>
     </div>
   )

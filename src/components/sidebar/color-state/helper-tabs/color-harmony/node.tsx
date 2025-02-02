@@ -2,7 +2,6 @@ import { Color } from "chroma-js"
 import { Variants } from "motion/react"
 import { motion } from "motion/react"
 import { Dispatch, SetStateAction } from "react"
-
 import cx, { Class } from "@utils/cx"
 import getOptimizedTextColor from "@utils/get-optimized-text-color"
 import romanize from "@utils/romanize"

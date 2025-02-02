@@ -33,8 +33,11 @@ export default function Palette({ className }: Props) {
         </For>
         {/* Placeholders */}
         <For times={Math.min(6 - paletteColors.length, 3)}>
-          {() => (
-            <button className="bg-muted-background relative size-7 rounded-md border border-dashed border-black/20" />
+          {(i) => (
+            <button
+              key={`palette-placeholder-${i}`}
+              className="bg-muted-background relative size-7 rounded-md border border-dashed border-black/20"
+            />
           )}
         </For>
       </div>

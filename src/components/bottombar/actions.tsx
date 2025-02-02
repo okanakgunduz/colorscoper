@@ -23,7 +23,11 @@ export default function Actions({ className }: Props) {
         onValueChange={(mode) => setColorMode(mode as ColorMode)}
       >
         <For each={Object.entries(ColorMode)}>
-          {([key, value]) => <Select.Option value={value}>{key}</Select.Option>}
+          {([key, value]) => (
+            <Select.Option key={key} value={value}>
+              {key}
+            </Select.Option>
+          )}
         </For>
       </Select>
 

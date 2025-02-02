@@ -1,5 +1,4 @@
 import { create } from "zustand"
-
 import createSelectors from "@utils/create-selectors"
 
 export const ColorMode = {
@@ -7,7 +6,9 @@ export const ColorMode = {
   HEX: "hex",
   HSL: "hsl",
   LAB: "lab",
+  LCH: "lch",
   OKLCH: "oklch",
+  OKLAB: "oklab",
 } as const
 
 export type ColorMode = Enumize<typeof ColorMode>

@@ -2,11 +2,9 @@ import type { Color } from "chroma-js"
 import { AnimatePresence } from "motion/react"
 import { motion } from "motion/react"
 import { useMemo } from "react"
-
 import For from "@components/common/for"
-
+import useEventListener from "@hooks/useEventListener"
 import cx, { Class } from "@utils/cx"
-
 import { usePaletteStore } from "@stores/palette.store"
 import { type PaletteColor, useSelectionStore } from "@stores/selection.store"
 
@@ -16,6 +14,20 @@ interface Props {
 
 export default function Palette({ className }: Props) {
   const paletteColors = usePaletteStore.use.colors()
+  const deleteColor = usePaletteStore.use.delete()
+
+  const selectionType = useSelectionStore.use.type()
+  const selectedColor = useSelectionStore.use.color()
+  const clearSelection = useSelectionStore.use.clearSelection()
+
+  useEventListener("keydown", (e) => {
+    if (e.code === "Backspace") {
+      if (selectionType === "palette") {
+        clearSelection()
+        deleteColor((selectedColor as PaletteColor).index)
+      }
+    }
+  })
 
   return (
     <div className={cx(className, "pl-sidebar flex items-center gap-6")}>

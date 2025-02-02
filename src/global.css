@@ -82,6 +82,7 @@
   ::backdrop,
   ::file-selector-button {
     border-color: var(--color-gray-200, currentColor);
+    @apply outline-hidden;
   }
 
   body {
@@ -99,7 +100,7 @@
   }
 
   button:focus-visible {
-    @apply ring-accent/50 rounded ring-4 outline-hidden;
+    @apply outline-hidden;
   }
 }
 

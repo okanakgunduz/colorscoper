@@ -7,13 +7,16 @@ import useCopyToClipboard from "@hooks/useCopyToClipboard"
 import { useHover } from "@hooks/useHover"
 import getOptimizedTextColor from "@utils/get-optimized-text-color"
 import { useColorModeStore } from "@stores/color-mode.store"
-import { useSelectionStore } from "@stores/selection.store"
+import { usePaletteStore } from "@stores/palette.store"
+import { PaletteColor, useSelectionStore } from "@stores/selection.store"
 
 export default function ColorSlots() {
-  const hasSelection = useSelectionStore.use.hasSelection()
+  const selectType = useSelectionStore.use.type()
   const color = useSelectionStore.use.color()
+  const deleteColor = usePaletteStore.use.delete()
+  const clearSelection = useSelectionStore.use.clearSelection()
 
-  if (!hasSelection || color === null) return
+  if (selectType === null || color === null) return
 
   return (
     <div className="px-sidebar mb-5">
@@ -28,6 +31,16 @@ export default function ColorSlots() {
       {/* Buttons */}
 
       <div className="flex items-center justify-end gap-0.5">
+        {selectType === "palette" && (
+          <Button
+            onClick={() => (
+              deleteColor((color as PaletteColor).index), clearSelection()
+            )}
+            className="mr-auto px-0 text-red-500"
+          >
+            Clear
+          </Button>
+        )}
         <Button>Clean</Button>
         <Button type="fill" icon={ColumnsPlusRight}>
           Insert
@@ -40,16 +53,17 @@ export default function ColorSlots() {
 function ColorDisplay({ color }: { color: Color }) {
   const getColorString = useColorModeStore.use.getColorString()
   const getRoundedColorString = useColorModeStore.use.getRoundedColorString()
+
   const [ref, hovering] = useHover<HTMLButtonElement>({
     delay: 1000,
   })
-
-  const colorString = getRoundedColorString(color)
 
   const { copied, copy } = useCopyToClipboard({
     data: getColorString(color),
     timeout: 1000,
   })
+
+  const colorString = getRoundedColorString(color)
 
   return (
     <div

@@ -1,6 +1,5 @@
 import chroma, { type Color } from "chroma-js"
 import { create } from "zustand"
-
 import createSelectors from "@utils/create-selectors"
 
 interface State {
@@ -8,11 +7,11 @@ interface State {
 }
 
 interface Action {
-  clear: (index: number) => void
+  delete: (index: number) => void
   clearAll: () => void
 }
 
-const usePaletteStoreBase = create<State & Action>()(() => ({
+const usePaletteStoreBase = create<State & Action>()((set) => ({
   colors: [
     chroma("#4393FA"),
     chroma("#2B2B81"),
@@ -20,7 +19,8 @@ const usePaletteStoreBase = create<State & Action>()(() => ({
     chroma("#D5A9F6"),
     chroma("#2D10B6"),
   ],
-  clear: (index) => {},
+  delete: (index) =>
+    set((state) => ({ colors: state.colors.filter((_, i) => i !== index) })),
   clearAll: () => {},
 }))
 

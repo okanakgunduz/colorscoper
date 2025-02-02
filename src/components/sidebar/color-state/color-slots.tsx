@@ -1,6 +1,7 @@
 import { Hexagon } from "@phosphor-icons/react"
 import { ColumnsPlusRight } from "@phosphor-icons/react/dist/ssr"
 import { Color } from "chroma-js"
+import { useShallow } from "zustand/shallow"
 import Button from "@components/common/button"
 import For from "@components/common/for"
 import useCopyToClipboard from "@hooks/useCopyToClipboard"
@@ -11,10 +12,11 @@ import { usePaletteStore } from "@stores/palette.store"
 import { PaletteColor, useSelectionStore } from "@stores/selection.store"
 
 export default function ColorSlots() {
-  const selectType = useSelectionStore.use.type()
-  const color = useSelectionStore.use.color()
+  const [selectType, color, clearSelection] = useSelectionStore(
+    useShallow((state) => [state.type, state.color, state.clearSelection]),
+  )
+
   const deleteColor = usePaletteStore.use.delete()
-  const clearSelection = useSelectionStore.use.clearSelection()
 
   if (selectType === null || color === null) return
 

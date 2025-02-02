@@ -2,8 +2,9 @@ import type { Color } from "chroma-js"
 import { AnimatePresence } from "motion/react"
 import { motion } from "motion/react"
 import { useMemo } from "react"
+import { useShallow } from "zustand/shallow"
 import For from "@components/common/for"
-import useEventListener from "@hooks/useEventListener"
+import useKeyListener from "@hooks/useKeyListener"
 import cx, { Class } from "@utils/cx"
 import { usePaletteStore } from "@stores/palette.store"
 import { type PaletteColor, useSelectionStore } from "@stores/selection.store"
@@ -16,17 +17,18 @@ export default function Palette({ className }: Props) {
   const paletteColors = usePaletteStore.use.colors()
   const deleteColor = usePaletteStore.use.delete()
 
-  const selectionType = useSelectionStore.use.type()
-  const selectedColor = useSelectionStore.use.color()
-  const clearSelection = useSelectionStore.use.clearSelection()
+  const [selectType, selectedColor, clearSelection] = useSelectionStore(
+    useShallow((state) => [state.type, state.color, state.clearSelection]),
+  )
 
-  useEventListener("keydown", (e) => {
-    if (e.code === "Backspace") {
-      if (selectionType === "palette") {
+  useKeyListener({
+    key: "Backspace",
+    callback: () => {
+      if (selectType === "palette") {
         clearSelection()
         deleteColor((selectedColor as PaletteColor).index)
       }
-    }
+    },
   })
 
   return (
@@ -60,16 +62,20 @@ export default function Palette({ className }: Props) {
 type PaletteColorProps = { index: number; color: Color }
 
 const PaletteColor = ({ index, color }: PaletteColorProps) => {
-  const selectionType = useSelectionStore.use.type()
-  const selectedColor = useSelectionStore.use.color()
-  const select = useSelectionStore.use.setPaletteSelection()
-  const clear = useSelectionStore.use.clearSelection()
+  const [selectType, selectedColor, select, clear] = useSelectionStore(
+    useShallow((state) => [
+      state.type,
+      state.color,
+      state.setPaletteSelection,
+      state.clearSelection,
+    ]),
+  )
 
   const hasPicked = useMemo(
     () =>
-      selectionType === "palette" &&
+      selectType === "palette" &&
       (selectedColor as PaletteColor).index === index,
-    [selectionType, selectedColor, index],
+    [selectType, selectedColor, index],
   )
 
   return (

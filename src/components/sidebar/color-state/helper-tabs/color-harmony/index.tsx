@@ -1,13 +1,10 @@
 import { Shuffle } from "@phosphor-icons/react"
 import { useState } from "react"
-
 import Button from "@components/common/button"
 import For from "@components/common/for"
 import Select from "@components/common/select"
-
 import { pickRandom } from "@utils/array"
 import { capitalize } from "@utils/casing"
-
 import ColorHarmonyWheel from "./color-harmony-wheel"
 
 export const ColorRelationship = {
@@ -34,7 +31,7 @@ export default function ColorHarmonyHelper() {
   )
 
   return (
-    <div className="space-y-4">
+    <div className="space-y-4 pb-4">
       <div className="px-sidebar flex items-end justify-between">
         <Select
           title="Relationship"

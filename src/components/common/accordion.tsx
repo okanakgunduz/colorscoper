@@ -6,27 +6,49 @@ import {
   AccordionItem,
   AccordionItemProps,
   AccordionMultipleProps,
-  AccordionSingleProps,
   AccordionTrigger,
   AccordionTriggerProps,
   Root,
 } from "@radix-ui/react-accordion"
-import { ElementRef, PropsWithChildren, ReactNode, forwardRef } from "react"
-
+import {
+  ElementRef,
+  PropsWithChildren,
+  ReactNode,
+  createContext,
+  forwardRef,
+  useState,
+} from "react"
 import cx, { Class } from "@utils/cx"
+
+/* Contexts */
+const AccordionValueContext = createContext<string[]>([])
+const SectionIdContext = createContext<string | undefined>(undefined)
 
 /* Root */
 
-type AccordionProps = { children: ReactNode[] | ReactNode } & (
-  | AccordionSingleProps
-  | AccordionMultipleProps
-)
+type AccordionProps = {
+  children: ReactNode[] | ReactNode
+  defaultValue: string[]
+} & AccordionMultipleProps
 
-export default function Accordion({ children, ...props }: AccordionProps) {
+export default function Accordion({
+  children,
+  defaultValue = [],
+  ...props
+}: AccordionProps) {
+  const [value, setValue] = useState<string[]>(defaultValue)
+
   return (
-    <Root className="w-full divide-y border-y" {...props}>
-      {children}
-    </Root>
+    <AccordionValueContext.Provider value={value}>
+      <Root
+        className="w-full divide-y border-y"
+        value={value}
+        onValueChange={setValue}
+        {...props}
+      >
+        {children}
+      </Root>
+    </AccordionValueContext.Provider>
   )
 }
 
@@ -37,10 +59,12 @@ type SectionSectionProps = { children: ReactNode[] } & AccordionItemProps
 const Section = forwardRef<
   ElementRef<typeof AccordionItem>,
   SectionSectionProps
->(({ children, ...props }, ref) => (
-  <AccordionItem {...props} ref={ref}>
-    {children}
-  </AccordionItem>
+>(({ children, value, ...props }, ref) => (
+  <SectionIdContext.Provider value={value}>
+    <AccordionItem {...props} ref={ref} value={value}>
+      {children}
+    </AccordionItem>
+  </SectionIdContext.Provider>
 ))
 
 Accordion.Section = Section
@@ -80,11 +104,21 @@ Accordion.Header.displayName = Header.displayName
 const Content = forwardRef<
   ElementRef<typeof AccordionContent>,
   AccordionContentProps
->(({ children, ...props }, ref) => (
-  <AccordionContent {...props} ref={ref} className="overflow-hidden pb-4">
-    {children}
-  </AccordionContent>
-))
+>(({ children, ...props }, ref) => {
+  // const value = useContext(AccordionValueContext)
+  // const sectionId = useContext(SectionIdContext)
+
+  return (
+    <AccordionContent
+      {...props}
+      ref={ref}
+      forceMount
+      className="state-open:h-auto h-0 overflow-hidden"
+    >
+      {children}
+    </AccordionContent>
+  )
+})
 
 Accordion.Content = Content
 Accordion.Content.displayName = Content.displayName

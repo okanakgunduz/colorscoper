@@ -1,9 +1,6 @@
 import { motion } from "motion/react"
-
 import Accordion from "@components/common/accordion"
-
 import { fade } from "@utils/animation"
-
 import ColorSlots from "./color-slots"
 import Header from "./header"
 import ColorHarmonyHelper from "./helper-tabs/color-harmony"
@@ -21,7 +18,7 @@ export default function ColorState() {
     >
       <Header />
       <ColorSlots />
-      <Accordion type="multiple" defaultValue={["color-harmony"]}>
+      <Accordion defaultValue={["color-harmony"]} type="multiple">
         <Accordion.Section value="color-harmony">
           <Accordion.Header>Color Harmony</Accordion.Header>
           <Accordion.Content>

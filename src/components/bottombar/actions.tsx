@@ -1,11 +1,9 @@
 import { Play } from "@phosphor-icons/react"
-
 import For from "@components/common/for"
 import Select from "@components/common/select"
-
+import { ColorMode } from "@utils/color"
 import cx, { Class } from "@utils/cx"
-
-import { ColorMode, useColorModeStore } from "@stores/color-mode.store"
+import { useColorModeStore } from "@stores/color-mode.store"
 
 interface Props {
   className?: Class

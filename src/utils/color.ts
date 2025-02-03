@@ -1,5 +1,77 @@
-import { Color } from "chroma-js"
-import { ColorMode } from "@stores/color-mode.store"
+import chroma, { Color } from "chroma-js"
+
+export const ColorMode = {
+  RGB: "rgb",
+  HEX: "hex",
+  HSL: "hsl",
+  LAB: "lab",
+  LCH: "lch",
+  OKLCH: "oklch",
+  OKLAB: "oklab",
+} as const
+
+export type ColorMode = Enumize<typeof ColorMode>
+
+export const ContrastType = {
+  HUE: "hue",
+  SAT: "sat",
+  LUM: "lum",
+  HUE_SAT: "hue-sat",
+  HUE_LUM: "hue-lum",
+  SAT_LUM: "sat-lum",
+  HUE_SAT_LUM: "hue-sat-lum",
+} as const
+
+export type ContrastType = Enumize<typeof ContrastType>
+
+const adjustSaturation = (s: number) => {
+  if (s < 0.6 && s >= 0.5) return 0.1
+  if (s > 0.4 && s < 0.5) return 1
+  return 1 - s
+}
+
+export function getContrasted(type: ContrastType, color: Color): Color {
+  const [h, s, l] = chroma(color).hsl()
+
+  switch (type) {
+    case ContrastType.HUE:
+      return chroma.hsl((h + 180) % 360, s, l)
+
+    case ContrastType.SAT:
+      return chroma.hsl(h, adjustSaturation(s), l)
+
+    case ContrastType.LUM:
+      return chroma.hsl(h, s, 1 - l)
+
+    case ContrastType.HUE_SAT:
+      return chroma.hsl((h + 180) % 360, adjustSaturation(s), l)
+
+    case ContrastType.HUE_LUM:
+      return chroma.hsl((h + 180) % 360, s, 1 - l)
+
+    case ContrastType.SAT_LUM:
+      return chroma.hsl(h, adjustSaturation(s), 1 - l)
+
+    case ContrastType.HUE_SAT_LUM:
+      return chroma.hsl((h + 180) % 360, adjustSaturation(s), 1 - l)
+
+    default:
+      throw new Error("Unknown contrast type")
+  }
+}
+
+export function getContrastValue(color1: Color, color2: Color): number {
+  const luminance1 = chroma(color1).luminance()
+  const luminance2 = chroma(color2).luminance()
+
+  const [L1, L2] =
+    luminance1 > luminance2
+      ? [luminance1, luminance2]
+      : [luminance2, luminance1]
+
+  // WCAG contrast ratio formula
+  return (L1 + 0.05) / (L2 + 0.05)
+}
 
 export function rotateHue(color: Color, degrees: number): Color {
   const currentHue = color.get("hsl.h") || 0

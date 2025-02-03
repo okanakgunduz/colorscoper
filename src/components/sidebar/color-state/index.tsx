@@ -4,7 +4,7 @@ import { fade } from "@utils/animation"
 import ColorSlots from "./color-slots"
 import Header from "./header"
 import ColorHarmonyHelper from "./helper-tabs/color-harmony"
-import ContrastHelper from "./helper-tabs/contrast-helper"
+import ContrastHelper from "./helper-tabs/contrast"
 import ZonesHelper from "./helper-tabs/zones-helper"
 
 export default function ColorState() {
@@ -14,11 +14,11 @@ export default function ColorState() {
       initial="hidden"
       animate="visible"
       exit="hidden"
-      className="size-full"
+      className="size-full overflow-y-auto"
     >
       <Header />
       <ColorSlots />
-      <Accordion defaultValue={["color-harmony"]} type="multiple">
+      <Accordion defaultValue={["contrast"]} type="multiple">
         <Accordion.Section value="color-harmony">
           <Accordion.Header>Color Harmony</Accordion.Header>
           <Accordion.Content>

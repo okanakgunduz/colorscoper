@@ -87,7 +87,7 @@ const Header = forwardRef<
       {...props}
       ref={ref}
     >
-      {children}
+      <span>{children}</span>
       <CaretDown
         weight="bold"
         className="group-state-open:rotate-180 text-accent transition-transform duration-300"

@@ -1,12 +1,8 @@
 import { AnimatePresence } from "motion/react"
 import { useState } from "react"
-
 import For from "@components/common/for"
-
 import cx from "@utils/cx"
-
 import { useSelectionStore } from "@stores/selection.store"
-
 import { ColorRelationship } from "."
 import Line from "./line"
 import Node from "./node"
@@ -54,7 +50,7 @@ export default function ColorHarmonyWheel({ relationship }: Props) {
     <svg
       viewBox="-160 -160 320 320"
       xmlns="http://www.w3.org/2000/svg"
-      className="px-sidebar mx-auto w-full"
+      className="w-full"
     >
       {/* Color Wheel Slices */}
       <g id="color-wheel" transform="rotate(-15)">

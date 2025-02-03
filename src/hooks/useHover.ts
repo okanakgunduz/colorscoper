@@ -1,6 +1,5 @@
 import { useCallback, useRef } from "react"
 import type { RefObject } from "react"
-
 import useBoolean from "@hooks/useBoolean"
 import useEventListener from "@hooks/useEventListener"
 

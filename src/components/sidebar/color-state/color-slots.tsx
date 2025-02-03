@@ -3,9 +3,8 @@ import { ColumnsPlusRight } from "@phosphor-icons/react/dist/ssr"
 import { Color } from "chroma-js"
 import { useShallow } from "zustand/shallow"
 import Button from "@components/common/button"
+import Copy from "@components/common/copy"
 import For from "@components/common/for"
-import useCopyToClipboard from "@hooks/useCopyToClipboard"
-import { useHover } from "@hooks/useHover"
 import getOptimizedTextColor from "@utils/get-optimized-text-color"
 import { useColorModeStore } from "@stores/color-mode.store"
 import { usePaletteStore } from "@stores/palette.store"
@@ -56,17 +55,6 @@ function ColorDisplay({ color }: { color: Color }) {
   const getColorString = useColorModeStore.use.getColorString()
   const getRoundedColorString = useColorModeStore.use.getRoundedColorString()
 
-  const [ref, hovering] = useHover<HTMLButtonElement>({
-    delay: 1000,
-  })
-
-  const { copied, copy } = useCopyToClipboard({
-    data: getColorString(color),
-    timeout: 1000,
-  })
-
-  const colorString = getRoundedColorString(color)
-
   return (
     <div
       className="mb-3 flex w-full items-center justify-between rounded p-4 transition"
@@ -80,14 +68,14 @@ function ColorDisplay({ color }: { color: Color }) {
         Base
       </span>
 
-      <button
-        type="button"
-        onClick={copy}
+      <Copy
         className="text-caption no-opsz cursor-pointer text-end"
-        ref={ref}
+        element="button"
+        type="button"
+        data={getColorString(color)}
       >
-        {copied ? "Copied!" : hovering ? "Copy" : colorString}
-      </button>
+        {getRoundedColorString(color)}
+      </Copy>
     </div>
   )
 }

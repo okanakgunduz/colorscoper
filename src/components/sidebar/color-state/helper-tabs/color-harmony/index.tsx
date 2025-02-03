@@ -31,8 +31,8 @@ export default function ColorHarmonyHelper() {
   )
 
   return (
-    <div className="space-y-4 pb-4">
-      <div className="px-sidebar flex items-end justify-between">
+    <div className="px-sidebar space-y-4 pb-4">
+      <div className="flex items-end justify-between">
         <Select
           title="Relationship"
           value={relationship}

@@ -1,9 +1,13 @@
 import chroma, { Color } from "chroma-js"
 import { create } from "zustand"
 import { createComputed } from "zustand-computed"
-import { rotateHue, toRoundedString, toString } from "@utils/color"
+import {
+  ContrastType,
+  getContrastValue,
+  getContrasted,
+  rotateHue,
+} from "@utils/color"
 import createSelectors from "@utils/create-selectors"
-import { useColorModeStore } from "./color-mode.store"
 
 const SelectionType = {
   Picker: "picker",
@@ -44,6 +48,9 @@ type Action = {
 type Computed = {
   hasSelection: boolean
   getHueRotated: (angle: number) => Color | null
+  getContrasted: (
+    type: ContrastType,
+  ) => { contrastColor: Color; contrastValue: number } | null
 }
 
 /* Computed Properties */
@@ -55,6 +62,17 @@ const computed = createComputed(
     getHueRotated: (angle) => {
       if (state.type === null) return null
       return rotateHue(state.color.value, angle)
+    },
+
+    getContrasted: (type) => {
+      if (state.type === null) return null
+
+      const contrastColor = getContrasted(type, state.color.value)
+
+      return {
+        contrastColor: contrastColor,
+        contrastValue: getContrastValue(contrastColor, state.color.value),
+      }
     },
   }),
 )

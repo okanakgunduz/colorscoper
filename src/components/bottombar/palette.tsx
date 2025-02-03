@@ -99,7 +99,7 @@ const PaletteColor = ({ index, color }: PaletteColorProps) => {
               stiffness: 200,
               damping: 30,
             }}
-            className="bg-accent absolute right-0 -bottom-[13px] left-0 mx-auto size-1 rounded-full"
+            className="bg-accent absolute right-0 -bottom-[13px] left-0 mx-auto h-1 w-2 rounded-full"
             aria-hidden
           ></motion.span>
         )}

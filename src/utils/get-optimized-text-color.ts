@@ -10,6 +10,6 @@ export default function getOptimizedTextColor(input: string | Color): Color {
   const textColor =
     luminance > 0.4
       ? bgColor.darken(4).saturate(1)
-      : bgColor.brighten(4).saturate(1)
+      : bgColor.brighten(4 * (1 + luminance)).saturate(1)
   return textColor
 }

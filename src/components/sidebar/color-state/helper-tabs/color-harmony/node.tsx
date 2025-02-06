@@ -70,7 +70,7 @@ export default function Node({
           "cursor-pointer rounded-full border-4 border-white font-medium transition",
         )}
         // @ts-expect-error (Not supported yet, but polyfilled)
-        popovertarget="pop"
+        popovertarget={`line-details-${section}`}
         style={{
           backgroundColor: color.css(),
           width: NODE_RADIUS * 2,

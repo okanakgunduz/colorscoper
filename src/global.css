@@ -87,8 +87,7 @@
 
   body {
     font-family: var(--font-body);
-    @apply text-paragraph;
-    font-variation-settings: "opsz" 32;
+    @apply text-paragraph opsz;
 
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
@@ -106,4 +105,8 @@
 
 @utility no-opsz {
   font-variation-settings: initial;
+}
+
+@utility opsz {
+  font-variation-settings: "opsz" 32;
 }

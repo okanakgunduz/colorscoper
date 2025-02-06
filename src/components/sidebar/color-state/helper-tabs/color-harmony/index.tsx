@@ -1,11 +1,15 @@
-import { Shuffle } from "@phosphor-icons/react"
-import { useState } from "react"
+import { CircleHalfTilt, Shuffle } from "@phosphor-icons/react"
+import { CSSProperties, useState } from "react"
 import Button from "@components/common/button"
 import For from "@components/common/for"
+import Popover from "@components/common/popover"
+import Portal from "@components/common/portal"
 import Select from "@components/common/select"
 import { pickRandom } from "@utils/array"
 import { capitalize } from "@utils/casing"
-import ColorHarmonyWheel from "./color-harmony-wheel"
+import romanize from "@utils/romanize"
+import ColorHarmonyWheel, { relationshipMap } from "./color-harmony-wheel"
+import LineDetails from "./line-details"
 
 export const ColorRelationship = {
   Monochromatic: "monochromatic",
@@ -32,7 +36,14 @@ export default function ColorHarmonyHelper() {
 
   return (
     <div className="px-sidebar space-y-4 pb-4">
-      <div className="flex items-end justify-between">
+      <div
+        className="flex items-end justify-between"
+        style={
+          {
+            anchorName: "--color-harmony",
+          } as CSSProperties
+        }
+      >
         <Select
           title="Relationship"
           value={relationship}
@@ -57,14 +68,22 @@ export default function ColorHarmonyHelper() {
         </Button>
       </div>
       <ColorHarmonyWheel relationship={relationship} />
-      <div
-        // @ts-expect-error (Not supported yet, but polyfilled)
-        popover="auto"
-        id="pop"
-        className="m-auto flex h-16 w-32 items-center justify-center rounded shadow-md backdrop:bg-black/50"
-      >
-        Hello World!
-      </div>
+      <Portal containerId="popover-container">
+        <For each={relationshipMap[relationship]}>
+          {(section) => (
+            <Popover
+              id={`line-details-${section}`}
+              positionAnchor="--color-harmony"
+              title={`Section ${romanize(section + 1)}`}
+              icon={CircleHalfTilt}
+              offsetX={16}
+              key={`popover-${section}`}
+            >
+              <LineDetails section={section} />
+            </Popover>
+          )}
+        </For>
+      </Portal>
     </div>
   )
 }

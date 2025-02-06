@@ -55,6 +55,10 @@ function ColorDisplay({ color }: { color: Color }) {
   const getColorString = useColorModeStore.use.getColorString()
   const getRoundedColorString = useColorModeStore.use.getRoundedColorString()
 
+
+
+  
+
   return (
     <div
       className="mb-3 flex w-full items-center justify-between rounded p-4 transition"
@@ -69,7 +73,7 @@ function ColorDisplay({ color }: { color: Color }) {
       </span>
 
       <Copy
-        className="text-caption no-opsz cursor-pointer text-end"
+        className="text-caption text-end"
         element="button"
         type="button"
         data={getColorString(color)}

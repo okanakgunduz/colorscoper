@@ -35,7 +35,7 @@ export default function Copy<T extends ElementType = "span">({
     Element,
     {
       ref,
-      className: cx(className, "cursor-pointer"),
+      className: cx(className, "cursor-pointer no-opsz"),
       onClick: copy,
       ...props,
     },

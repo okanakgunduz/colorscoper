@@ -82,9 +82,9 @@ const computed = createComputed(
 const useSelectionStoreBase = create<State & Action>()(
   computed((set) => ({
     /* State */
-    type: SelectionType.Palette,
+    type: SelectionType.Picker,
     color: {
-      value: chroma("#2B2B81"),
+      value: chroma("#DFF678"),
       index: 1,
     },
 

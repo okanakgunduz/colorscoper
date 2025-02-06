@@ -7,7 +7,8 @@ import { ColorRelationship } from "."
 import Line from "./line"
 import Node from "./node"
 
-const relationshipMap: Record<ColorRelationship, Array<number>> = {
+// eslint-disable-next-line
+export const relationshipMap: Record<ColorRelationship, Array<number>> = {
   monochromatic: [0],
   "diad-positive": [0, 2],
   "diad-negative": [0, 10],

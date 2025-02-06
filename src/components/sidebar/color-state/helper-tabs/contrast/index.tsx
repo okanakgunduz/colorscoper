@@ -14,10 +14,10 @@ export default function ContrastHelper() {
           const { contrastColor, contrastValue } = getContrasted(type)!
           return (
             <ContrastLine
+              type={type}
               key={type}
               base={base!.value}
               contrastColor={contrastColor}
-              type={type}
               contrastValue={contrastValue}
             />
           )

@@ -1,6 +1,6 @@
 import { CaretLeft, CaretRight } from "@phosphor-icons/react"
 import chroma from "chroma-js"
-import { useCallback, useState } from "react"
+import { useCallback, useMemo, useState } from "react"
 import Button from "@components/common/button"
 import Copy from "@components/common/copy"
 import getOptimizedTextColor from "@utils/get-optimized-text-color"
@@ -35,13 +35,17 @@ export default function LineDetails({ section }: Props) {
     setHueOffset(hueOffset === -HUE_SHIFT ? 0 : HUE_SHIFT)
   }, [hueOffset])
 
-  const luminositySteps = Array.from({ length: STEPS - 1 }, (_, i) => {
-    const luminosity = (STEPS - 1 - i) * (MAX_LUMINOSITY / (STEPS - 1))
-    return {
-      color: chroma(baseColor).luminance(luminosity),
-      luminosity,
-    }
-  })
+  const luminositySteps = useMemo(
+    () =>
+      Array.from({ length: STEPS - 1 }, (_, i) => {
+        const luminosity = (STEPS - 1 - i) * (MAX_LUMINOSITY / (STEPS - 1))
+        return {
+          color: chroma(baseColor).luminance(luminosity),
+          luminosity,
+        }
+      }),
+    [baseColor],
+  )
 
   return (
     <div className="grow space-y-6 overflow-hidden p-4">

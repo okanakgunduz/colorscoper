@@ -4,8 +4,8 @@ import For from "@components/common/for"
 import cx from "@utils/cx"
 import { useSelectionStore } from "@stores/selection.store"
 import { ColorRelationship } from "."
-import Line from "./line"
 import Node from "./node"
+import ReferenceLine from "./reference-line"
 
 // eslint-disable-next-line
 export const relationshipMap: Record<ColorRelationship, Array<number>> = {
@@ -80,7 +80,7 @@ export default function ColorHarmonyWheel({ relationship }: Props) {
 
               if (i == sections.length - 1)
                 return (
-                  <Line
+                  <ReferenceLine
                     key={`${relationship}-reference-line-${section}`}
                     from={section}
                     to={sections[0]}
@@ -88,7 +88,7 @@ export default function ColorHarmonyWheel({ relationship }: Props) {
                 )
 
               return (
-                <Line
+                <ReferenceLine
                   key={`${relationship}-reference-line-${section}`}
                   from={section}
                   to={sections[i + 1]}

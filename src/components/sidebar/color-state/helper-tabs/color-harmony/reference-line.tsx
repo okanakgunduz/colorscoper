@@ -17,7 +17,7 @@ const lineVariants: Variants = {
   },
 }
 
-export default function Line({
+export default function ReferenceLine({
   from,
   to,
   circleRadius = 140,

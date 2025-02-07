@@ -38,7 +38,7 @@ export default function Popover({
       // @ts-expect-error (Not supported yet, but polyfilled.)
       popover="auto"
       id={id}
-      className="fixed min-h-96 w-64 flex-col rounded-lg border shadow-xl"
+      className="fixed w-64 flex-col rounded-lg border shadow-xl"
       style={
         {
           positionAnchor,

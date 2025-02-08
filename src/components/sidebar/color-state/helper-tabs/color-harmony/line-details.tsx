@@ -1,112 +1,105 @@
-import { CaretLeft, CaretRight } from "@phosphor-icons/react"
-import chroma from "chroma-js"
-import { useCallback, useMemo, useState } from "react"
-import Button from "@components/common/button"
-import Copy from "@components/common/copy"
+import { useMemo } from "react"
+import For from "@components/common/for"
+import { rotateHue } from "@utils/color"
 import getOptimizedTextColor from "@utils/get-optimized-text-color"
-import romanize from "@utils/romanize"
 import { useColorModeStore } from "@stores/color-mode.store"
 import { useSelectionStore } from "@stores/selection.store"
+import Copy from "@components/common/copy"
+
+const HUE_DIFFERENCE_RATE = 20
 
 interface Props {
   section: number
 }
 
-const HUE_SHIFT = 20
-const SECTION_ANGLE = 30
-const STEPS = 8
-const MAX_LUMINOSITY = 0.875
-
 export default function LineDetails({ section }: Props) {
-  const [hueOffset, setHueOffset] = useState(0)
   const getHueRotated = useSelectionStore.use.getHueRotated()
   const getColorString = useColorModeStore.use.getColorString()
-  const baseColor = getHueRotated(section * SECTION_ANGLE + hueOffset)!
 
-  const showLeftButton = hueOffset >= -HUE_SHIFT && hueOffset !== -HUE_SHIFT
-
-  const showRightButton = hueOffset <= HUE_SHIFT && hueOffset !== HUE_SHIFT
-
-  const handleDecrease = useCallback(() => {
-    setHueOffset(hueOffset === HUE_SHIFT ? 0 : -HUE_SHIFT)
-  }, [hueOffset])
-
-  const handleIncrease = useCallback(() => {
-    setHueOffset(hueOffset === -HUE_SHIFT ? 0 : HUE_SHIFT)
-  }, [hueOffset])
-
-  const luminositySteps = useMemo(
-    () =>
-      Array.from({ length: STEPS - 1 }, (_, i) => {
-        const luminosity = (STEPS - 1 - i) * (MAX_LUMINOSITY / (STEPS - 1))
-        return {
-          color: chroma(baseColor).luminance(luminosity),
-          luminosity,
-        }
-      }),
-    [baseColor],
+  const baseColor = useMemo(
+    () => getHueRotated(section * 30)!,
+    [getHueRotated, section],
   )
 
   return (
-    <div className="grow space-y-6 overflow-hidden p-4">
-      <div className="relative h-8 shrink-0 text-center">
-        {showLeftButton && (
-          <Button
-            type="default"
-            content="icon-only"
-            className="absolute left-0 h-8 w-8"
-            onClick={handleDecrease}
-          >
-            <CaretLeft weight="bold" />
-          </Button>
-        )}
-        <div className="absolute left-1/2 -translate-x-1/2">
-          <h3 className="font-medium">Section {romanize(section + 1)}</h3>
-          <p className="text-sm text-neutral-400">
-            {section * SECTION_ANGLE + hueOffset}°
-          </p>
+    <div className="grow">
+      <header className="border-b border-black/10 text-heading-2 p-3 pt-2 flex flex-col gap-1.5">
+        <div className="flex justify-between items-center p-1">
+          <p className="text-caption-bold">Section Color</p>
+          <span className="text-caption opacity-60">{section * 30}° rotation</span>
         </div>
-        {showRightButton && (
-          <Button
-            type="default"
-            content="icon-only"
-            className="absolute right-0 h-8 w-8"
-            onClick={handleIncrease}
-          >
-            <CaretRight weight="bold" />
-          </Button>
-        )}
-      </div>
+        <div className="w-full h-10 rounded" style={{ background: baseColor.css() }}>
+          <Copy data={getColorString(baseColor)} className="w-full h-full flex items-center justify-center" style={{ color: getOptimizedTextColor(baseColor).css() }}>
+            {getColorString(baseColor)}
+          </Copy>
+        </div>
+      </header>
+      <div className="grid w-full grid-cols-[1fr_1fr_1fr] place-items-stretch gap-x-0.5 gap-y-0.5 p-3 pt-4">
+        <div className="text-caption grid place-items-center pb-2 opacity-80"> -{HUE_DIFFERENCE_RATE}° </div>
+        <div className="text-caption grid place-items-center pb-2">Self</div>
+        <div className="text-caption grid place-items-center pb-2 opacity-80"> +{HUE_DIFFERENCE_RATE}°</div>
 
-      <div className="flex flex-col gap-1">
-        {luminositySteps.map(({ color, luminosity }, i) => (
-          <div key={i} className="flex items-center gap-3">
-            <div
-              className="h-8 grow rounded transition-[background-color] duration-300"
-              style={{ backgroundColor: color.css() }}
-            >
-              <div className="flex h-full items-center justify-between px-4">
+        <For times={9}>
+          {(i) => (
+            <>
+              <div
+                className="flex h-8 items-center justify-center rounded"
+                style={{
+                  background: rotateHue(baseColor, -HUE_DIFFERENCE_RATE)
+                    .luminance(0.1 * i + 0.1)
+                    .css()
+                }}
+              >
                 <span
-                  className="text-xs"
+                  className="text-caption-bold opacity-60"
                   style={{
-                    color: getOptimizedTextColor(color).css(),
+                    color: getOptimizedTextColor(
+                      rotateHue(baseColor, -HUE_DIFFERENCE_RATE).luminance(0.1 * i + 0.1),
+                    ).css(),
                   }}
                 >
-                  {(luminosity * 100).toFixed(1)}%
+                  {9 - i}00
                 </span>
-                <Copy
-                  data={getColorString(color)}
-                  className="text-xs"
+              </div>
+              <div
+                className="flex h-8 items-center justify-center rounded"
+                style={{
+                  background: baseColor.luminance(0.1 * i + 0.1).css(),
+                }}
+              >
+                <span
+                  className="text-caption-bold opacity-60"
                   style={{
-                    color: getOptimizedTextColor(color).css(),
+                    color: getOptimizedTextColor(
+                      baseColor.luminance(0.1 * i + 0.1),
+                    ).css(),
                   }}
                 >
-                  {getColorString(color)}
-                </Copy>
+                  {9 - i}00
+                </span>
               </div>
-            </div>
-          </div>
-        ))}
+              <div
+                className="flex h-8 items-center justify-center rounded"
+                style={{
+                  background: rotateHue(baseColor, 30)
+                    .luminance(0.1 * i + 0.1)
+                    .css(),
+                }}
+              >
+                <span
+                  className="text-caption-bold opacity-60"
+                  style={{
+                    color: getOptimizedTextColor(
+                      rotateHue(baseColor, 30).luminance(0.1 * i + 0.1),
+                    ).css(),
+                  }}
+                >
+                  {9 - i}00
+                </span>
+              </div>
+            </>
+          )}
+        </For>
       </div>
     </div>
   )

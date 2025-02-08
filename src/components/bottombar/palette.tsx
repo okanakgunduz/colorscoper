@@ -1,6 +1,5 @@
 import type { Color } from "chroma-js"
-import { AnimatePresence } from "motion/react"
-import { motion } from "motion/react"
+import { motion, AnimatePresence, LayoutGroup } from "motion/react"
 import { useMemo } from "react"
 import { useShallow } from "zustand/shallow"
 import For from "@components/common/for"
@@ -35,26 +34,50 @@ export default function Palette({ className }: Props) {
     <div className={cx(className, "pl-sidebar flex items-center gap-6")}>
       <h2 className="text-paragraph-bold opacity-80">Palette</h2>
 
-      <div className="flex items-center gap-2">
-        {/* Color Slots */}
-        <For each={paletteColors}>
-          {(color, index) => (
-            <PaletteColor
-              {...{ index, color }}
-              key={`palette-color-${index}`}
-            />
-          )}
-        </For>
-        {/* Placeholders */}
-        <For times={Math.min(6 - paletteColors.length, 3)}>
-          {(i) => (
-            <button
-              key={`palette-placeholder-${i}`}
-              className="bg-muted-background relative size-7 rounded-md border border-dashed border-black/20"
-            />
-          )}
-        </For>
-      </div>
+      <LayoutGroup>
+        <motion.div layout className="flex items-center gap-2">
+          <AnimatePresence initial={false}>
+            {/* Color Slots */}
+            <For each={paletteColors}>
+              {(color, index) => (
+                <motion.div
+                  layout
+                  initial={{ scale: 0.8, opacity: 0 }}
+                  animate={{ 
+                    scale: 1, 
+                    opacity: 1,
+                    transition: { duration: 0.2 }
+                  }}
+                  exit={{ 
+                    scale: 0, 
+                    opacity: 0,
+                    transition: { duration: 0.15 }
+                  }}
+                  key={`palette-color-${index}`}
+                  transition={{ layout: { duration: 0.3 } }}
+                >
+                  <PaletteColor {...{ index, color }} />
+                </motion.div>
+              )}
+            </For>
+            {/* Placeholders */}
+            <For times={Math.min(6 - paletteColors.length, 3)}>
+              {(i) => (
+                <motion.div
+                  layout
+                  initial={{ scale: 0.8, opacity: 0 }}
+                  animate={{ scale: 1, opacity: 1 }}
+                  exit={{ scale: 0.8, opacity: 0 }}
+                  key={`palette-placeholder-${i + paletteColors.length}`}
+                  transition={{ layout: { duration: 0.3 } }}
+                >
+                  <button className="bg-muted-background relative size-7 rounded-md border border-dashed border-black/20" />
+                </motion.div>
+              )}
+            </For>
+          </AnimatePresence>
+        </motion.div>
+      </LayoutGroup>
     </div>
   )
 }
@@ -88,22 +111,20 @@ const PaletteColor = ({ index, color }: PaletteColorProps) => {
       aria-selected={hasPicked}
       data-selected={hasPicked}
     >
-      <AnimatePresence>
-        {hasPicked && (
-          <motion.span
-            initial={{ y: 20, opacity: 0 }}
-            animate={{ y: 0, opacity: 1 }}
-            exit={{ y: 20, opacity: 0 }}
-            transition={{
-              type: "spring",
-              stiffness: 200,
-              damping: 30,
-            }}
-            className="bg-accent absolute right-0 -bottom-[13px] left-0 mx-auto h-1 w-2 rounded-full"
-            aria-hidden
-          ></motion.span>
-        )}
-      </AnimatePresence>
+      {hasPicked && (
+        <motion.span
+          initial={{ y: 20, opacity: 0 }}
+          animate={{ y: 0, opacity: 1 }}
+          exit={{ y: 20, opacity: 0 }}
+          transition={{
+            type: "spring",
+            stiffness: 200,
+            damping: 30,
+          }}
+          className="bg-accent absolute right-0 -bottom-[13px] left-0 mx-auto h-1 w-2 rounded-full"
+          aria-hidden
+        ></motion.span>
+      )}
     </button>
   )
 }

@@ -10,7 +10,7 @@ import { capitalize } from "@utils/casing"
 import romanize from "@utils/romanize"
 import ColorHarmonyWheel, { relationshipMap } from "./color-harmony-wheel"
 import LineDetails from "./line-details"
-import LineDetails2 from "./line-details.2"
+
 
 export const ColorRelationship = {
   Monochromatic: "monochromatic",
@@ -71,20 +71,17 @@ export default function ColorHarmonyHelper() {
       <ColorHarmonyWheel relationship={relationship} />
       <Portal containerId="popover-container">
         <For each={relationshipMap[relationship]}>
-          {(section, i) => (
+          {(section) => (
             <Popover
               id={`line-details-${section}`}
               positionAnchor="--color-harmony"
               title={`Section ${romanize(section + 1)}`}
               icon={CircleHalfTilt}
               offsetX={16}
+              offsetY={-48}
               key={`popover-${section}`}
             >
-              {i % 2 ? (
-                <LineDetails section={section} />
-              ) : (
-                <LineDetails2 section={section} />
-              )}
+              <LineDetails section={section} />
             </Popover>
           )}
         </For>

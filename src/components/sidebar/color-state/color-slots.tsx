@@ -73,7 +73,7 @@ function ColorDisplay({ color }: { color: Color }) {
       </span>
 
       <Copy
-        className="text-caption text-end"
+        className="text-caption text-end grow"
         element="button"
         type="button"
         data={getColorString(color)}

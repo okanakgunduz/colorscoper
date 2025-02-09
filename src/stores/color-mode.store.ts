@@ -4,12 +4,12 @@ import { createComputed } from "zustand-computed"
 import { ColorMode, toRoundedString, toString } from "@utils/color"
 import createSelectors from "@utils/create-selectors"
 
-interface ColorModeStore {
+type ColorModeStore = {
   mode: ColorMode
   setColorMode: (mode: ColorMode) => void
 }
 
-interface Computed {
+type Computed = {
   getColorString: (color: Color) => string
   getRoundedColorString: (color: Color) => string
 }

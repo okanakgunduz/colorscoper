@@ -18,3 +18,13 @@ type OneOf<
 > = TypesArray extends [infer Head, ...infer Rem]
   ? OneOf<Rem, Res | OnlyFirst<Head, AllProperties>, AllProperties>
   : Res
+
+type ArrayLengthMutationKeys = "splice" | "push" | "pop" | "shift" | "unshift"
+type FixedLengthArray<T, L extends number, TObj = [T, ...Array<T>]> = Pick<
+  TObj,
+  Exclude<keyof TObj, ArrayLengthMutationKeys>
+> & {
+  readonly length: L
+  [I: number]: T
+  [Symbol.iterator]: () => IterableIterator<T>
+}

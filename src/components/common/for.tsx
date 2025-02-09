@@ -1,5 +1,4 @@
 import { ElementType, Fragment, ReactNode } from "react"
-
 import { Class } from "@utils/cx"
 
 interface BaseProps {
@@ -14,7 +13,7 @@ interface TimesProps extends BaseProps {
 
 interface EachProps<T> extends BaseProps {
   children: (item: T, index: number, array: Array<T>) => ReactNode
-  each: Array<T>
+  each: Array<T> | FixedLengthArray<T, number>
 }
 
 function For(props: TimesProps): Array<ReactNode> | ReactNode

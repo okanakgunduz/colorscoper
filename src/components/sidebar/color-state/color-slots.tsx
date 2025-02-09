@@ -9,12 +9,14 @@ import getOptimizedTextColor from "@utils/get-optimized-text-color"
 import { useColorModeStore } from "@stores/color-mode.store"
 import { usePaletteStore } from "@stores/palette.store"
 import { PaletteColor, useSelectionStore } from "@stores/selection.store"
+import { useSidebarStore } from "@stores/sidebar.store"
 
 export default function ColorSlots() {
   const [selectType, color, clearSelection] = useSelectionStore(
     useShallow((state) => [state.type, state.color, state.clearSelection]),
   )
 
+  const slots = useSidebarStore.use.slots()
   const deleteColor = usePaletteStore.use.delete()
 
   if (selectType === null || color === null) return
@@ -26,7 +28,9 @@ export default function ColorSlots() {
       {/* Color Slots */}
 
       <div className="mb-4 flex justify-between">
-        <For times={6}>{(i) => <Slot index={i} key={`color-slot-${i}`} />}</For>
+        <For each={slots}>
+          {(slot, i) => <Slot empty index={i} key={`color-slot-${i}`} />}
+        </For>
       </div>
 
       {/* Buttons */}
@@ -55,10 +59,6 @@ function ColorDisplay({ color }: { color: Color }) {
   const getColorString = useColorModeStore.use.getColorString()
   const getRoundedColorString = useColorModeStore.use.getRoundedColorString()
 
-
-
-  
-
   return (
     <div
       className="mb-3 flex w-full items-center justify-between rounded p-4 transition"
@@ -73,7 +73,7 @@ function ColorDisplay({ color }: { color: Color }) {
       </span>
 
       <Copy
-        className="text-caption text-end grow"
+        className="text-caption grow text-end"
         element="button"
         type="button"
         data={getColorString(color)}
@@ -84,7 +84,7 @@ function ColorDisplay({ color }: { color: Color }) {
   )
 }
 
-function Slot({ index }: { index: number }) {
+function Slot({ index }: { index: number; empty: boolean }) {
   return (
     <button
       data-index={index}

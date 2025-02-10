@@ -1,23 +1,26 @@
 import { Hexagon } from "@phosphor-icons/react"
 import { ColumnsPlusRight } from "@phosphor-icons/react/dist/ssr"
 import { Color } from "chroma-js"
+import { useCallback } from "react"
 import { useShallow } from "zustand/shallow"
 import Button from "@components/common/button"
 import Copy from "@components/common/copy"
 import For from "@components/common/for"
+import cx from "@utils/cx"
 import getOptimizedTextColor from "@utils/get-optimized-text-color"
 import { useColorModeStore } from "@stores/color-mode.store"
 import { usePaletteStore } from "@stores/palette.store"
 import { PaletteColor, useSelectionStore } from "@stores/selection.store"
-import { useSidebarStore } from "@stores/sidebar.store"
+import { type Slot, useSidebarStore } from "@stores/sidebar.store"
 
 export default function ColorSlots() {
-  const [selectType, color, clearSelection] = useSelectionStore(
-    useShallow((state) => [state.type, state.color, state.clearSelection]),
-  )
+  const selectType = useSelectionStore.use.type()
+  const color = useSelectionStore.use.color()
+
+  const deleteColor = usePaletteStore.use.delete()
 
   const slots = useSidebarStore.use.slots()
-  const deleteColor = usePaletteStore.use.delete()
+  const paletteInsertable = useSidebarStore.use.paletteInsertable()
 
   if (selectType === null || color === null) return
 
@@ -29,7 +32,7 @@ export default function ColorSlots() {
 
       <div className="mb-4 flex justify-between">
         <For each={slots}>
-          {(slot, i) => <Slot empty index={i} key={`color-slot-${i}`} />}
+          {(slot, i) => <Slot slot={slot} index={i} key={`color-slot-${i}`} />}
         </For>
       </div>
 
@@ -38,16 +41,18 @@ export default function ColorSlots() {
       <div className="flex items-center justify-end gap-0.5">
         {selectType === "palette" && (
           <Button
-            onClick={() => (
-              deleteColor((color as PaletteColor).index), clearSelection()
-            )}
+            onClick={() => deleteColor((color as PaletteColor).index)}
             className="mr-auto px-0 text-red-500"
           >
             Clear
           </Button>
         )}
         <Button>Clean</Button>
-        <Button type="fill" icon={ColumnsPlusRight}>
+        <Button
+          disabled={!paletteInsertable}
+          type="fill"
+          icon={ColumnsPlusRight}
+        >
           Insert
         </Button>
       </div>
@@ -84,11 +89,37 @@ function ColorDisplay({ color }: { color: Color }) {
   )
 }
 
-function Slot({ index }: { index: number; empty: boolean }) {
+type SlotProps = { index: number; slot: Slot | null }
+
+function Slot({ index, slot }: SlotProps) {
+  const clearSelectedIndex = useSidebarStore.use.clearSelectedIndex()
+  const setSelectedIndex = useSidebarStore.use.setSelectedIndex()
+  const selectedIndex = useSidebarStore.use.selectedIndex()
+
+  const toggleSelection = useCallback(
+    () =>
+      selectedIndex === index ? clearSelectedIndex() : setSelectedIndex(index),
+    [selectedIndex, index, clearSelectedIndex, setSelectedIndex],
+  )
+
   return (
     <button
-      data-index={index}
-      className="bg-muted-background size-10 rounded border-[1.5px]"
+      onClick={toggleSelection}
+      className={cx(
+        "ring-accent size-10 cursor-pointer rounded border-[1.5px] ring-offset-2 transition data-[selected=true]:ring-3",
+        {
+          "bg-muted-background": slot === null,
+          "border-transparent": slot !== null,
+        },
+      )}
+      style={
+        slot === null
+          ? {}
+          : {
+              backgroundColor: slot.color.css(),
+            }
+      }
+      data-selected={selectedIndex === index}
     ></button>
   )
 }

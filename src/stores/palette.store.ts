@@ -2,6 +2,8 @@ import chroma, { type Color } from "chroma-js"
 import { create } from "zustand"
 import createSelectors from "@utils/create-selectors"
 import { impush } from "@utils/immutable"
+import { useSelectionStore } from "./selection.store"
+import { useSidebarStore } from "./sidebar.store"
 
 const MAX_PALETTE_COUNT = 8
 
@@ -26,7 +28,8 @@ const usePaletteStoreBase = create<State & Action>()((set) => ({
   ],
 
   /* Action */
-  insert: (color) =>
+  insert: (color) => {
+    useSidebarStore.getState().reset()
     set((state) => {
       if (state.colors.length >= MAX_PALETTE_COUNT)
         return {
@@ -36,10 +39,14 @@ const usePaletteStoreBase = create<State & Action>()((set) => ({
       return {
         colors: impush(state.colors, color),
       }
-    }),
+    })
+  },
 
-  delete: (index) =>
-    set((state) => ({ colors: state.colors.filter((_, i) => i !== index) })),
+  delete: (index) => {
+    useSidebarStore.getState().reset()
+    useSelectionStore.getState().clearSelection()
+    set((state) => ({ colors: state.colors.filter((_, i) => i !== index) }))
+  },
 
   clearAll: () => set({ colors: [] }),
 }))

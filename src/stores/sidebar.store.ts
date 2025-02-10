@@ -25,8 +25,9 @@ type Action = {
 }
 
 type Computed = {
-  insertSelectedToPalette: () => void
   paletteInsertable: boolean
+  insertSelectedToPalette: () => void
+  reset: () => void
 }
 
 const computed = createComputed(
@@ -39,8 +40,13 @@ const computed = createComputed(
       const slot = state.slots[state.selectedIndex]
       if (slot === null) return
 
-      const insertToPalette = usePaletteStore.use.insert()
-      insertToPalette(slot.color)
+      usePaletteStore.getState().insert(slot.color)
+      state.clearSlot(state.selectedIndex)
+      state.clearSelectedIndex()
+    },
+    reset: () => {
+      state.clearSlots()
+      state.clearSelectedIndex()
     },
   }),
 )

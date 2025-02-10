@@ -8,6 +8,7 @@ import {
   rotateHue,
 } from "@utils/color"
 import createSelectors from "@utils/create-selectors"
+import { useSidebarStore } from "./sidebar.store"
 
 const SelectionType = {
   Picker: "picker",
@@ -89,13 +90,20 @@ const useSelectionStoreBase = create<State & Action>()(
     },
 
     /* Utils */
-    setPickerSelection: (color) =>
-      set({ type: SelectionType.Picker, color: { value: color } }),
+    setPickerSelection: (color) => {
+      useSidebarStore.getState().reset()
+      set({ type: SelectionType.Picker, color: { value: color } })
+    },
 
-    setPaletteSelection: (color, index) =>
-      set({ type: SelectionType.Palette, color: { value: color, index } }),
+    setPaletteSelection: (color, index) => {
+      useSidebarStore.getState().reset()
+      set({ type: SelectionType.Palette, color: { value: color, index } })
+    },
 
-    clearSelection: () => set({ type: null, color: null }),
+    clearSelection: () => {
+      useSidebarStore.getState().reset()
+      set({ type: null, color: null })
+    },
   })),
 )
 

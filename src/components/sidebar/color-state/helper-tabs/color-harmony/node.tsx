@@ -67,7 +67,7 @@ export default function Node({
       <button
         className={cx(
           className,
-          "cursor-pointer rounded-full border-4 border-white font-medium transition",
+          "cursor-pointer rounded-full border-4 border-white font-medium",
         )}
         // @ts-expect-error (Not supported yet, but polyfilled)
         popovertarget={`line-details-${section}`}

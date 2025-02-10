@@ -5,7 +5,7 @@ import { impush } from "@utils/immutable"
 import { useSelectionStore } from "./selection.store"
 import { useSidebarStore } from "./sidebar.store"
 
-const MAX_PALETTE_COUNT = 8
+export const MAX_PALETTE_COUNT = 8
 
 interface State {
   colors: Array<Color>
@@ -19,17 +19,10 @@ interface Action {
 
 const usePaletteStoreBase = create<State & Action>()((set) => ({
   /* State */
-  colors: [
-    chroma("#4393FA"),
-    chroma("#2B2B81"),
-    chroma("#728CDF"),
-    chroma("#D5A9F6"),
-    chroma("#2D10B6"),
-  ],
+  colors: [chroma("#4393FA"), chroma("#2B2B81"), chroma("#D5A9F6")],
 
   /* Action */
   insert: (color) => {
-    useSidebarStore.getState().reset()
     set((state) => {
       if (state.colors.length >= MAX_PALETTE_COUNT)
         return {

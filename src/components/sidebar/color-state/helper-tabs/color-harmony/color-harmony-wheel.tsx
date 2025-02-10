@@ -61,7 +61,7 @@ export default function ColorHarmonyWheel({ relationship }: Props) {
               key={`harmony-slices-${section}`}
               d={path}
               fill={getHueRotated(section * 30)!.css()}
-              className={cx("transition", {
+              className={cx({
                 "opacity-50": hovering !== null && hovering !== section,
               })}
             />

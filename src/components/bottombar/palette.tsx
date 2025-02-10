@@ -5,7 +5,7 @@ import { useShallow } from "zustand/shallow"
 import For from "@components/common/for"
 import useKeyListener from "@hooks/useKeyListener"
 import cx, { Class } from "@utils/cx"
-import { usePaletteStore } from "@stores/palette.store"
+import { MAX_PALETTE_COUNT, usePaletteStore } from "@stores/palette.store"
 import { type PaletteColor, useSelectionStore } from "@stores/selection.store"
 
 interface Props {
@@ -44,7 +44,7 @@ export default function Palette({ className }: Props) {
           )}
         </For>
         {/* Placeholders */}
-        <For times={Math.min(6 - paletteColors.length, 3)}>
+        <For times={Math.min(MAX_PALETTE_COUNT - paletteColors.length, 2)}>
           {(i) => (
             <div key={`palette-color-${i + paletteColors.length}`}>
               <button className="bg-muted-background relative size-7 rounded-md border border-dashed border-black/20" />

@@ -22,15 +22,15 @@ export default function ContrastLine({
   return (
     <div className="flex w-full items-center gap-2">
       <div
-        className="flex size-16 items-center justify-center transition"
+        className="flex size-16 items-center justify-center"
         style={{ background: base.css() }}
       >
         <div
-          className="flex size-11 items-center justify-center rounded-full transition"
+          className="flex size-11 items-center justify-center rounded-full"
           style={{ background: contrastColor.css() }}
         >
           <div
-            className="size-4 rounded-full transition"
+            className="size-4 rounded-full"
             style={{ background: base.css() }}
           ></div>
         </div>

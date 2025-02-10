@@ -1,4 +1,4 @@
-import { useMemo } from "react"
+import { Fragment, useMemo } from "react"
 import Copy from "@components/common/copy"
 import For from "@components/common/for"
 import { rotateHue } from "@utils/color"
@@ -59,7 +59,7 @@ export default function LineDetails({ section }: Props) {
 
         <For times={9}>
           {(i) => (
-            <>
+            <Fragment key={`line-details-lum-${i}`}>
               <div
                 className="flex h-8 cursor-pointer items-center justify-center rounded select-none"
                 style={{
@@ -128,7 +128,7 @@ export default function LineDetails({ section }: Props) {
                   {9 - i}00
                 </span>
               </div>
-            </>
+            </Fragment>
           )}
         </For>
       </div>

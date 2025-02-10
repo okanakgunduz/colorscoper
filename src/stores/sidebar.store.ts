@@ -3,7 +3,7 @@ import { create } from "zustand"
 import { createComputed } from "zustand-computed"
 import createSelectors from "@utils/create-selectors"
 import { immutate } from "@utils/immutable"
-import { usePaletteStore } from "./palette.store"
+import { MAX_PALETTE_COUNT, usePaletteStore } from "./palette.store"
 
 const SLOT_COUNT = 6
 
@@ -25,15 +25,20 @@ type Action = {
 }
 
 type Computed = {
-  paletteInsertable: boolean
+  paletteInsertable: () => boolean
   insertSelectedToPalette: () => void
   reset: () => void
 }
 
 const computed = createComputed(
   (state: State & Action): Computed => ({
-    paletteInsertable:
-      state.selectedIndex !== null && state.slots[state.selectedIndex] !== null,
+    paletteInsertable: () => {
+      return (
+        state.selectedIndex !== null &&
+        state.slots[state.selectedIndex] !== null &&
+        usePaletteStore.getState().colors.length < MAX_PALETTE_COUNT
+      )
+    },
     insertSelectedToPalette: () => {
       if (state.selectedIndex === null) return
 

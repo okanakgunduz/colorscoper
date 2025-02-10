@@ -2,7 +2,6 @@ import { Hexagon } from "@phosphor-icons/react"
 import { ColumnsPlusRight } from "@phosphor-icons/react/dist/ssr"
 import { Color } from "chroma-js"
 import { useCallback } from "react"
-import { useShallow } from "zustand/shallow"
 import Button from "@components/common/button"
 import Copy from "@components/common/copy"
 import For from "@components/common/for"
@@ -21,6 +20,7 @@ export default function ColorSlots() {
 
   const slots = useSidebarStore.use.slots()
   const paletteInsertable = useSidebarStore.use.paletteInsertable()
+  const insertToPalette = useSidebarStore.use.insertSelectedToPalette()
 
   if (selectType === null || color === null) return
 
@@ -49,9 +49,10 @@ export default function ColorSlots() {
         )}
         <Button>Clean</Button>
         <Button
-          disabled={!paletteInsertable}
+          disabled={!paletteInsertable()}
           type="fill"
           icon={ColumnsPlusRight}
+          onClick={insertToPalette}
         >
           Insert
         </Button>
@@ -66,7 +67,7 @@ function ColorDisplay({ color }: { color: Color }) {
 
   return (
     <div
-      className="mb-3 flex w-full items-center justify-between rounded p-4 transition"
+      className="mb-3 flex w-full items-center justify-between rounded p-4"
       style={{
         background: color.css(),
         color: getOptimizedTextColor(color).css(),

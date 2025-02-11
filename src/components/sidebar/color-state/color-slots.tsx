@@ -2,6 +2,7 @@ import { Hexagon } from "@phosphor-icons/react"
 import { ColumnsPlusRight } from "@phosphor-icons/react/dist/ssr"
 import { Color } from "chroma-js"
 import { useCallback } from "react"
+import { useShallow } from "zustand/shallow"
 import Button from "@components/common/button"
 import Copy from "@components/common/copy"
 import For from "@components/common/for"
@@ -18,9 +19,16 @@ export default function ColorSlots() {
 
   const deleteColor = usePaletteStore.use.delete()
 
-  const slots = useSidebarStore.use.slots()
-  const paletteInsertable = useSidebarStore.use.paletteInsertable()
-  const insertToPalette = useSidebarStore.use.insertSelectedToPalette()
+  const [slots, paletteInsertable, insertToPalette, clearSlot, selectedIndex] =
+    useSidebarStore(
+      useShallow((state) => [
+        state.slots,
+        state.paletteInsertable,
+        state.insertSelectedToPalette,
+        state.clearSlot,
+        state.selectedIndex,
+      ]),
+    )
 
   if (selectType === null || color === null) return
 
@@ -44,10 +52,13 @@ export default function ColorSlots() {
             onClick={() => deleteColor((color as PaletteColor).index)}
             className="mr-auto px-0 text-red-500"
           >
-            Clear
+            Delete
           </Button>
         )}
-        <Button>Clean</Button>
+
+        {selectedIndex !== null && slots[selectedIndex] !== null && (
+          <Button onClick={() => clearSlot(selectedIndex)}>Clean</Button>
+        )}
         <Button
           disabled={!paletteInsertable()}
           type="fill"
@@ -93,7 +104,7 @@ function ColorDisplay({ color }: { color: Color }) {
 type SlotProps = { index: number; slot: Slot | null }
 
 function Slot({ index, slot }: SlotProps) {
-  const clearSelectedIndex = useSidebarStore.use.clearSelectedIndex()
+  const clearSelectedIndex = useSidebarStore.use.unsetSelectedIndex()
   const setSelectedIndex = useSidebarStore.use.setSelectedIndex()
   const selectedIndex = useSidebarStore.use.selectedIndex()
 

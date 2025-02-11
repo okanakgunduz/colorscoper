@@ -21,7 +21,7 @@ type Action = {
   clearSlot: (i: number) => void
   insertSlot: (color: Color) => void
   setSelectedIndex: (i: number) => void
-  clearSelectedIndex: () => void
+  unsetSelectedIndex: () => void
 }
 
 type Computed = {
@@ -47,11 +47,9 @@ const computed = createComputed(
 
       usePaletteStore.getState().insert(slot.color)
       state.clearSlot(state.selectedIndex)
-      state.clearSelectedIndex()
     },
     reset: () => {
       state.clearSlots()
-      state.clearSelectedIndex()
     },
   }),
 )
@@ -82,12 +80,16 @@ const useSidebarStoreBase = create<State & Action>()(
       }),
 
     clearSlot: (i) =>
-      set((state) => ({ slots: immutate(state.slots, i, null) })),
+      set((state) => ({
+        slots: immutate(state.slots, i, null),
+        selectedIndex: null,
+      })),
 
-    clearSlots: () => set({ slots: new Array(SLOT_COUNT).fill(null) }),
+    clearSlots: () =>
+      set({ slots: new Array(SLOT_COUNT).fill(null), selectedIndex: null }),
 
     setSelectedIndex: (i) => set({ selectedIndex: i }),
-    clearSelectedIndex: () => set({ selectedIndex: null }),
+    unsetSelectedIndex: () => set({ selectedIndex: null }),
   })),
 )
 

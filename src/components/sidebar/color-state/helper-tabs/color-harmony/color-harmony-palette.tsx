@@ -24,7 +24,7 @@ export default function ColorHarmonyPalette({
   return (
     <div
       className={cx(
-        "bg-muted-background has-adjacent-hover:opacity-30 grid h-16 w-full grid-rows-1 overflow-hidden rounded",
+        "bg-muted-background has-adjacent-hover:opacity-30 grid h-10 w-full grid-rows-1 overflow-hidden rounded",
         className,
       )}
       style={{
@@ -38,7 +38,7 @@ export default function ColorHarmonyPalette({
           return (
             <button
               onClick={() => insertSlot(color)}
-              className="relative cursor-pointer transition"
+              className="relative cursor-pointer active:brightness-90"
               key={`color-harmony-palette-${section}`}
               style={{
                 background: color.css(),

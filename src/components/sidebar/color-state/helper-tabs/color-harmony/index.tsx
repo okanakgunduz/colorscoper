@@ -54,7 +54,7 @@ export default function ColorHarmonyHelper() {
       </div>
 
       {/* Palette */}
-      <ColorHarmonyPalette relationship={relationship} />
+      <ColorHarmonyPalette relationship={relationship} className="mt-6!" />
 
       {/* Wheel */}
 

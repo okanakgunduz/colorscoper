@@ -107,7 +107,7 @@ function Slot({ index, slot }: SlotProps) {
     <button
       onClick={toggleSelection}
       className={cx(
-        "ring-accent size-10 cursor-pointer rounded border-[1.5px] ring-offset-2 transition data-[selected=true]:ring-3",
+        "ring-accent selected:ring-3 size-10 cursor-pointer rounded border-[1.5px] ring-offset-2 transition-[box-shadow]",
         {
           "bg-muted-background": slot === null,
           "border-transparent": slot !== null,

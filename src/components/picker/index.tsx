@@ -1,9 +1,7 @@
 import * as Tabs from "@radix-ui/react-tabs"
-
 import For from "@components/common/for"
-
+import Help from "@components/help"
 import cx, { type Class } from "@utils/cx"
-
 import HueSaturationWheel from "./hue-saturation-wheel"
 import HueWBMap from "./hue-wb-map"
 import SaturationWBPyramid from "./saturation-wb-pyramid"
@@ -20,7 +18,7 @@ enum TabKeys {
 
 export default function Picker({ className }: Props) {
   return (
-    <div className={cx(className)}>
+    <div className={cx(className, "relative")}>
       <Tabs.Root
         defaultValue={TabKeys.HueWBMap}
         className="bg-muted-background relative grid h-full w-full place-items-center"
@@ -69,6 +67,7 @@ export default function Picker({ className }: Props) {
           )}
         </For>
       </Tabs.Root>
+      <Help className="absolute top-5 right-5" />
     </div>
   )
 }

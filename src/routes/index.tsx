@@ -8,7 +8,6 @@ export default function Editor() {
       <Sidebar className="col-span-1 row-span-2" />
       <Picker className="col-span-1 row-span-1" />
       <BottomBar className="col-span-1 row-span-1" />
-      <div></div>
     </main>
   )
 }

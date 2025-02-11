@@ -6,12 +6,7 @@ interface Props {
 
 export default function Help({ className }: Props) {
   return (
-    <button
-      className={cx(
-        className,
-        "bg-muted-background size-8 rounded-full border",
-      )}
-    >
+    <button className={cx(className, "size-8 rounded-full border bg-white")}>
       ?
     </button>
   )

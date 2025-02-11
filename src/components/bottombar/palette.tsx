@@ -1,5 +1,5 @@
 import type { Color } from "chroma-js"
-import { motion } from "motion/react"
+import { AnimatePresence, motion } from "motion/react"
 import { useMemo } from "react"
 import { useShallow } from "zustand/shallow"
 import For from "@components/common/for"
@@ -43,6 +43,7 @@ export default function Palette({ className }: Props) {
             </div>
           )}
         </For>
+
         {/* Placeholders */}
         <For times={Math.min(MAX_PALETTE_COUNT - paletteColors.length, 2)}>
           {(i) => (
@@ -77,7 +78,7 @@ const PaletteColor = ({ index, color }: PaletteColorProps) => {
 
   return (
     <button
-      className="ring-accent outline-muted-background relative size-7 cursor-pointer rounded-md border border-black/10 ring-offset-2 transition data-[selected=true]:ring-3 data-[selected=true]:outline"
+      className="ring-accent outline-muted-background selected:ring-3 selected:outline relative size-7 cursor-pointer rounded-md border border-black/10 ring-offset-2 transition"
       style={{
         backgroundColor: color!.css(),
       }}
@@ -85,20 +86,22 @@ const PaletteColor = ({ index, color }: PaletteColorProps) => {
       aria-selected={hasPicked}
       data-selected={hasPicked}
     >
-      {hasPicked && (
-        <motion.span
-          initial={{ y: 20, opacity: 0 }}
-          animate={{ y: 0, opacity: 1 }}
-          exit={{ y: 20, opacity: 0 }}
-          transition={{
-            type: "spring",
-            stiffness: 200,
-            damping: 30,
-          }}
-          className="bg-accent absolute right-0 -bottom-[13px] left-0 mx-auto h-1 w-2 rounded-full"
-          aria-hidden
-        ></motion.span>
-      )}
+      <AnimatePresence>
+        {hasPicked && (
+          <motion.span
+            initial={{ y: 20, opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
+            exit={{ y: 20, opacity: 0 }}
+            transition={{
+              type: "spring",
+              stiffness: 200,
+              damping: 30,
+            }}
+            className="bg-accent absolute right-0 -bottom-[13px] left-0 mx-auto h-1 w-2 rounded-full"
+            aria-hidden
+          ></motion.span>
+        )}
+      </AnimatePresence>
     </button>
   )
 }

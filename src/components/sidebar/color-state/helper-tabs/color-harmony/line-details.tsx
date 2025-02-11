@@ -16,6 +16,7 @@ interface Props {
 export default function LineDetails({ section }: Props) {
   const getHueRotated = useSelectionStore.use.getHueRotated()
   const getColorString = useColorModeStore.use.getColorString()
+  const getRoundedColorString = useColorModeStore.use.getRoundedColorString()
 
   const baseColor = useMemo(
     () => getHueRotated(section * 30)!,
@@ -42,18 +43,16 @@ export default function LineDetails({ section }: Props) {
             className="flex h-full w-full items-center justify-center"
             style={{ color: getOptimizedTextColor(baseColor).css() }}
           >
-            {getColorString(baseColor)}
+            {getRoundedColorString(baseColor)}
           </Copy>
         </div>
       </header>
-      <div className="grid w-full grid-cols-[1fr_1fr_1fr] place-items-stretch gap-x-0.5 gap-y-0.5 p-3 pt-4">
+      <div className="grid w-full grid-cols-[1fr_1fr_1fr] place-items-stretch gap-x-1.5 gap-y-1 p-3 pt-4">
         <div className="text-caption grid place-items-center pb-2 opacity-80">
-          {" "}
-          -{HUE_DIFFERENCE_RATE}°{" "}
+          -{HUE_DIFFERENCE_RATE}°
         </div>
         <div className="text-caption grid place-items-center pb-2">Self</div>
         <div className="text-caption grid place-items-center pb-2 opacity-80">
-          {" "}
           +{HUE_DIFFERENCE_RATE}°
         </div>
 
@@ -61,7 +60,7 @@ export default function LineDetails({ section }: Props) {
           {(i) => (
             <Fragment key={`line-details-lum-${i}`}>
               <div
-                className="flex h-8 cursor-pointer items-center justify-center rounded select-none"
+                className="flex h-8 cursor-pointer items-center justify-center rounded transition duration-100 select-none active:scale-95"
                 style={{
                   background: rotateHue(baseColor, -HUE_DIFFERENCE_RATE)
                     .luminance(0.1 * i + 0.1)
@@ -89,7 +88,7 @@ export default function LineDetails({ section }: Props) {
                 </span>
               </div>
               <div
-                className="flex h-8 cursor-pointer items-center justify-center rounded select-none"
+                className="flex h-8 cursor-pointer items-center justify-center rounded transition duration-100 select-none active:scale-95"
                 style={{
                   background: baseColor.luminance(0.1 * i + 0.1).css(),
                 }}
@@ -107,7 +106,7 @@ export default function LineDetails({ section }: Props) {
                 </span>
               </div>
               <div
-                className="flex h-8 cursor-pointer items-center justify-center rounded select-none"
+                className="flex h-8 cursor-pointer items-center justify-center rounded transition duration-100 select-none active:scale-95"
                 style={{
                   background: rotateHue(baseColor, 30)
                     .luminance(0.1 * i + 0.1)

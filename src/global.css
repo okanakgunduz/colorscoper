@@ -10,6 +10,7 @@
   --color-muted: #636669; /* Text */
 
   --padding-sidebar: 24px;
+  --margin-sidebar: 24px;
 
   /* Font Theming */
   --font-body: "Inter Variable", Helvetica, Arial, sans-serif;

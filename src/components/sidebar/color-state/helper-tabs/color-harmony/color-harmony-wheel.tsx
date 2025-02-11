@@ -1,28 +1,11 @@
 import { AnimatePresence } from "motion/react"
 import { useState } from "react"
 import For from "@components/common/for"
-import cx from "@utils/cx"
+import { ColorRelationship, getHueSections } from "@utils/color"
+import cx, { Class } from "@utils/cx"
 import { useSelectionStore } from "@stores/selection.store"
-import { ColorRelationship } from "."
 import Node from "./node"
 import ReferenceLine from "./reference-line"
-
-// eslint-disable-next-line
-export const relationshipMap: Record<ColorRelationship, Array<number>> = {
-  monochromatic: [0],
-  "diad-positive": [0, 2],
-  "diad-negative": [0, 10],
-  complementary: [0, 6],
-  "split-complementary": [0, 5, 7],
-  triad: [0, 4, 8],
-  analogous: [0, 1, 11],
-  "double-complementary-positive": [0, 1, 6, 7],
-  "double-complementary-negative": [0, 5, 6, 11],
-  "rectangular-tetrad-positive": [0, 2, 6, 8],
-  "rectangular-tetrad-negative": [0, 4, 6, 10],
-  "square-tetrad": [0, 3, 6, 9],
-  polychromatic: [0, 2, 4, 6, 8, 10],
-}
 
 const slices = [
   "M 0 0 L 0 -140 A 140 140 0 0 1 70 -121 Z",
@@ -41,9 +24,10 @@ const slices = [
 
 interface Props {
   relationship: ColorRelationship
+  className?: Class
 }
 
-export default function ColorHarmonyWheel({ relationship }: Props) {
+export default function ColorHarmonyWheel({ relationship, className }: Props) {
   const getHueRotated = useSelectionStore.use.getHueRotated()
   const [hovering, setHovering] = useState<number | null>(null)
 
@@ -51,7 +35,7 @@ export default function ColorHarmonyWheel({ relationship }: Props) {
     <svg
       viewBox="-160 -160 320 320"
       xmlns="http://www.w3.org/2000/svg"
-      className="w-full"
+      className={cx("w-full", className)}
     >
       {/* Color Wheel Slices */}
       <g id="color-wheel" transform="rotate(-15)">
@@ -73,7 +57,7 @@ export default function ColorHarmonyWheel({ relationship }: Props) {
 
       <g id="reference-lines">
         {relationship !== "analogous" && (
-          <For element={AnimatePresence} each={relationshipMap[relationship]}>
+          <For element={AnimatePresence} each={getHueSections(relationship)}>
             {(section, i, sections) => {
               if (sections.length === 1) return
               if (sections.length === 2 && i === 0) return
@@ -102,7 +86,7 @@ export default function ColorHarmonyWheel({ relationship }: Props) {
       {/* Color Stop Nodes */}
 
       <g id="nodes">
-        <For element={AnimatePresence} each={relationshipMap[relationship]}>
+        <For element={AnimatePresence} each={getHueSections(relationship)}>
           {(section) => (
             <Node
               key={`relationship-node-${section}`}

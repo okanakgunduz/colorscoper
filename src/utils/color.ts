@@ -24,6 +24,43 @@ export const ContrastType = {
 
 export type ContrastType = Enumize<typeof ContrastType>
 
+export const ColorRelationship = {
+  Monochromatic: "monochromatic",
+  DiadPositive: "diad-positive",
+  DiadNegative: "diad-negative",
+  Complementary: "complementary",
+  SplitComplementary: "split-complementary",
+  Triad: "triad",
+  Analogous: "analogous",
+  DoubleComplementaryPositive: "double-complementary-positive",
+  DoubleComplementaryNegative: "double-complementary-negative",
+  RectangularTetradPositive: "rectangular-tetrad-positive",
+  RectangularTetradNegative: "rectangular-tetrad-negative",
+  SquareTetrad: "square-tetrad",
+  Polychromatic: "polychromatic",
+} as const
+
+export type ColorRelationship = Enumize<typeof ColorRelationship>
+
+export const relationshipMap: Record<ColorRelationship, Array<number>> = {
+  monochromatic: [0],
+  "diad-positive": [0, 2],
+  "diad-negative": [0, 10],
+  complementary: [0, 6],
+  "split-complementary": [0, 5, 7],
+  triad: [0, 4, 8],
+  analogous: [11, 0, 1],
+  "double-complementary-positive": [0, 1, 6, 7],
+  "double-complementary-negative": [0, 5, 6, 11],
+  "rectangular-tetrad-positive": [0, 2, 6, 8],
+  "rectangular-tetrad-negative": [0, 4, 6, 10],
+  "square-tetrad": [0, 3, 6, 9],
+  polychromatic: [0, 2, 4, 6, 8, 10],
+}
+
+export const getHueSections = (relationship: ColorRelationship) =>
+  relationshipMap[relationship]
+
 const adjustSaturation = (s: number) => {
   if (s < 0.6 && s >= 0.5) return 0.1
   if (s > 0.4 && s < 0.5) return 1

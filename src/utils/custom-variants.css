@@ -1,3 +1,15 @@
+@custom-variant has-adjacent-hover {
+  &:has(> :hover) > :not(:hover) {
+    @slot;
+  }
+}
+
+@custom-variant selected {
+  &[data-selected="true"] {
+    @slot;
+  }
+}
+
 @custom-variant disabled {
   &[data-disabled] {
     @slot;

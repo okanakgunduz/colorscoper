@@ -7,28 +7,11 @@ import Portal from "@components/common/portal"
 import Select from "@components/common/select"
 import { pickRandom } from "@utils/array"
 import { capitalize } from "@utils/casing"
+import { ColorRelationship, getHueSections } from "@utils/color"
 import romanize from "@utils/romanize"
-import ColorHarmonyWheel, { relationshipMap } from "./color-harmony-wheel"
+import ColorHarmonyPalette from "./color-harmony-palette"
+import ColorHarmonyWheel from "./color-harmony-wheel"
 import LineDetails from "./line-details"
-
-
-export const ColorRelationship = {
-  Monochromatic: "monochromatic",
-  DiadPositive: "diad-positive",
-  DiadNegative: "diad-negative",
-  Complementary: "complementary",
-  SplitComplementary: "split-complementary",
-  Triad: "triad",
-  Analogous: "analogous",
-  DoubleComplementaryPositive: "double-complementary-positive",
-  DoubleComplementaryNegative: "double-complementary-negative",
-  RectangularTetradPositive: "rectangular-tetrad-positive",
-  RectangularTetradNegative: "rectangular-tetrad-negative",
-  SquareTetrad: "square-tetrad",
-  Polychromatic: "polychromatic",
-} as const
-
-export type ColorRelationship = Enumize<typeof ColorRelationship>
 
 export default function ColorHarmonyHelper() {
   const [relationship, setRelationship] = useState<ColorRelationship>(
@@ -37,6 +20,7 @@ export default function ColorHarmonyHelper() {
 
   return (
     <div className="px-sidebar space-y-4 pb-4">
+      {/* Select & Header */}
       <div
         className="flex items-end justify-between"
         style={
@@ -68,24 +52,32 @@ export default function ColorHarmonyHelper() {
           <Shuffle weight="bold" />
         </Button>
       </div>
-      <ColorHarmonyWheel relationship={relationship} />
-      <Portal containerId="popover-container">
-        <For each={relationshipMap[relationship]}>
-          {(section) => (
-            <Popover
-              id={`line-details-${section}`}
-              positionAnchor="--color-harmony"
-              title={`Section ${romanize(section + 1)}`}
-              icon={CircleHalfTilt}
-              offsetX={16}
-              offsetY={-48}
-              key={`popover-${section}`}
-            >
-              <LineDetails section={section} />
-            </Popover>
-          )}
-        </For>
-      </Portal>
+
+      {/* Palette */}
+      <ColorHarmonyPalette relationship={relationship} />
+
+      {/* Wheel */}
+
+      <>
+        <ColorHarmonyWheel relationship={relationship} className="mt-6!" />
+        <Portal containerId="popover-container">
+          <For each={getHueSections(relationship)}>
+            {(section) => (
+              <Popover
+                id={`line-details-${section}`}
+                positionAnchor="--color-harmony"
+                title={`Section ${romanize(section + 1)}`}
+                icon={CircleHalfTilt}
+                offsetX={16}
+                offsetY={-48}
+                key={`popover-${section}`}
+              >
+                <LineDetails section={section} />
+              </Popover>
+            )}
+          </For>
+        </Portal>
+      </>
     </div>
   )
 }

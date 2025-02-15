@@ -7,7 +7,7 @@ import { useColorModeStore } from "@stores/color-mode.store"
 import { useSelectionStore } from "@stores/selection.store"
 import { useSidebarStore } from "@stores/sidebar.store"
 
-const HUE_DIFFERENCE_RATE = 20
+const HUE_DIFFERENCE_RATE = 10
 
 interface Props {
   section: number

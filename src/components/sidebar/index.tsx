@@ -1,4 +1,3 @@
-import { AnimatePresence } from "motion/react"
 import cx, { type Class } from "@utils/cx"
 import { useSelectionStore } from "@stores/selection.store"
 import ColorState from "./color-state"
@@ -13,9 +12,7 @@ export default function Sidebar({ className }: Props) {
 
   return (
     <section className={cx(className, "relative")}>
-      <AnimatePresence initial={false}>
-        {hasSelection ? <ColorState /> : <EmptyState />}
-      </AnimatePresence>
+      {hasSelection ? <ColorState /> : <EmptyState />}
     </section>
   )
 }

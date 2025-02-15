@@ -27,7 +27,7 @@ export default function Picker({ className }: Props) {
 
         <Tabs.List
           aria-label="Select your color picker type."
-          className="text-paragraph absolute top-4 -space-x-1.5 rounded-xl border bg-white p-1 text-gray-600"
+          className="text-paragraph absolute top-4 z-50 -space-x-1.5 rounded-xl border bg-white p-1 text-gray-600"
         >
           <For
             each={Object.entries({

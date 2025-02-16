@@ -1,27 +1,67 @@
-import chroma from "chroma-js"
-import { motion } from "motion/react"
-import { useMemo, useState } from "react"
+import chroma, { Color } from "chroma-js"
+import { motion, useMotionValue, useTransform } from "motion/react"
+import { useMemo } from "react"
 import { TransformComponent, TransformWrapper } from "react-zoom-pan-pinch"
 import For from "@components/common/for"
 import useDimensions from "@hooks/useDimensions"
-import { fade } from "@utils/animation"
 import cx from "@utils/cx"
 import linearTo2D from "@utils/linear-to-2d"
 import map from "@utils/map"
 import { useSelectionStore } from "@stores/selection.store"
 
-const CELL_SIZE_LARGE = 60
-const CELL_SIZE_SMALL = 30
+const CELL_SIZE_LARGE = 80
+const CELL_SIZE_SMALL = 40
+const GRID_GAP_LARGE = 3
+const GRID_GAP_SMALL = 1.5
 
 const getCells = (width: number, height: number, size: number) => ({
-  x: Math.floor(width / size),
+  x: Math.floor(width / size) & ~1,
   y: Math.floor(height / size),
-  count: Math.floor(width / size) * Math.floor(height / size),
+  count: (Math.floor(width / size) & ~1) * Math.floor(height / size),
 })
+
+const luminosityScale = chroma.scale(["#e0e0e0", "#4a4a4a"]).mode("hsi")
+
+const getGridHueLum = (cells: ReturnType<typeof getCells>, i: number) => {
+  const { x, y } = linearTo2D(i, cells.x)
+
+  const hue =
+    x < Math.floor(cells.x / 2)
+      ? map(y, 0, cells.y - 1, 0, 150)
+      : map(y, 0, cells.y - 1, 330, 180)
+
+  const normalizedX =
+    x < Math.floor(cells.x / 2)
+      ? x / (cells.x / 2 - 1)
+      : 1 - (x - cells.x / 2) / (cells.x / 2 - 1)
+
+  const luminosity = luminosityScale(normalizedX).luminance()
+
+  return { hue, luminosity }
+}
 
 export default function HueWBMap() {
   const [ref, rect] = useDimensions<HTMLDivElement>()
-  const [isSmall, setIsSmall] = useState(false)
+
+  const dragX = useMotionValue(0)
+  const dragY = useMotionValue(0)
+  const isDragging = useMotionValue(0) // 0 = not dragging, 1 = dragging
+
+  const zoomLevel = useMotionValue(1)
+
+  const largeGridOpacity = useTransform(zoomLevel, [1.5, 1.6], [1, 0])
+  const smallGridOpacity = useTransform(zoomLevel, [1.45, 1.55], [0, 1])
+  const largeGridPointerEvents = useTransform(
+    zoomLevel,
+    [1.5, 1.6],
+    ["auto", "none"],
+  )
+  const smallGridPointerEvents = useTransform(
+    zoomLevel,
+    [1.45, 1.55],
+    ["none", "auto"],
+  )
+
   const setPickerSelection = useSelectionStore.use.setPickerSelection()
 
   const largeCells = useMemo(
@@ -34,20 +74,49 @@ export default function HueWBMap() {
     [rect.width, rect.height],
   )
 
-  const luminosityScale = chroma.scale(["#e0e0e0", "#4a4a4a"]).mode("hsi")
+  const gridHueLum = useMemo(() => {
+    const cache = new Map<string, { hue: number; luminosity: number }>()
+
+    return (cells: ReturnType<typeof getCells>, i: number) => {
+      const key = `${cells.x},${cells.y},${i}`
+      if (!cache.has(key)) {
+        cache.set(key, getGridHueLum(cells, i))
+      }
+      return cache.get(key)!
+    }
+  }, [])
+
+  const handleMouseDown = (e: React.MouseEvent) => {
+    dragX.set(e.clientX)
+    dragY.set(e.clientY)
+    isDragging.set(0)
+  }
+
+  const handleMouseMove = (e: React.MouseEvent) => {
+    const dx = Math.abs(e.clientX - dragX.get())
+    const dy = Math.abs(e.clientY - dragY.get())
+
+    if (dx > 10 || dy > 10) {
+      isDragging.set(1)
+    }
+  }
+
+  const handleMouseUp = (color: Color) => {
+    if (isDragging.get() === 0) {
+      setPickerSelection(color)
+    }
+  }
 
   return (
     <div
-      className="size-full touch-none overflow-hidden overscroll-none"
+      className="relative size-full touch-none overflow-hidden overscroll-none"
       ref={ref}
     >
       <TransformWrapper
         centerZoomedOut
-        onZoom={(e) => setIsSmall(e.state.scale > 1.5 ? true : false)}
+        onZoom={({ state: { scale } }) => zoomLevel.set(scale)}
         pinch={{ disabled: true }}
-        doubleClick={{
-          disabled: true,
-        }}
+        doubleClick={{ disabled: true }}
       >
         <TransformComponent
           wrapperStyle={{
@@ -63,49 +132,29 @@ export default function HueWBMap() {
             {/* Large Grid */}
 
             <motion.div
-              variants={fade}
-              initial="hidden"
-              animate={isSmall ? "hidden" : "visible"}
-              transition={{
-                delay: isSmall ? 0.025 : 0,
-                duration: 0.1,
-              }}
-              className={cx(
-                "p-sidebar absolute inset-0 grid gap-[1px] overflow-hidden",
-                {
-                  "pointer-events-none": isSmall,
-                },
-              )}
+              className={cx("p-sidebar absolute inset-0 grid overflow-hidden")}
               style={{
                 gridTemplateColumns: `repeat(${largeCells.x}, 1fr)`,
                 gridTemplateRows: `repeat(${largeCells.y}, 1fr)`,
+                gap: `${GRID_GAP_LARGE}px`,
+                opacity: largeGridOpacity,
+                pointerEvents: largeGridPointerEvents,
               }}
             >
               <For times={largeCells.count}>
                 {(i) => {
-                  const { x, y } = linearTo2D(i, largeCells.x)
-
-                  const hue =
-                    x < Math.floor(largeCells.x / 2)
-                      ? map(y, 0, largeCells.y - 1, 0, 150)
-                      : map(y, 0, largeCells.y - 1, 180, 330)
-
-                  const normalizedX =
-                    x < Math.floor(largeCells.x / 2)
-                      ? x / (largeCells.x / 2 - 1)
-                      : 1 - (x - largeCells.x / 2) / (largeCells.x / 2 - 1)
-
-                  const luminosity = luminosityScale(normalizedX).luminance()
+                  const { hue, luminosity } = gridHueLum(largeCells, i)
+                  const color = chroma.hsl(hue, 1, luminosity)
 
                   return (
                     <motion.div
-                      onClick={() =>
-                        setPickerSelection(chroma.hsl(hue, 1, luminosity))
-                      }
+                      onMouseDown={handleMouseDown}
+                      onMouseMove={handleMouseMove}
+                      onMouseUp={() => handleMouseUp(color)}
                       key={`hue-wb-map-cell-${i}-${CELL_SIZE_LARGE}`}
                       className="group flex cursor-pointer items-center justify-center rounded text-center text-[8px] transition hover:scale-90"
                       style={{
-                        background: chroma.hsl(hue, 1, luminosity).css(),
+                        background: color.css(),
                       }}
                     >
                       <span className="size-1 rounded-full bg-white/20 transition group-hover:scale-110 group-hover:bg-white group-active:scale-150"></span>
@@ -118,52 +167,37 @@ export default function HueWBMap() {
             {/* Small Grid */}
 
             <motion.div
-              variants={fade}
-              initial="hidden"
-              animate={!isSmall ? "hidden" : "visible"}
-              transition={{
-                delay: !isSmall ? 0.025 : 0,
-                duration: 0.1,
-              }}
-              className={cx(
-                "p-sidebar absolute inset-0 grid gap-[0.5px] overflow-hidden",
-                {
-                  "pointer-events-none": !isSmall,
-                },
-              )}
+              className={cx("p-sidebar absolute inset-0 grid overflow-hidden")}
               style={{
                 gridTemplateColumns: `repeat(${smallCells.x}, 1fr)`,
                 gridTemplateRows: `repeat(${smallCells.y}, 1fr)`,
+                gap: `${GRID_GAP_SMALL}px`,
+                opacity: smallGridOpacity,
+                pointerEvents: smallGridPointerEvents,
               }}
             >
               <For times={smallCells.count}>
                 {(i) => {
-                  const { x, y } = linearTo2D(i, smallCells.x)
-
-                  const hue =
-                    x < Math.floor(smallCells.x / 2)
-                      ? map(y, 0, smallCells.y - 1, 0, 150)
-                      : map(y, 0, smallCells.y - 1, 180, 330)
-
-                  const normalizedX =
-                    x < Math.floor(smallCells.x / 2)
-                      ? x / (smallCells.x / 2 - 1)
-                      : 1 - (x - smallCells.x / 2) / (smallCells.x / 2 - 1)
-
-                  const luminosity = luminosityScale(normalizedX).luminance()
+                  const { x } = linearTo2D(i, smallCells.x)
+                  const { hue, luminosity } = gridHueLum(smallCells, i)
+                  const color = chroma.hsl(hue, 1, luminosity)
 
                   return (
                     <motion.div
-                      onClick={() =>
-                        setPickerSelection(chroma.hsl(hue, 1, luminosity))
-                      }
+                      onMouseDown={handleMouseDown}
+                      onMouseMove={handleMouseMove}
+                      onMouseUp={() => handleMouseUp(color)}
                       key={`hue-wb-map-cell-${i}-${CELL_SIZE_LARGE}`}
-                      className="group flex cursor-pointer items-center justify-center rounded-xs text-center text-[8px] transition hover:scale-90"
-                      style={{
-                        background: chroma.hsl(hue, 1, luminosity).css(),
-                      }}
+                      className="group flex cursor-pointer items-center justify-center rounded-xs transition hover:scale-90"
+                      style={{ background: color.css() }}
                     >
-                      <span className="size-0.5 rounded-full bg-white/20 transition group-hover:scale-110 group-hover:bg-white group-active:scale-150"></span>
+                      {x === 0 || x === smallCells.x - 1 ? (
+                        <span className="text-center text-[7px] font-medium opacity-70 transition group-hover:scale-110">
+                          {Math.round(hue)}°
+                        </span>
+                      ) : (
+                        <span className="size-[3px] rounded-full bg-white/20 transition group-hover:scale-110 group-hover:bg-white group-active:scale-150"></span>
+                      )}
                     </motion.div>
                   )
                 }}

@@ -43,7 +43,7 @@ const getGridHueLum = (cells: ReturnType<typeof getCells>, i: number) => {
 
 export default function HueWBMap() {
   const [saturation, setSaturation] = useState<number>(
-    255 /* range: [0, 255] */,
+    188 /* range: [0, 255] */,
   )
 
   const [ref, rect] = useDimensions<HTMLDivElement>()
@@ -215,7 +215,7 @@ export default function HueWBMap() {
         title="Saturation"
         min={0}
         max={255}
-        throttle={120}
+        debounceTimeout={150}
       />
     </div>
   )

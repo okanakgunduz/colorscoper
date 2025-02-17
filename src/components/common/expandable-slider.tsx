@@ -1,7 +1,7 @@
 import * as Slider from "@radix-ui/react-slider"
 import { motion } from "framer-motion"
 import { useState } from "react"
-import { useThrottleCallback } from "@hooks/useThrottle"
+import { useDebounce } from "@hooks/useThrottle"
 import cx, { Class } from "@utils/cx"
 
 interface Props {
@@ -12,7 +12,7 @@ interface Props {
   max?: number
   step?: number
   title: string
-  throttle?: number
+  debounceTimeout?: number
 }
 
 const springTransition = {
@@ -29,11 +29,14 @@ export default function ExpandableSlider(props: Props) {
     <motion.div
       className={cx(
         props.className,
-        "rounded-full border bg-white shadow-xl",
-        expanded ? "h-12 w-72" : "h-10 w-32",
+        "overflow-hidden rounded-3xl border bg-white shadow-xl",
+        {
+          "h-12 w-72": expanded,
+          "h-10 w-32": !expanded,
+        },
       )}
-      onMouseEnter={() => setExpanded(true)}
-      onMouseLeave={() => setExpanded(false)}
+      onPointerEnter={() => setExpanded(true)}
+      onPointerLeave={() => setExpanded(false)}
       layout
       transition={springTransition}
     >
@@ -46,7 +49,7 @@ export default function ExpandableSlider(props: Props) {
           max={props.max}
           step={props.step}
           title={props.title}
-          throttle={props.throttle}
+          debounceTimeout={props.debounceTimeout}
         />
       ) : (
         <CollapsedView
@@ -59,6 +62,8 @@ export default function ExpandableSlider(props: Props) {
   )
 }
 
+/* Collapsed View */
+
 function CollapsedView({ value, title }: Pick<Props, "value" | "title">) {
   return (
     <motion.div
@@ -69,7 +74,13 @@ function CollapsedView({ value, title }: Pick<Props, "value" | "title">) {
       <motion.span
         layoutId="title"
         transition={springTransition}
-        className="pb-0.5 text-gray-500"
+        className="pb-0.5"
+        style={{
+          color: (() => {
+            const percentage = (value / 255) * 100
+            return `color-mix(in srgb, var(--color-gray-500) ${100 - percentage}%, var(--color-accent) ${percentage}%)`
+          })(),
+        }}
       >
         {title}
       </motion.span>
@@ -77,13 +88,15 @@ function CollapsedView({ value, title }: Pick<Props, "value" | "title">) {
       <motion.span
         layoutId="thumb"
         transition={springTransition}
-        className="bg-muted-accent text-accent text-caption-bold rounded p-1 select-none"
+        className="bg-muted-accent text-accent text-caption-bold min-w-3 rounded p-1 select-none"
       >
         {value}
       </motion.span>
     </motion.div>
   )
 }
+
+/* Expanded View */
 
 function ExpandedView({
   value,
@@ -92,21 +105,14 @@ function ExpandedView({
   max = 100,
   step = 1,
   title,
-  throttle = 0,
-}: Pick<
-  Props,
-  "value" | "onValueChange" | "min" | "max" | "step" | "title" | "throttle"
->) {
+  debounceTimeout = 200,
+}: Exclude<Props, "className">) {
   const [localValue, setLocalValue] = useState(value)
-  const throttledOnValueChange = useThrottleCallback(onValueChange, throttle)
+  const debounce = useDebounce()
 
   const handleChange = (val: number[]) => {
     setLocalValue(val[0])
-    throttledOnValueChange(val[0])
-  }
-
-  const handleMouseUp = () => {
-    onValueChange(localValue)
+    debounce(() => onValueChange(val[0]), debounceTimeout)
   }
 
   return (
@@ -118,6 +124,12 @@ function ExpandedView({
         layoutId="title"
         transition={springTransition}
         className="pb-0.5 text-gray-500"
+        style={{
+          color: (() => {
+            const percentage = (localValue / 255) * 100
+            return `color-mix(in srgb, var(--color-gray-500) ${100 - percentage}%, var(--color-accent) ${percentage}%)`
+          })(),
+        }}
       >
         {title}
       </motion.span>
@@ -125,6 +137,7 @@ function ExpandedView({
       <Slider.Root
         value={[localValue]}
         onValueChange={handleChange}
+        onPointerUp={() => onValueChange(localValue)}
         min={min}
         max={max}
         step={step}
@@ -137,14 +150,13 @@ function ExpandedView({
           className="relative flex h-full grow items-center"
         >
           <Slider.Track className="relative h-1 flex-1 rounded bg-gray-300">
-            <Slider.Range className="absolute h-full rounded bg-blue-500" />
+            <Slider.Range className="bg-accent absolute h-full rounded" />
           </Slider.Track>
           <Slider.Thumb asChild>
             <motion.span
               layoutId="thumb"
-              onPointerUp={handleMouseUp}
               transition={springTransition}
-              className="bg-muted-accent text-accent text-caption-bold cursor-grab rounded p-1 select-none"
+              className="bg-muted-accent text-accent text-caption-bold cursor-grab rounded p-1 select-none active:cursor-grabbing"
             >
               {localValue}
             </motion.span>

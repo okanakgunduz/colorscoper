@@ -1,7 +1,8 @@
 import chroma, { Color } from "chroma-js"
 import { motion, useMotionValue, useTransform } from "motion/react"
-import { useMemo } from "react"
+import { useMemo, useState } from "react"
 import { TransformComponent, TransformWrapper } from "react-zoom-pan-pinch"
+import ExpandableSlider from "@components/common/expandable-slider"
 import For from "@components/common/for"
 import useDimensions from "@hooks/useDimensions"
 import cx from "@utils/cx"
@@ -41,24 +42,28 @@ const getGridHueLum = (cells: ReturnType<typeof getCells>, i: number) => {
 }
 
 export default function HueWBMap() {
+  const [saturation, setSaturation] = useState<number>(
+    255 /* range: [0, 255] */,
+  )
+
   const [ref, rect] = useDimensions<HTMLDivElement>()
 
   const dragX = useMotionValue(0)
   const dragY = useMotionValue(0)
-  const isDragging = useMotionValue(0) // 0 = not dragging, 1 = dragging
+  const isDragging = useMotionValue(0 /* 0 = not dragging, 1 = dragging */)
 
   const zoomLevel = useMotionValue(1)
 
-  const largeGridOpacity = useTransform(zoomLevel, [1.5, 1.6], [1, 0])
-  const smallGridOpacity = useTransform(zoomLevel, [1.45, 1.55], [0, 1])
+  const largeGridOpacity = useTransform(zoomLevel, [1.55, 1.6], [1, 0])
+  const smallGridOpacity = useTransform(zoomLevel, [1.525, 1.575], [0, 1])
   const largeGridPointerEvents = useTransform(
     zoomLevel,
-    [1.5, 1.6],
+    [1.55, 1.6],
     ["auto", "none"],
   )
   const smallGridPointerEvents = useTransform(
     zoomLevel,
-    [1.45, 1.55],
+    [1.525, 1.575],
     ["none", "auto"],
   )
 
@@ -79,9 +84,8 @@ export default function HueWBMap() {
 
     return (cells: ReturnType<typeof getCells>, i: number) => {
       const key = `${cells.x},${cells.y},${i}`
-      if (!cache.has(key)) {
-        cache.set(key, getGridHueLum(cells, i))
-      }
+      if (!cache.has(key)) cache.set(key, getGridHueLum(cells, i))
+
       return cache.get(key)!
     }
   }, [])
@@ -96,15 +100,11 @@ export default function HueWBMap() {
     const dx = Math.abs(e.clientX - dragX.get())
     const dy = Math.abs(e.clientY - dragY.get())
 
-    if (dx > 10 || dy > 10) {
-      isDragging.set(1)
-    }
+    if (dx > 10 || dy > 10) isDragging.set(1)
   }
 
   const handleMouseUp = (color: Color) => {
-    if (isDragging.get() === 0) {
-      setPickerSelection(color)
-    }
+    if (isDragging.get() === 0) setPickerSelection(color)
   }
 
   return (
@@ -132,7 +132,7 @@ export default function HueWBMap() {
             {/* Large Grid */}
 
             <motion.div
-              className={cx("p-sidebar absolute inset-0 grid overflow-hidden")}
+              className={cx("absolute inset-0 grid overflow-hidden p-3")}
               style={{
                 gridTemplateColumns: `repeat(${largeCells.x}, 1fr)`,
                 gridTemplateRows: `repeat(${largeCells.y}, 1fr)`,
@@ -144,7 +144,7 @@ export default function HueWBMap() {
               <For times={largeCells.count}>
                 {(i) => {
                   const { hue, luminosity } = gridHueLum(largeCells, i)
-                  const color = chroma.hsl(hue, 1, luminosity)
+                  const color = chroma.hsl(hue, saturation / 255, luminosity)
 
                   return (
                     <motion.div
@@ -167,7 +167,7 @@ export default function HueWBMap() {
             {/* Small Grid */}
 
             <motion.div
-              className={cx("p-sidebar absolute inset-0 grid overflow-hidden")}
+              className={cx("absolute inset-0 grid overflow-hidden p-3")}
               style={{
                 gridTemplateColumns: `repeat(${smallCells.x}, 1fr)`,
                 gridTemplateRows: `repeat(${smallCells.y}, 1fr)`,
@@ -180,7 +180,7 @@ export default function HueWBMap() {
                 {(i) => {
                   const { x } = linearTo2D(i, smallCells.x)
                   const { hue, luminosity } = gridHueLum(smallCells, i)
-                  const color = chroma.hsl(hue, 1, luminosity)
+                  const color = chroma.hsl(hue, saturation / 255, luminosity)
 
                   return (
                     <motion.div
@@ -206,6 +206,17 @@ export default function HueWBMap() {
           </div>
         </TransformComponent>
       </TransformWrapper>
+
+      {/* Saturation Slider */}
+      <ExpandableSlider
+        value={saturation}
+        onValueChange={setSaturation}
+        className="absolute bottom-4 left-1/2 -translate-x-1/2"
+        title="Saturation"
+        min={0}
+        max={255}
+        throttle={120}
+      />
     </div>
   )
 }

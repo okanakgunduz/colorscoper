@@ -1,5 +1,5 @@
 @import "tailwindcss";
-@import "utils/custom-variants.css";
+@import "lib/utils/custom-variants.css";
 
 @theme {
   /* Color Theming */

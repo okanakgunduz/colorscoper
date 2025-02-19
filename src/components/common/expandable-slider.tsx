@@ -146,7 +146,7 @@ function ExpandedView({
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
-          transition={{ delay: 0.2 }}
+          transition={{ ...springTransition, delay: 0.2 }}
           className="relative flex h-full grow items-center"
         >
           <Slider.Track className="relative h-1 flex-1 rounded bg-gray-300">

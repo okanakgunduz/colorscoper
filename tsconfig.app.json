@@ -25,9 +25,10 @@
     "paths": {
       "@routes/*": ["./src/routes/*"],
       "@components/*": ["./src/components/*"],
-      "@hooks/*": ["./src/hooks/*"],
-      "@utils/*": ["./src/utils/*"],
-      "@stores/*": ["./src/stores/*"]
+      "@stores/*": ["./src/stores/*"],
+      "@hooks/*": ["./src/lib/hooks/*"],
+      "@utils/*": ["./src/lib/utils/*"],
+      "@wasm/*": ["./src/lib/wasm/*"]
     }
   },
   "include": ["src"]

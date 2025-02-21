@@ -142,7 +142,11 @@ export default function HueWBMap() {
               <For times={largeCells.count}>
                 {(i) => {
                   const { hue, luminosity } = gridHueLum(largeCells, i)
-                  const color = chroma.hsl(hue, saturation / 255, luminosity)
+                  const color = chroma.hsl(
+                    hue,
+                    map(saturation, 0, 100, 0, 1),
+                    luminosity,
+                  )
 
                   return (
                     <motion.div

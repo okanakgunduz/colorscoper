@@ -5,7 +5,7 @@ import ExpandableSlider from "@components/common/expandable-slider"
 import map from "@utils/map"
 
 export default function SaturationWBPyramid() {
-  const [hue, setHue] = useState(188)
+  const [hue, setHue] = useState<number>(240)
 
   return (
     <div className="grid size-full place-items-center overflow-hidden">
@@ -32,7 +32,6 @@ export default function SaturationWBPyramid() {
       </TransformWrapper>
 
       <ExpandableSlider
-        layoutkey="saturation-wb-pyramid"
         value={hue}
         onValueChange={setHue}
         className="absolute bottom-4 left-1/2 -translate-x-1/2"
@@ -40,7 +39,6 @@ export default function SaturationWBPyramid() {
         min={0}
         max={360}
         debounceTimeout={150}
-        format={(value) => `${value}°`}
       />
     </div>
   )

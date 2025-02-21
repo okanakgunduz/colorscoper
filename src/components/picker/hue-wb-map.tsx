@@ -42,9 +42,7 @@ const getGridHueLum = (cells: ReturnType<typeof getCells>, i: number) => {
 }
 
 export default function HueWBMap() {
-  const [saturation, setSaturation] = useState<number>(
-    188 /* range: [0, 255] */,
-  )
+  const [saturation, setSaturation] = useState<number>(75 /* range: [0, 100] */)
 
   const [ref, rect] = useDimensions<HTMLDivElement>()
 
@@ -180,7 +178,11 @@ export default function HueWBMap() {
                 {(i) => {
                   const { x } = linearTo2D(i, smallCells.x)
                   const { hue, luminosity } = gridHueLum(smallCells, i)
-                  const color = chroma.hsl(hue, saturation / 255, luminosity)
+                  const color = chroma.hsl(
+                    hue,
+                    map(saturation, 0, 100, 0, 1),
+                    luminosity,
+                  )
 
                   return (
                     <motion.div
@@ -209,13 +211,16 @@ export default function HueWBMap() {
 
       {/* Saturation Slider */}
       <ExpandableSlider
+        layoutkey="hue-wb-map"
         value={saturation}
         onValueChange={setSaturation}
         className="absolute bottom-4 left-1/2 -translate-x-1/2"
         title="Saturation"
-        min={0}
-        max={255}
+        min={1}
+        max={100}
+        step={0.5}
         debounceTimeout={150}
+        format={(value) => `${value.toPrecision(3)}%`}
       />
     </div>
   )

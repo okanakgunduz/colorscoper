@@ -3,16 +3,19 @@ import { motion } from "framer-motion"
 import { useState } from "react"
 import { useDebounce } from "@hooks/useThrottle"
 import cx, { Class } from "@utils/cx"
+import map from "@utils/map"
 
 interface Props {
   className?: Class
   value: number
   onValueChange: (value: number) => void
-  min?: number
-  max?: number
+  min: number
+  max: number
   step?: number
   title: string
   debounceTimeout?: number
+  layoutkey: string
+  format?: (value: number) => string
 }
 
 const springTransition = {
@@ -30,11 +33,18 @@ export default function ExpandableSlider(props: Props) {
       className={cx(
         props.className,
         "overflow-hidden rounded-3xl border bg-white shadow-xl",
-        {
-          "h-12 w-72": expanded,
-          "h-10 w-32": !expanded,
-        },
       )}
+      style={
+        expanded
+          ? {
+              height: "3rem",
+              width: `calc(19rem + ${props.title.length}ch)`,
+            }
+          : {
+              height: "2.5rem",
+              width: `calc(4rem + ${props.title.length + 1}ch)`,
+            }
+      }
       onPointerEnter={() => setExpanded(true)}
       onPointerLeave={() => setExpanded(false)}
       layout
@@ -42,6 +52,7 @@ export default function ExpandableSlider(props: Props) {
     >
       {expanded ? (
         <ExpandedView
+          layoutkey={props.layoutkey}
           key="expanded"
           value={props.value}
           onValueChange={props.onValueChange}
@@ -50,12 +61,17 @@ export default function ExpandableSlider(props: Props) {
           step={props.step}
           title={props.title}
           debounceTimeout={props.debounceTimeout}
+          format={props.format}
         />
       ) : (
         <CollapsedView
+          layoutkey={props.layoutkey}
           key="collapsed"
+          min={props.min}
+          max={props.max}
           value={props.value}
           title={props.title}
+          format={props.format}
         />
       )}
     </motion.div>
@@ -64,20 +80,27 @@ export default function ExpandableSlider(props: Props) {
 
 /* Collapsed View */
 
-function CollapsedView({ value, title }: Pick<Props, "value" | "title">) {
+function CollapsedView({
+  value,
+  title,
+  layoutkey,
+  min,
+  max,
+  format = (value) => value.toString(),
+}: Pick<Props, "value" | "title" | "layoutkey" | "min" | "max" | "format">) {
   return (
     <motion.div
       layout
       transition={springTransition}
-      className="absolute inset-0 flex size-full items-center justify-center gap-2"
+      className="absolute inset-0 flex size-full items-center justify-center gap-3 px-2"
     >
       <motion.span
-        layoutId="title"
+        layoutId={`title-${layoutkey}`}
         transition={springTransition}
         className="pb-0.5"
         style={{
           color: (() => {
-            const percentage = (value / 255) * 100
+            const percentage = map(value, min, max, 0, 100)
             return `color-mix(in srgb, var(--color-gray-500) ${100 - percentage}%, var(--color-accent) ${percentage}%)`
           })(),
         }}
@@ -86,11 +109,11 @@ function CollapsedView({ value, title }: Pick<Props, "value" | "title">) {
       </motion.span>
 
       <motion.span
-        layoutId="thumb"
+        layoutId={`thumb-${layoutkey}`}
         transition={springTransition}
         className="bg-muted-accent text-accent text-caption-bold min-w-3 rounded p-1 select-none"
       >
-        {value}
+        {format(value)}
       </motion.span>
     </motion.div>
   )
@@ -106,6 +129,8 @@ function ExpandedView({
   step = 1,
   title,
   debounceTimeout = 200,
+  layoutkey,
+  format = (value) => value.toString(),
 }: Exclude<Props, "className">) {
   const [localValue, setLocalValue] = useState(value)
   const debounce = useDebounce()
@@ -118,15 +143,15 @@ function ExpandedView({
   return (
     <motion.div
       layout
-      className="absolute inset-0 flex w-full items-center justify-center gap-4 overflow-hidden pr-8 pl-6"
+      className="absolute inset-0 flex w-full items-center justify-center gap-6 overflow-hidden pr-9 pl-6"
     >
       <motion.span
-        layoutId="title"
+        layoutId={`title-${layoutkey}`}
         transition={springTransition}
         className="pb-0.5 text-gray-500"
         style={{
           color: (() => {
-            const percentage = (localValue / 255) * 100
+            const percentage = map(value, min, max, 0, 100)
             return `color-mix(in srgb, var(--color-gray-500) ${100 - percentage}%, var(--color-accent) ${percentage}%)`
           })(),
         }}
@@ -154,11 +179,11 @@ function ExpandedView({
           </Slider.Track>
           <Slider.Thumb asChild>
             <motion.span
-              layoutId="thumb"
+              layoutId={`thumb-${layoutkey}`}
               transition={springTransition}
               className="bg-muted-accent text-accent text-caption-bold cursor-grab rounded p-1 select-none active:cursor-grabbing"
             >
-              {localValue}
+              {format(localValue)}
             </motion.span>
           </Slider.Thumb>
         </motion.div>

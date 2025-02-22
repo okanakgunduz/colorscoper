@@ -1,6 +1,14 @@
 import { useMotionValue, useTransform } from "motion/react"
 
-export default function useZoomableGrid() {
+interface Props {
+  transition?: number
+  transitionSpan?: number
+}
+
+export default function useZoomableGrid({
+  transition = 1.55,
+  transitionSpan = 0.05,
+}: Props = {}) {
   const zoomLevel = useMotionValue(1)
 
   const dragX = useMotionValue(0)
@@ -9,16 +17,24 @@ export default function useZoomableGrid() {
 
   /* Styles */
 
-  const largeGridOpacity = useTransform(zoomLevel, [1.55, 1.6], [1, 0])
-  const smallGridOpacity = useTransform(zoomLevel, [1.525, 1.575], [0, 1])
+  const largeGridOpacity = useTransform(
+    zoomLevel,
+    [transition, transition + transitionSpan],
+    [1, 0],
+  )
+  const smallGridOpacity = useTransform(
+    zoomLevel,
+    [transition - transitionSpan / 2, transition + transitionSpan / 2],
+    [0, 1],
+  )
   const largeGridPointerEvents = useTransform(
     zoomLevel,
-    [1.55, 1.6],
+    [transition, transition + transitionSpan],
     ["auto", "none"],
   )
   const smallGridPointerEvents = useTransform(
     zoomLevel,
-    [1.525, 1.575],
+    [transition - transitionSpan / 2, transition + transitionSpan / 2],
     ["none", "auto"],
   )
 

@@ -42,7 +42,7 @@ export default function ExpandableSlider(props: Props) {
             }
           : {
               height: "2.5rem",
-              width: `calc(4rem + ${props.title.length + 1}ch)`,
+              width: `calc(4.5rem + ${props.title.length + 1}ch)`,
             }
       }
       onPointerEnter={() => setExpanded(true)}

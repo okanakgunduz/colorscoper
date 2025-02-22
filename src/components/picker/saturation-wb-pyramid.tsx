@@ -5,16 +5,15 @@ import { GridGenerator, HexGrid, Hexagon, Layout } from "react-hexgrid"
 import { TransformComponent, TransformWrapper } from "react-zoom-pan-pinch"
 import ExpandableSlider from "@components/common/expandable-slider"
 import useZoomableGrid from "@hooks/useZoomableGrid"
-import cx from "@utils/cx"
 import { easeInQuad } from "@utils/easing"
 import map from "@utils/map"
 import { useSelectionStore } from "@stores/selection.store"
 
-const LARGE_SIZE = 10
-const SMALL_SIZE = 20
+const LARGE_SIZE = 12
+const SMALL_SIZE = 24
 
 export default function SaturationWBPyramid() {
-  const [hue, setHue] = useState(260 /* [0, 360] degrees */)
+  const [hue, setHue] = useState(227 /* [0, 360] degrees */)
 
   const largePyramid = useMemo(() => GridGenerator.triangle(LARGE_SIZE), [])
   const smallPyramid = useMemo(() => GridGenerator.triangle(SMALL_SIZE), [])
@@ -22,7 +21,9 @@ export default function SaturationWBPyramid() {
   const setPickerSelection = useSelectionStore.use.setPickerSelection()
 
   const { zoomLevel, style, handleMouseDown, handleMouseUp, handleMouseMove } =
-    useZoomableGrid()
+    useZoomableGrid({
+      transition: 1.75,
+    })
 
   return (
     <div className="grid size-full place-items-center overflow-hidden">
@@ -46,9 +47,7 @@ export default function SaturationWBPyramid() {
             {/* Large Grid */}
 
             <motion.div
-              className={cx(
-                "absolute inset-0 flex items-center justify-center overflow-hidden",
-              )}
+              className="absolute inset-0 flex items-center justify-center overflow-hidden"
               style={style.largeGrid}
             >
               <HexGrid
@@ -61,7 +60,7 @@ export default function SaturationWBPyramid() {
                     const color = chroma.hsl(
                       hue,
                       map(r + q, 0, LARGE_SIZE, 0.2, 1),
-                      map(s + r, -LARGE_SIZE, 0, 0.2, 0.9, easeInQuad),
+                      map(s + r, -LARGE_SIZE, 0, 0.05, 0.9, easeInQuad),
                     )
 
                     return (
@@ -79,7 +78,12 @@ export default function SaturationWBPyramid() {
                             fill: color.css(),
                           }}
                           stroke={chroma.hsl(hue, 1, 0.7).css()}
-                        ></Hexagon>
+                        >
+                          <circle
+                            r={3}
+                            className="fill-white/20 stroke-0 transition group-hover:fill-white"
+                          ></circle>
+                        </Hexagon>
                         <Hexagon
                           q={q - LARGE_SIZE / 4}
                           r={r - LARGE_SIZE / 4}
@@ -101,9 +105,7 @@ export default function SaturationWBPyramid() {
             {/* Small Grid */}
 
             <motion.div
-              className={cx(
-                "absolute inset-0 flex items-center justify-center overflow-hidden",
-              )}
+              className="absolute inset-0 flex items-center justify-center overflow-hidden"
               style={style.smallGrid}
             >
               <HexGrid
@@ -121,7 +123,7 @@ export default function SaturationWBPyramid() {
                     const color = chroma.hsl(
                       hue,
                       map(r + q, 0, SMALL_SIZE, 0.2, 1),
-                      map(s + r, -SMALL_SIZE, 0, 0.2, 0.9, easeInQuad),
+                      map(s + r, -SMALL_SIZE, 0, 0.05, 0.9, easeInQuad),
                     )
 
                     return (
@@ -139,7 +141,12 @@ export default function SaturationWBPyramid() {
                             fill: color.css(),
                           }}
                           stroke={chroma.hsl(hue, 1, 0.7).css()}
-                        ></Hexagon>
+                        >
+                          <circle
+                            r={3 * (LARGE_SIZE / SMALL_SIZE)}
+                            className="fill-white/20 stroke-0 transition group-hover:fill-white"
+                          ></circle>
+                        </Hexagon>
                         <Hexagon
                           q={q - SMALL_SIZE / 4}
                           r={r - SMALL_SIZE / 4}
@@ -160,6 +167,8 @@ export default function SaturationWBPyramid() {
           </div>
         </TransformComponent>
       </TransformWrapper>
+
+      {/* Hue Slider */}
 
       <ExpandableSlider
         layoutkey="saturation-wb-pyramid"

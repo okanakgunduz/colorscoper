@@ -32,6 +32,7 @@ export default function SaturationWBPyramid() {
       </TransformWrapper>
 
       <ExpandableSlider
+        layoutkey="saturation-wb-pyramid"
         value={hue}
         onValueChange={setHue}
         className="absolute bottom-4 left-1/2 -translate-x-1/2"

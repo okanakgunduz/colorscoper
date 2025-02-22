@@ -1,10 +1,11 @@
-import chroma, { Color } from "chroma-js"
-import { motion, useMotionValue, useTransform } from "motion/react"
+import chroma from "chroma-js"
+import { motion } from "motion/react"
 import { useMemo, useState } from "react"
 import { TransformComponent, TransformWrapper } from "react-zoom-pan-pinch"
 import ExpandableSlider from "@components/common/expandable-slider"
 import For from "@components/common/for"
 import useDimensions from "@hooks/useDimensions"
+import useZoomableGrid from "@hooks/useZoomableGrid"
 import cx from "@utils/cx"
 import linearTo2D from "@utils/linear-to-2d"
 import map from "@utils/map"
@@ -46,26 +47,10 @@ export default function HueWBMap() {
 
   const [ref, rect] = useDimensions<HTMLDivElement>()
 
-  const dragX = useMotionValue(0)
-  const dragY = useMotionValue(0)
-  const isDragging = useMotionValue(0 /* 0 = not dragging, 1 = dragging */)
-
-  const zoomLevel = useMotionValue(1)
-
-  const largeGridOpacity = useTransform(zoomLevel, [1.55, 1.6], [1, 0])
-  const smallGridOpacity = useTransform(zoomLevel, [1.525, 1.575], [0, 1])
-  const largeGridPointerEvents = useTransform(
-    zoomLevel,
-    [1.55, 1.6],
-    ["auto", "none"],
-  )
-  const smallGridPointerEvents = useTransform(
-    zoomLevel,
-    [1.525, 1.575],
-    ["none", "auto"],
-  )
-
   const setPickerSelection = useSelectionStore.use.setPickerSelection()
+
+  const { zoomLevel, style, handleMouseDown, handleMouseUp, handleMouseMove } =
+    useZoomableGrid()
 
   const largeCells = useMemo(
     () => getCells(rect.width, rect.height, CELL_SIZE_LARGE),
@@ -87,23 +72,6 @@ export default function HueWBMap() {
       return cache.get(key)!
     }
   }, [])
-
-  const handleMouseDown = (e: React.MouseEvent) => {
-    dragX.set(e.clientX)
-    dragY.set(e.clientY)
-    isDragging.set(0)
-  }
-
-  const handleMouseMove = (e: React.MouseEvent) => {
-    const dx = Math.abs(e.clientX - dragX.get())
-    const dy = Math.abs(e.clientY - dragY.get())
-
-    if (dx > 10 || dy > 10) isDragging.set(1)
-  }
-
-  const handleMouseUp = (color: Color) => {
-    if (isDragging.get() === 0) setPickerSelection(color)
-  }
 
   return (
     <div
@@ -135,8 +103,7 @@ export default function HueWBMap() {
                 gridTemplateColumns: `repeat(${largeCells.x}, 1fr)`,
                 gridTemplateRows: `repeat(${largeCells.y}, 1fr)`,
                 gap: `${GRID_GAP_LARGE}px`,
-                opacity: largeGridOpacity,
-                pointerEvents: largeGridPointerEvents,
+                ...style.largeGrid,
               }}
             >
               <For times={largeCells.count}>
@@ -152,7 +119,9 @@ export default function HueWBMap() {
                     <motion.div
                       onMouseDown={handleMouseDown}
                       onMouseMove={handleMouseMove}
-                      onMouseUp={() => handleMouseUp(color)}
+                      onMouseUp={() =>
+                        handleMouseUp(() => setPickerSelection(color))
+                      }
                       key={`hue-wb-map-cell-${i}-${CELL_SIZE_LARGE}`}
                       className="group flex cursor-pointer items-center justify-center rounded text-center text-[8px] transition hover:scale-90"
                       style={{
@@ -174,8 +143,7 @@ export default function HueWBMap() {
                 gridTemplateColumns: `repeat(${smallCells.x}, 1fr)`,
                 gridTemplateRows: `repeat(${smallCells.y}, 1fr)`,
                 gap: `${GRID_GAP_SMALL}px`,
-                opacity: smallGridOpacity,
-                pointerEvents: smallGridPointerEvents,
+                ...style.smallGrid,
               }}
             >
               <For times={smallCells.count}>
@@ -192,7 +160,9 @@ export default function HueWBMap() {
                     <motion.div
                       onMouseDown={handleMouseDown}
                       onMouseMove={handleMouseMove}
-                      onMouseUp={() => handleMouseUp(color)}
+                      onMouseUp={() =>
+                        handleMouseUp(() => setPickerSelection(color))
+                      }
                       key={`hue-wb-map-cell-${i}-${CELL_SIZE_LARGE}`}
                       className="group flex cursor-pointer items-center justify-center rounded-xs transition hover:scale-90"
                       style={{ background: color.css() }}

@@ -34,7 +34,7 @@ export function useThrottleCallback<T>(
 }
 
 export function useDebounce() {
-  const debounceSeed = useRef<number | null>(null)
+  const debounceSeed = useRef<NodeJS.Timeout | null>(null)
 
   const debounceFunction = useRef((func: () => void, timeout = 200) => {
     if (debounceSeed.current) {

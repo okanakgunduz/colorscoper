@@ -44,9 +44,7 @@ const getGridHueLum = (cells: ReturnType<typeof getCells>, i: number) => {
 
 export default function HueWBMap() {
   const [saturation, setSaturation] = useState<number>(75 /* range: [0, 100] */)
-
   const [ref, rect] = useDimensions<HTMLDivElement>()
-
   const setPickerSelection = useSelectionStore.use.setPickerSelection()
 
   const { zoomLevel, style, handleMouseDown, handleMouseUp, handleMouseMove } =
@@ -56,7 +54,6 @@ export default function HueWBMap() {
     () => getCells(rect.width, rect.height, CELL_SIZE_LARGE),
     [rect.width, rect.height],
   )
-
   const smallCells = useMemo(
     () => getCells(rect.width, rect.height, CELL_SIZE_SMALL),
     [rect.width, rect.height],
@@ -64,11 +61,9 @@ export default function HueWBMap() {
 
   const gridHueLum = useMemo(() => {
     const cache = new Map<string, { hue: number; luminosity: number }>()
-
     return (cells: ReturnType<typeof getCells>, i: number) => {
       const key = `${cells.x},${cells.y},${i}`
       if (!cache.has(key)) cache.set(key, getGridHueLum(cells, i))
-
       return cache.get(key)!
     }
   }, [])

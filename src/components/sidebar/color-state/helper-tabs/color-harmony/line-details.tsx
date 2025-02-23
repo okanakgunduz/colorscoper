@@ -56,8 +56,9 @@ export default function LineDetails({ section }: Props) {
           +{HUE_DIFFERENCE_RATE}°
         </div>
 
-        <For times={9}>
-          {(i) => (
+        <For
+          times={9}
+          renderItem={(i) => (
             <Fragment key={`line-details-lum-${i}`}>
               <div
                 className="flex h-8 cursor-pointer items-center justify-center rounded transition duration-100 select-none active:scale-95"
@@ -129,7 +130,7 @@ export default function LineDetails({ section }: Props) {
               </div>
             </Fragment>
           )}
-        </For>
+        />
       </div>
     </div>
   )

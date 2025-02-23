@@ -39,9 +39,12 @@ export default function ColorSlots() {
       {/* Color Slots */}
 
       <div className="mb-4 flex justify-between">
-        <For each={slots}>
-          {(slot, i) => <Slot slot={slot} index={i} key={`color-slot-${i}`} />}
-        </For>
+        <For
+          each={slots}
+          renderItem={(slot, i) => (
+            <Slot slot={slot} index={i} key={`color-slot-${i}`} />
+          )}
+        />
       </div>
 
       {/* Buttons */}

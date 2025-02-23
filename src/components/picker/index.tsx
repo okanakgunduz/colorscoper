@@ -35,8 +35,7 @@ export default function Picker({ className }: Props) {
               [TabKeys.HueWBMap]: "Hue &#45; W/B Map",
               [TabKeys.SaturationWBPyramid]: "Saturation &#45; W/B Pyramid",
             })}
-          >
-            {([key, value]) => (
+            renderItem={([key, value]) => (
               <Tabs.Trigger
                 key={`tab-${key}`}
                 value={key}
@@ -44,7 +43,7 @@ export default function Picker({ className }: Props) {
                 dangerouslySetInnerHTML={{ __html: value }}
               />
             )}
-          </For>
+          />
         </Tabs.List>
 
         {/* Pickers */}
@@ -55,8 +54,7 @@ export default function Picker({ className }: Props) {
             [TabKeys.HueWBMap]: HueWBMap,
             [TabKeys.SaturationWBPyramid]: SaturationWBPyramid,
           })}
-        >
-          {([key, Component]) => (
+          renderItem={([key, Component]) => (
             <Tabs.Content
               key={`tab-content-${key}`}
               value={key}
@@ -65,7 +63,7 @@ export default function Picker({ className }: Props) {
               <Component />
             </Tabs.Content>
           )}
-        </For>
+        />
       </Tabs.Root>
       <Help className="absolute top-5 right-5" />
     </div>

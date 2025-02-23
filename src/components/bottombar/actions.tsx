@@ -20,13 +20,14 @@ export default function Actions({ className }: Props) {
         value={colorMode}
         onValueChange={(mode) => setColorMode(mode as ColorMode)}
       >
-        <For each={Object.entries(ColorMode)}>
-          {([key, value]) => (
+        <For
+          each={Object.entries(ColorMode)}
+          renderItem={([key, value]) => (
             <Select.Option key={key} value={value}>
               {key}
             </Select.Option>
           )}
-        </For>
+        />
       </Select>
 
       <button className="px-sidebar group hover:bg-muted-background text-accent flex h-full cursor-pointer items-center justify-center gap-1.5 border-l">

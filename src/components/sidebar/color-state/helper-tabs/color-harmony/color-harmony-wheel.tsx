@@ -39,8 +39,9 @@ export default function ColorHarmonyWheel({ relationship, className }: Props) {
     >
       {/* Color Wheel Slices */}
       <g id="color-wheel" transform="rotate(-15)">
-        <For each={slices}>
-          {(path, section) => (
+        <For
+          each={slices}
+          renderItem={(path, section) => (
             <path
               key={`harmony-slices-${section}`}
               d={path}
@@ -50,15 +51,17 @@ export default function ColorHarmonyWheel({ relationship, className }: Props) {
               })}
             />
           )}
-        </For>
+        />
       </g>
 
       {/* Visual Reference Lines */}
 
       <g id="reference-lines">
         {relationship !== "analogous" && (
-          <For element={AnimatePresence} each={getHueSections(relationship)}>
-            {(section, i, sections) => {
+          <For
+            element={AnimatePresence}
+            each={getHueSections(relationship)}
+            renderItem={(section, i, sections) => {
               if (sections.length === 1) return
               if (sections.length === 2 && i === 0) return
 
@@ -79,15 +82,17 @@ export default function ColorHarmonyWheel({ relationship, className }: Props) {
                 />
               )
             }}
-          </For>
+          />
         )}
       </g>
 
       {/* Color Stop Nodes */}
 
       <g id="nodes">
-        <For element={AnimatePresence} each={getHueSections(relationship)}>
-          {(section) => (
+        <For
+          element={AnimatePresence}
+          each={getHueSections(relationship)}
+          renderItem={(section) => (
             <Node
               key={`relationship-node-${section}`}
               r={1}
@@ -95,7 +100,7 @@ export default function ColorHarmonyWheel({ relationship, className }: Props) {
               {...{ setHovering, section }}
             />
           )}
-        </For>
+        />
       </g>
     </svg>
   )

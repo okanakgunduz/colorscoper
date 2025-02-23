@@ -31,8 +31,9 @@ export default function ColorHarmonyPalette({
         gridTemplateColumns: `repeat(${getHueSections(relationship).length}, 1fr)`,
       }}
     >
-      <For each={getHueSections(relationship)}>
-        {(section) => {
+      <For
+        each={getHueSections(relationship)}
+        renderItem={(section) => {
           const color = rotateHue(base.value, section * 30)
 
           return (
@@ -49,7 +50,7 @@ export default function ColorHarmonyPalette({
             </button>
           )
         }}
-      </For>
+      />
     </div>
   )
 }

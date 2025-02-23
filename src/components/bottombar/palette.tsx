@@ -36,22 +36,24 @@ export default function Palette({ className }: Props) {
 
       <div className="flex items-center gap-2">
         {/* Color Slots */}
-        <For each={paletteColors}>
-          {(color, index) => (
+        <For
+          each={paletteColors}
+          renderItem={(color, index) => (
             <div key={`palette-color-${index}`}>
               <PaletteColor {...{ index, color }} />
             </div>
           )}
-        </For>
+        />
 
         {/* Placeholders */}
-        <For times={Math.min(MAX_PALETTE_COUNT - paletteColors.length, 2)}>
-          {(i) => (
+        <For
+          times={Math.min(MAX_PALETTE_COUNT - paletteColors.length, 2)}
+          renderItem={(i) => (
             <div key={`palette-color-${i + paletteColors.length}`}>
               <button className="bg-muted-background relative size-7 rounded-md border border-dashed border-black/20" />
             </div>
           )}
-        </For>
+        />
       </div>
     </div>
   )

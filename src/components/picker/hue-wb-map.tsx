@@ -101,8 +101,9 @@ export default function HueWBMap() {
                 ...style.largeGrid,
               }}
             >
-              <For times={largeCells.count}>
-                {(i) => {
+              <For
+                times={largeCells.count}
+                renderItem={(i) => {
                   const { hue, luminosity } = gridHueLum(largeCells, i)
                   const color = chroma.hsl(
                     hue,
@@ -127,7 +128,7 @@ export default function HueWBMap() {
                     </motion.div>
                   )
                 }}
-              </For>
+              />
             </motion.div>
 
             {/* Small Grid */}
@@ -141,8 +142,9 @@ export default function HueWBMap() {
                 ...style.smallGrid,
               }}
             >
-              <For times={smallCells.count}>
-                {(i) => {
+              <For
+                times={smallCells.count}
+                renderItem={(i) => {
                   const { x } = linearTo2D(i, smallCells.x)
                   const { hue, luminosity } = gridHueLum(smallCells, i)
                   const color = chroma.hsl(
@@ -172,7 +174,7 @@ export default function HueWBMap() {
                     </motion.div>
                   )
                 }}
-              </For>
+              />
             </motion.div>
           </div>
         </TransformComponent>

@@ -56,10 +56,9 @@ export default function HueSaturationWheel() {
               >
                 <Layout size={{ x: 40, y: 40 }}>
                   {largeGrid.map(({ q, r, s }, i) => {
-                    const maxDist = LARGE_SIZE // Approximate max distance
                     const distance =
                       (Math.abs(q) + Math.abs(r) + Math.abs(s)) / 2
-                    const luminosity = map(distance, 0, maxDist, 0.8, 0.2) // Bright center, dark edges
+                    const luminosity = map(distance, 0, LARGE_SIZE, 0.8, 0.2)
                     const color = chroma.hsl(hue, 1, luminosity)
 
                     return (
@@ -123,7 +122,7 @@ export default function HueSaturationWheel() {
                   {smallGrid.map(({ q, r, s }, i) => {
                     const distance =
                       (Math.abs(q) + Math.abs(r) + Math.abs(s)) / 2
-                    const luminosity = map(distance, 0, SMALL_SIZE, 0.8, 0.2) // Bright center, dark edges
+                    const luminosity = map(distance, 0, SMALL_SIZE, 0.8, 0.2)
                     const color = chroma.hsl(hue, 1, luminosity)
 
                     return (

@@ -9,8 +9,9 @@ export default function ContrastHelper() {
 
   return (
     <div className="px-sidebar mb-4 space-y-4">
-      <For each={Object.values(ContrastType)}>
-        {(type) => {
+      <For
+        each={Object.values(ContrastType)}
+        renderItem={(type) => {
           const { contrastColor, contrastValue } = getContrasted(type)!
           return (
             <ContrastLine
@@ -22,7 +23,7 @@ export default function ContrastHelper() {
             />
           )
         }}
-      </For>
+      />
     </div>
   )
 }

@@ -34,13 +34,14 @@ export default function ColorHarmonyHelper() {
           value={relationship}
           onValueChange={(value) => setRelationship(value as ColorRelationship)}
         >
-          <For each={Object.entries(ColorRelationship)}>
-            {([name, key]) => (
+          <For
+            each={Object.entries(ColorRelationship)}
+            renderItem={([name, key]) => (
               <Select.Option value={key} key={key}>
                 {capitalize(name)}
               </Select.Option>
             )}
-          </For>
+          />
         </Select>
         <Button
           type="fill"
@@ -61,8 +62,9 @@ export default function ColorHarmonyHelper() {
       <>
         <ColorHarmonyWheel relationship={relationship} className="mt-6!" />
         <Portal containerId="popover-container">
-          <For each={getHueSections(relationship)}>
-            {(section) => (
+          <For
+            each={getHueSections(relationship)}
+            renderItem={(section) => (
               <Popover
                 id={`line-details-${section}`}
                 positionAnchor="--color-harmony"
@@ -75,7 +77,7 @@ export default function ColorHarmonyHelper() {
                 <LineDetails section={section} />
               </Popover>
             )}
-          </For>
+          />
         </Portal>
       </>
     </div>

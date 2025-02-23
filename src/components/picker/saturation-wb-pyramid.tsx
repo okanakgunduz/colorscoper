@@ -10,7 +10,7 @@ import map from "@utils/map"
 import { useSelectionStore } from "@stores/selection.store"
 
 const LARGE_SIZE = 12
-const SMALL_SIZE = 24
+const SMALL_SIZE = 18
 
 export default function SaturationWBPyramid() {
   const [hue, setHue] = useState(227 /* [0, 360] degrees */)

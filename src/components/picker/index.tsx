@@ -12,7 +12,7 @@ interface Props {
 
 enum TabKeys {
   HueSaturationWheel = "hue-saturation-wheel",
-  HueWBMap = "hue-luminosity-map",
+  HueWBMap = "hue-wb-map",
   SaturationWBPyramid = "saturation-white-balance",
 }
 
@@ -20,7 +20,7 @@ export default function Picker({ className }: Props) {
   return (
     <div className={cx(className, "relative")}>
       <Tabs.Root
-        defaultValue={TabKeys.HueSaturationWheel}
+        defaultValue={TabKeys.HueWBMap}
         className="bg-muted-background relative grid h-full w-full place-items-center"
       >
         {/* Picker Select */}

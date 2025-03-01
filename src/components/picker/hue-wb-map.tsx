@@ -4,6 +4,7 @@ import { useMemo, useState } from "react"
 import { TransformComponent, TransformWrapper } from "react-zoom-pan-pinch"
 import ExpandableSlider from "@components/common/expandable-slider"
 import For from "@components/common/for"
+import { useDebug } from "@hooks/useDebug"
 import useDimensions from "@hooks/useDimensions"
 import useZoomableGrid from "@hooks/useZoomableGrid"
 import cx from "@utils/cx"
@@ -15,12 +16,28 @@ const CELL_SIZE_LARGE = 80
 const CELL_SIZE_SMALL = 40
 const GRID_GAP_LARGE = 3
 const GRID_GAP_SMALL = 1.5
+const PADDING = {
+  x: 40,
+  y: 80,
+}
 
-const getCells = (width: number, height: number, size: number) => ({
-  x: Math.floor(width / size) & ~1,
-  y: Math.floor(height / size),
-  count: (Math.floor(width / size) & ~1) * Math.floor(height / size),
-})
+const getCells = (width: number, height: number, size: number) => {
+  const x = Math.floor((width - PADDING.x * 2) / size) & ~1
+  const y = Math.floor((height - PADDING.y * 2) / size)
+
+  if (width === 0 && height === 0)
+    return {
+      x: 0,
+      y: 0,
+      count: 0,
+    }
+
+  return {
+    x,
+    y,
+    count: x * y,
+  }
+}
 
 const luminosityScale = chroma.scale(["#e0e0e0", "#4a4a4a"]).mode("hsi")
 
@@ -59,6 +76,8 @@ export default function HueWBMap() {
     [rect.width, rect.height],
   )
 
+  useDebug(largeCells.count)
+
   const gridHueLum = useMemo(() => {
     const cache = new Map<string, { hue: number; luminosity: number }>()
     return (cells: ReturnType<typeof getCells>, i: number) => {
@@ -93,11 +112,13 @@ export default function HueWBMap() {
             {/* Large Grid */}
 
             <motion.div
-              className={cx("absolute inset-0 grid overflow-hidden p-3")}
+              className={cx("absolute inset-0 grid overflow-hidden")}
               style={{
                 gridTemplateColumns: `repeat(${largeCells.x}, 1fr)`,
                 gridTemplateRows: `repeat(${largeCells.y}, 1fr)`,
                 gap: `${GRID_GAP_LARGE}px`,
+                paddingInline: PADDING.x,
+                paddingBlock: PADDING.y,
                 ...style.largeGrid,
               }}
             >
@@ -105,6 +126,7 @@ export default function HueWBMap() {
                 times={largeCells.count}
                 renderItem={(i) => {
                   const { hue, luminosity } = gridHueLum(largeCells, i)
+
                   const color = chroma.hsl(
                     hue,
                     map(saturation, 0, 100, 0, 1),
@@ -134,11 +156,13 @@ export default function HueWBMap() {
             {/* Small Grid */}
 
             <motion.div
-              className={cx("absolute inset-0 grid overflow-hidden p-3")}
+              className={cx("absolute inset-0 grid overflow-hidden")}
               style={{
                 gridTemplateColumns: `repeat(${smallCells.x}, 1fr)`,
                 gridTemplateRows: `repeat(${smallCells.y}, 1fr)`,
                 gap: `${GRID_GAP_SMALL}px`,
+                paddingInline: PADDING.x,
+                paddingBlock: PADDING.y,
                 ...style.smallGrid,
               }}
             >

@@ -22,7 +22,7 @@ export default function SaturationWBPyramid() {
 
   const { zoomLevel, style, handleMouseDown, handleMouseUp, handleMouseMove } =
     useZoomableGrid({
-      transition: 1.75,
+      transitionPoints: [1.75],
     })
 
   return (
@@ -48,7 +48,7 @@ export default function SaturationWBPyramid() {
 
             <motion.div
               className="absolute inset-0 flex items-center justify-center overflow-hidden"
-              style={style.largeGrid}
+              style={style.at(0) ?? undefined}
             >
               <HexGrid
                 viewBox="-500 -500 1000 1000"
@@ -106,7 +106,7 @@ export default function SaturationWBPyramid() {
 
             <motion.div
               className="absolute inset-0 flex items-center justify-center overflow-hidden"
-              style={style.smallGrid}
+              style={style.at(1) ?? undefined}
             >
               <HexGrid
                 viewBox="-500 -500 1000 1000"

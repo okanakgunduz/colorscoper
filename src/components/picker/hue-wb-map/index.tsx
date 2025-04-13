@@ -22,7 +22,9 @@ export default function HueWBMap() {
   const [ref, rect] = useDimensions<HTMLDivElement>()
 
   const { zoomLevel, style, handleMouseDown, handleMouseUp, handleMouseMove } =
-    useZoomableGrid()
+    useZoomableGrid({
+      transitionPoints: [1.5, 3],
+    })
 
   const gridHueLum = useMemo(() => {
     const cache = new Map<string, { hue: number; luminosity: number }>()

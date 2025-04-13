@@ -7,7 +7,7 @@ interface Props {
 }
 
 export default function useZoomableGrid({
-  transitionPoints = [1.5, 3],
+  transitionPoints = [2],
   transitionSpan = 0.1,
 }: Props = {}) {
   const zoomLevel = useMotionValue(1)
@@ -19,7 +19,7 @@ export default function useZoomableGrid({
 
   const gridCount = sortedTransitions.length + 1
 
-  const gridStyles: Record<string, any> = {}
+  const gridStyles: Array<Record<string, any>> = []
 
   for (let i = 0; i < gridCount; i++) {
     if (i === 0) {

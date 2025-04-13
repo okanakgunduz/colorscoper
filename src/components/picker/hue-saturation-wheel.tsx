@@ -21,7 +21,8 @@ export default function HueSaturationWheel() {
 
   const { zoomLevel, style, handleMouseDown, handleMouseUp, handleMouseMove } =
     useZoomableGrid({
-      transition: 1.75,
+      transitionPoints: [1.75],
+      transitionSpan: 0.05,
     })
 
   return (
@@ -47,7 +48,7 @@ export default function HueSaturationWheel() {
 
             <motion.div
               className="absolute inset-0 flex items-center justify-center overflow-hidden"
-              style={style.largeGrid}
+              style={style[0]}
             >
               <HexGrid
                 viewBox="-500 -500 1000 1000"
@@ -106,7 +107,7 @@ export default function HueSaturationWheel() {
 
             <motion.div
               className="absolute inset-0 flex items-center justify-center overflow-hidden"
-              style={style.smallGrid}
+              style={style[1]}
             >
               <HexGrid
                 viewBox="-500 -500 1000 1000"

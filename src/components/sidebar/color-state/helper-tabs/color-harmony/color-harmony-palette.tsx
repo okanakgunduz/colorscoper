@@ -24,7 +24,7 @@ export default function ColorHarmonyPalette({
   return (
     <div
       className={cx(
-        "bg-muted-background has-adjacent-hover:opacity-30 grid h-10 w-full grid-rows-1 overflow-hidden rounded",
+        "bg-muted-background has-adjacent-hover:opacity-50 grid h-10 w-full grid-rows-1 overflow-hidden",
         className,
       )}
       style={{
@@ -39,14 +39,18 @@ export default function ColorHarmonyPalette({
           return (
             <button
               onClick={() => insertSlot(color)}
-              className="relative cursor-pointer active:brightness-90"
+              className="flex cursor-pointer px-[1px] active:brightness-90"
               key={`color-harmony-palette-${section}`}
-              style={{
-                background: color.css(),
-                color: getOptimizedTextColor(color).css(),
-              }}
             >
-              <span>{romanize(section + 1)}.</span>
+              <span
+                className="flex size-full items-center justify-center"
+                style={{
+                  background: color.css(),
+                  color: getOptimizedTextColor(color).css(),
+                }}
+              >
+                {romanize(section + 1)}.
+              </span>
             </button>
           )
         }}

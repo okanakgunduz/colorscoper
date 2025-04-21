@@ -122,9 +122,9 @@ export function toString(color: Color, mode: ColorMode): string {
 }
 
 export function toRoundedString(color: Color, mode: ColorMode): string {
-  const round = (value: number) => Math.round(value * 10) / 10
-  const round2 = (value: number) => Math.round(value * 100) / 100
-  const toPercent = (value: number) => `${round(value * 100)}%`
+  const round = (value: number) => Math.round((value || 0) * 10) / 10
+  const round2 = (value: number) => Math.round((value || 0) * 100) / 100
+  const toPercent = (value: number) => `${round((value || 0) * 100)}%`
 
   switch (mode) {
     case ColorMode.RGB:

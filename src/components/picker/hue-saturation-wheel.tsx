@@ -1,10 +1,11 @@
 import chroma from "chroma-js"
 import { motion } from "motion/react"
-import { useMemo, useState } from "react"
-import { GridGenerator, HexGrid, Hexagon, Layout, Text } from "react-hexgrid"
+import { useRef, useState } from "react"
+import { GridGenerator, HexGrid, Hexagon, Layout } from "react-hexgrid"
 import { TransformComponent, TransformWrapper } from "react-zoom-pan-pinch"
 import ExpandableSlider from "@components/common/expandable-slider"
 import useZoomableGrid from "@hooks/useZoomableGrid"
+import hexToAngle from "@utils/hex-to-angle"
 import map from "@utils/map"
 import { useSelectionStore } from "@stores/selection.store"
 
@@ -12,10 +13,10 @@ const LARGE_SIZE = 6
 const SMALL_SIZE = 12
 
 export default function HueSaturationWheel() {
-  const [hue, setHue] = useState(360 /* [0, 360] degrees */)
+  const [luminosity, setLuminosity] = useState(0.5 /* [0, 1] range */)
 
-  const largeGrid = useMemo(() => GridGenerator.hexagon(LARGE_SIZE), [])
-  const smallGrid = useMemo(() => GridGenerator.hexagon(SMALL_SIZE), [])
+  const largeGrid = useRef(GridGenerator.hexagon(LARGE_SIZE))
+  const smallGrid = useRef(GridGenerator.hexagon(SMALL_SIZE))
 
   const setPickerSelection = useSelectionStore.use.setPickerSelection()
 
@@ -56,11 +57,22 @@ export default function HueSaturationWheel() {
                 className="h-full w-full transform-fill"
               >
                 <Layout size={{ x: 40, y: 40 }}>
-                  {largeGrid.map(({ q, r, s }, i) => {
+                  {largeGrid.current.map(({ q, r, s }, i) => {
+                    // Calculate distance from center (0,0,0)
                     const distance =
                       (Math.abs(q) + Math.abs(r) + Math.abs(s)) / 2
-                    const luminosity = map(distance, 0, LARGE_SIZE, 0.8, 0.2)
-                    const color = chroma.hsl(hue, 1, luminosity)
+
+                    // Calculate hue based on angle
+                    let hue = 0 // Base hue is fixed at 0 (red)
+                    const angle = hexToAngle(q, r, s)
+                    hue = angle // Hue directly corresponds to angle
+
+                    const saturation = Math.min(
+                      map(distance, 0, LARGE_SIZE, 0, 1),
+                      1,
+                    )
+
+                    const color = chroma.hsl(hue, saturation, luminosity)
 
                     return (
                       <g
@@ -77,13 +89,10 @@ export default function HueSaturationWheel() {
                             fill: color.css(),
                           }}
                         >
-                          {/* <circle
-                            r={3}
-                            className="fill-white/20 stroke-0 transition group-hover:fill-white"
-                          ></circle> */}
-                          <Text>
+                          {/* Uncomment to show coordinates */}
+                          {/* <Text>
                             {q} {r} {s}
-                          </Text>
+                          </Text> */}
                         </Hexagon>
                         <Hexagon
                           q={q}
@@ -120,11 +129,26 @@ export default function HueSaturationWheel() {
                     y: 40 * (LARGE_SIZE / SMALL_SIZE),
                   }}
                 >
-                  {smallGrid.map(({ q, r, s }, i) => {
+                  {smallGrid.current.map(({ q, r, s }, i) => {
+                    // Calculate distance from center (0,0,0)
                     const distance =
                       (Math.abs(q) + Math.abs(r) + Math.abs(s)) / 2
-                    const luminosity = map(distance, 0, SMALL_SIZE, 0.8, 0.2)
-                    const color = chroma.hsl(hue, 1, luminosity)
+
+                    // Calculate hue based on angle
+                    let hue = 0 // Base hue is fixed at 0 (red)
+                    // For non-center cells, calculate hue based on angle
+                    if (q !== 0 || r !== 0 || s !== 0) {
+                      const angle = hexToAngle(q, r, s)
+                      hue = angle // Hue directly corresponds to angle
+                    }
+
+                    // Saturation increases from center to edge
+                    const saturation = Math.min(
+                      map(distance, 0, SMALL_SIZE, 0, 1),
+                      1,
+                    )
+
+                    const color = chroma.hsl(hue, saturation, luminosity)
 
                     return (
                       <g
@@ -171,13 +195,13 @@ export default function HueSaturationWheel() {
 
       <ExpandableSlider
         layoutkey="hue-saturation-wheel"
-        value={hue}
-        onValueChange={setHue}
+        value={luminosity * 100}
+        onValueChange={(value) => setLuminosity(value / 100)}
         className="absolute bottom-4 left-1/2 -translate-x-1/2"
-        title="Hue"
-        min={0}
-        max={360}
-        format={(value) => `${value}°`}
+        title="Luminosity"
+        min={15}
+        max={75}
+        format={(value) => `${value.toFixed(0)}%`}
         debounceTimeout={150}
       />
     </div>

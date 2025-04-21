@@ -96,21 +96,21 @@ export default function CanvasGrid({
       }
     }
 
-    if (hoveredCell !== null) {
-      const { x, y } = linearTo2D(hoveredCell, cells.x)
+    // if (hoveredCell !== null) {
+    //   const { x, y } = linearTo2D(hoveredCell, cells.x)
 
-      ctx.fillStyle = "rgba(255, 255, 255, 0.8)"
-      ctx.beginPath()
-      ctx.arc(
-        x * cellWidth + cellWidth / 2,
-        y * cellHeight + cellHeight / 2,
-        Math.min(cellWidth, cellHeight) / 16,
-        0,
-        2 * Math.PI,
-      )
-      ctx.fill()
-    }
-  }, [cells, saturation, hoveredCell, gridHueLum])
+    //   ctx.fillStyle = "rgba(255, 255, 255, 0.8)"
+    //   ctx.beginPath()
+    //   ctx.arc(
+    //     x * cellWidth + cellWidth / 2,
+    //     y * cellHeight + cellHeight / 2,
+    //     Math.min(cellWidth, cellHeight) / 16,
+    //     0,
+    //     2 * Math.PI,
+    //   )
+    //   ctx.fill()
+    // }
+  }, [cells, saturation, gridHueLum])
 
   useEventListener("resize", () => {
     const container = containerRef.current

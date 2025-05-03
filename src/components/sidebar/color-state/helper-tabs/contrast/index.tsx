@@ -7,8 +7,10 @@ export default function ContrastHelper() {
   const base = useSelectionStore.use.color()
   const getContrasted = useSelectionStore.use.getContrasted()
 
+  // const { contrastColor, contrastValue } = getContrasted("hue")!
+
   return (
-    <div className="px-sidebar mb-4 space-y-4">
+    <div className="mb-4 -space-y-1">
       <For
         each={Object.values(ContrastType)}
         renderItem={(type) => {
@@ -24,6 +26,13 @@ export default function ContrastHelper() {
           )
         }}
       />
+
+      {/* <ContrastLine
+        type="hue"
+        base={base!.value}
+        contrastColor={contrastColor}
+        contrastValue={contrastValue}
+      /> */}
     </div>
   )
 }

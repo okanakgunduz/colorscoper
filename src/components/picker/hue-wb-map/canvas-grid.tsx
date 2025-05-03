@@ -82,35 +82,33 @@ export default function CanvasGrid({
 
       ctx.fillRect(cellX, cellY, cellW, cellH)
 
-      if (x !== 0 && x !== cells.x - 1) {
-        ctx.fillStyle = "rgba(255, 255, 255, 0.2)"
-        ctx.beginPath()
-        ctx.arc(
-          cellX + cellWidth / 2,
-          cellY + cellHeight / 2,
-          Math.min(cellWidth, cellHeight) / 16,
-          0,
-          2 * Math.PI,
-        )
-        ctx.fill()
-      }
+      ctx.fillStyle = "rgba(255, 255, 255, 0.2)"
+      ctx.beginPath()
+      ctx.arc(
+        cellX + cellWidth / 2,
+        cellY + cellHeight / 2,
+        Math.min(cellWidth, cellHeight) / 16,
+        0,
+        2 * Math.PI,
+      )
+      ctx.fill()
     }
 
-    // if (hoveredCell !== null) {
-    //   const { x, y } = linearTo2D(hoveredCell, cells.x)
+    if (hoveredCell !== null) {
+      const { x, y } = linearTo2D(hoveredCell, cells.x)
 
-    //   ctx.fillStyle = "rgba(255, 255, 255, 0.8)"
-    //   ctx.beginPath()
-    //   ctx.arc(
-    //     x * cellWidth + cellWidth / 2,
-    //     y * cellHeight + cellHeight / 2,
-    //     Math.min(cellWidth, cellHeight) / 16,
-    //     0,
-    //     2 * Math.PI,
-    //   )
-    //   ctx.fill()
-    // }
-  }, [cells, saturation, gridHueLum])
+      ctx.fillStyle = "rgba(255, 255, 255, 0.8)"
+      ctx.beginPath()
+      ctx.arc(
+        x * cellWidth + cellWidth / 2,
+        y * cellHeight + cellHeight / 2,
+        Math.min(cellWidth, cellHeight) / 16,
+        0,
+        2 * Math.PI,
+      )
+      ctx.fill()
+    }
+  }, [cells, saturation, gridHueLum, hoveredCell])
 
   useEventListener("resize", () => {
     const container = containerRef.current

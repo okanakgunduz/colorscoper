@@ -89,7 +89,6 @@ export default function HueSaturationWheel() {
                             fill: color.css(),
                           }}
                         >
-                          {/* Uncomment to show coordinates */}
                           {/* <Text>
                             {q} {r} {s}
                           </Text> */}

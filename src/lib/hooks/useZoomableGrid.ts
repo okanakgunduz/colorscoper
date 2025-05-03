@@ -1,5 +1,6 @@
 /* eslint-disable */
 import { useMotionValue, useTransform } from "motion/react"
+import { useRef } from "react"
 
 interface Props {
   transitionPoints?: number[]
@@ -13,6 +14,7 @@ export default function useZoomableGrid({
   const zoomLevel = useMotionValue(1)
   const dragX = useMotionValue(0)
   const dragY = useMotionValue(0)
+  const clicked = useRef(false)
   const isDragging = useMotionValue(0 /* 0 = not dragging, 1 = dragging */)
 
   const sortedTransitions = [...transitionPoints].sort((a, b) => a - b)
@@ -85,16 +87,20 @@ export default function useZoomableGrid({
   const handleMouseDown = (e: React.MouseEvent) => {
     dragX.set(e.clientX)
     dragY.set(e.clientY)
+    clicked.current = true
     isDragging.set(0)
   }
 
   const handleMouseMove = (e: React.MouseEvent) => {
     const dx = Math.abs(e.clientX - dragX.get())
     const dy = Math.abs(e.clientY - dragY.get())
-    if (dx > 10 || dy > 10) isDragging.set(1)
+    if ((dx > 10 || dy > 10) && clicked.current) {
+      isDragging.set(1)
+    }
   }
 
   const handleMouseUp = (func: () => void = () => {}) => {
+    clicked.current = false
     if (isDragging.get() === 0) func()
   }
 

@@ -1,4 +1,4 @@
-import { CircleHalfTilt } from "@phosphor-icons/react"
+import { CardsThree, CircleHalfTilt } from "@phosphor-icons/react"
 import { Color } from "chroma-js"
 import { Variants } from "motion/react"
 import { motion } from "motion/react"
@@ -69,7 +69,7 @@ export default function Node({
     >
       <RadixPopover
         title={`Section ${romanize(section + 1)}`}
-        icon={CircleHalfTilt}
+        icon={CardsThree}
         sideOffset={-16}
         trigger={
           <button
@@ -90,9 +90,6 @@ export default function Node({
           </button>
         }
         content={<LineDetails section={section} />}
-        // {...(containerAnchor && {
-        //   anchor: containerAnchor as Ref<HTMLElement>,
-        // })}
         anchor={anchorRef}
       />
     </motion.foreignObject>

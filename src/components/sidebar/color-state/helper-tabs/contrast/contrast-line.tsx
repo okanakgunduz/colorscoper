@@ -53,7 +53,7 @@ export default function ContrastLine({
               <Copy
                 element="p"
                 data={getColorString(contrastColor)}
-                className="text-caption-bold opacity-80"
+                className="text-caption-bold !text-muted"
               >
                 {getRoundedColorString(contrastColor)}
               </Copy>
@@ -72,7 +72,7 @@ export default function ContrastLine({
           </div>
         </div>
       }
-      content={<Playground />}
+      content={<Playground contrastColor={contrastColor} />}
     />
   )
 }

@@ -32,7 +32,7 @@ export function RadixPopover({
         <Popover.Content
           side="right"
           sideOffset={sideOffset}
-          className="w-64 flex-col rounded-lg border bg-white shadow-xl"
+          className="w-64 flex-col overflow-hidden rounded-lg border bg-white shadow-xl"
           collisionPadding={{
             top: 24,
             bottom: 64,

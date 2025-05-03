@@ -36,13 +36,16 @@ export default function Copy<T extends ElementType = "span">({
     {
       ref,
       className: cx(
-        "cursor-pointer no-opsz text-caption whitespace-nowrap overflow-hidden text-ellipsis",
+        "cursor-pointer no-opsz text-caption-bold whitespace-nowrap overflow-hidden text-ellipsis",
         className,
         {
           uppercase: !copied && !hovering,
         },
       ),
-      onClick: copy,
+      onClick: (e: MouseEvent) => {
+        e.stopPropagation()
+        copy()
+      },
       ...props,
     },
     copied ? "Copied!" : hovering ? "Copy" : children,

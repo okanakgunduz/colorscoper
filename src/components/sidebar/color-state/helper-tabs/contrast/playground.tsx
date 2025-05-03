@@ -183,5 +183,15 @@ function TextDemo({ contrastColor, baseColor }: DemoProps) {
 }
 
 function PatternDemo({ contrastColor, baseColor }: DemoProps) {
-  return <main>fmacd</main>
+  return (
+    <main className="mb-2 max-w-full space-y-4 p-2">
+      {/* Display */}
+      <section
+        className="relative aspect-video w-full overflow-hidden rounded"
+        style={{
+          background: baseColor.css(),
+        }}
+      ></section>
+    </main>
+  )
 }

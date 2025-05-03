@@ -1,10 +1,13 @@
+import { CircleHalfTilt } from "@phosphor-icons/react"
 import { Color } from "chroma-js"
 import { Variants } from "motion/react"
 import { motion } from "motion/react"
-import { Dispatch, SetStateAction } from "react"
+import { Dispatch, RefObject, SetStateAction } from "react"
+import { RadixPopover } from "@components/common/popover"
 import cx, { Class } from "@utils/cx"
 import getOptimizedTextColor from "@utils/get-optimized-text-color"
 import romanize from "@utils/romanize"
+import LineDetails from "./line-details"
 
 const NODE_RADIUS = 20
 
@@ -15,6 +18,7 @@ interface NodeProps {
   circleRadius?: number
   className?: Class
   setHovering: Dispatch<SetStateAction<number | null>>
+  anchorRef?: RefObject<HTMLElement>
 }
 
 const nodeVariants: Variants = {
@@ -39,6 +43,7 @@ export default function Node({
   className,
   setHovering,
   circleRadius = 140,
+  anchorRef,
 }: NodeProps) {
   return (
     <motion.foreignObject
@@ -61,25 +66,35 @@ export default function Node({
       animate="visible"
       exit="hidden"
       whileHover="hover"
-      onMouseEnter={() => setHovering(section)}
-      onMouseLeave={() => setHovering(null)}
     >
-      <button
-        className={cx(
-          className,
-          "cursor-pointer rounded-full border-4 border-white font-medium",
-        )}
-        // @ts-expect-error (Not supported yet, but polyfilled)
-        popovertarget={`line-details-${section}`}
-        style={{
-          backgroundColor: color.css(),
-          width: NODE_RADIUS * 2,
-          height: NODE_RADIUS * 2,
-          color: getOptimizedTextColor(color).css(),
-        }}
-      >
-        {romanize(section + 1)}
-      </button>
+      <RadixPopover
+        title={`Section ${romanize(section + 1)}`}
+        icon={CircleHalfTilt}
+        sideOffset={-16}
+        trigger={
+          <button
+            onMouseEnter={() => setHovering(section)}
+            onMouseLeave={() => setHovering(null)}
+            className={cx(
+              className,
+              "cursor-pointer rounded-full border-4 border-white font-medium",
+            )}
+            style={{
+              backgroundColor: color.css(),
+              width: NODE_RADIUS * 2,
+              height: NODE_RADIUS * 2,
+              color: getOptimizedTextColor(color).css(),
+            }}
+          >
+            {romanize(section + 1)}
+          </button>
+        }
+        content={<LineDetails section={section} />}
+        // {...(containerAnchor && {
+        //   anchor: containerAnchor as Ref<HTMLElement>,
+        // })}
+        anchor={anchorRef}
+      />
     </motion.foreignObject>
   )
 }

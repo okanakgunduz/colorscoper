@@ -1,8 +1,64 @@
 import { type Icon, X } from "@phosphor-icons/react"
-import { CSSProperties, ReactNode, useRef, useState } from "react"
+import * as Popover from "@radix-ui/react-popover"
+import { CSSProperties, ReactNode, RefObject, useRef, useState } from "react"
+import If from "@components/common/if"
 import useEventListener from "@hooks/useEventListener"
 
-interface Props {
+interface RadixPopoverProps {
+  trigger: ReactNode
+  content: ReactNode | ReactNode[]
+  title: string
+  icon?: Icon
+  sideOffset?: number
+  anchor?: RefObject<HTMLElement>
+}
+
+export function RadixPopover({
+  trigger,
+  content,
+  title,
+  icon: Icon,
+  sideOffset = 0,
+  anchor,
+}: RadixPopoverProps) {
+  return (
+    <Popover.Root>
+      <If
+        condition={anchor !== undefined}
+        renderItem={() => <Popover.Anchor virtualRef={anchor} />}
+      />
+      <Popover.Trigger asChild>{trigger}</Popover.Trigger>
+      <Popover.Portal>
+        <Popover.Content
+          side="right"
+          sideOffset={sideOffset}
+          className="w-64 flex-col rounded-lg border bg-white shadow-xl"
+          collisionPadding={{
+            top: 24,
+            bottom: 64,
+          }}
+        >
+          <div className="flex size-full flex-col">
+            <header className="text-caption flex h-10 w-full shrink-0 items-center justify-between border-b px-3">
+              <div className="flex items-center justify-center gap-1 select-none">
+                {Icon && <Icon className="size-4" />}
+                <h2 className="text-black/70">{title}</h2>
+              </div>
+              <Popover.Close asChild>
+                <button className="hover:bg-muted-background cursor-pointer rounded-md p-1 transition active:opacity-50">
+                  <X className="size-4" />
+                </button>
+              </Popover.Close>
+            </header>
+            {content}
+          </div>
+        </Popover.Content>
+      </Popover.Portal>
+    </Popover.Root>
+  )
+}
+
+interface NativePopoverProps {
   id: string
   children: ReactNode[] | ReactNode
   positionAnchor: string
@@ -12,7 +68,7 @@ interface Props {
   offsetY?: number
 }
 
-export default function Popover({
+export function NativePopover({
   id,
   children,
   positionAnchor,
@@ -20,7 +76,7 @@ export default function Popover({
   icon: Icon,
   offsetX = 0,
   offsetY = 0,
-}: Props) {
+}: NativePopoverProps) {
   const [isOpen, setIsOpen] = useState(false)
   const dialogRef = useRef<HTMLDialogElement>(null)
 

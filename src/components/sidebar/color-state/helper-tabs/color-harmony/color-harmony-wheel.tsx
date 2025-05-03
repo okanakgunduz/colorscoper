@@ -1,5 +1,5 @@
 import { AnimatePresence } from "motion/react"
-import { useState } from "react"
+import { RefObject, useState } from "react"
 import For from "@components/common/for"
 import { ColorRelationship, getHueSections } from "@utils/color"
 import cx, { Class } from "@utils/cx"
@@ -25,9 +25,14 @@ const slices = [
 interface Props {
   relationship: ColorRelationship
   className?: Class
+  anchorRef?: RefObject<HTMLElement>
 }
 
-export default function ColorHarmonyWheel({ relationship, className }: Props) {
+export default function ColorHarmonyWheel({
+  relationship,
+  className,
+  anchorRef,
+}: Props) {
   const getHueRotated = useSelectionStore.use.getHueRotated()
   const [hovering, setHovering] = useState<number | null>(null)
 
@@ -98,6 +103,7 @@ export default function ColorHarmonyWheel({ relationship, className }: Props) {
               r={1}
               color={getHueRotated(section * 30)!}
               {...{ setHovering, section }}
+              anchorRef={anchorRef}
             />
           )}
         />

@@ -45,7 +45,7 @@ export default function TextDemo({ contrastColor, baseColor }: DemoProps) {
             }[size],
           }}
         >
-          {text.substring(0, 14) || "Contrast"}
+          {text || "Contrast"}
         </p>
       </section>
 
@@ -65,9 +65,7 @@ export default function TextDemo({ contrastColor, baseColor }: DemoProps) {
             className="bg-muted-background focus:border-accent w-36 rounded border border-transparent px-2 py-1 font-medium text-black/90"
             value={text}
             onChange={(e) =>
-              e.target.value.length < 14
-                ? setText(e.target.value.substring(0, 14))
-                : null
+              e.target.value.length < 14 ? setText(e.target.value) : null
             }
           />
         </div>

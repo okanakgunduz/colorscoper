@@ -3,6 +3,7 @@ import { Color } from "chroma-js"
 import { useState } from "react"
 import Select from "@components/common/select"
 import Switch from "@components/common/switch"
+import Flower from "./patterns/flower"
 
 interface DemoProps {
   contrastColor: Color
@@ -24,7 +25,12 @@ export default function PatternDemo({ contrastColor, baseColor }: DemoProps) {
           background: baseColor.css(),
           color: contrastColor.css(),
         }}
-      ></section>
+      >
+        <Flower
+          backgroundColor={!inverted ? baseColor.css() : contrastColor.css()}
+          foregroundColor={!inverted ? contrastColor.css() : baseColor.css()}
+        />
+      </section>
 
       {/* Controls */}
       <section className="space-y-3 pl-2 select-none">

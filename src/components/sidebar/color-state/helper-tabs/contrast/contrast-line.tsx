@@ -32,7 +32,7 @@ export default function ContrastLine({
         <div className="hover:bg-muted-background mx-4 flex items-center gap-4 rounded border border-transparent p-2 pr-3 transition-colors select-none active:border-black/10 active:duration-75">
           {/* Indicator */}
           <div
-            className="flex size-13 items-center justify-center rounded-xs"
+            className="flex size-13 items-center justify-center rounded-sm"
             style={{ background: base.css() }}
           >
             <div

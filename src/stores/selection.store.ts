@@ -85,7 +85,7 @@ const useSelectionStoreBase = create<State & Action>()(
     /* State */
     type: SelectionType.Picker,
     color: {
-      value: chroma("#4393fa"),
+      value: chroma("#7f00ff"),
     },
 
     /* Utils */

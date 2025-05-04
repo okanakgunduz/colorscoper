@@ -1,15 +1,20 @@
 import { Label } from "@radix-ui/react-label"
-import * as RadioGroup from "@radix-ui/react-radio-group"
 import { Color } from "chroma-js"
 import { useState } from "react"
-import cx from "@utils/cx"
+import Select from "@components/common/select"
+import Switch from "@components/common/switch"
 
 interface DemoProps {
   contrastColor: Color
   baseColor: Color
 }
 
+type Demo = "flowers" | "radial" | "stripes"
+
 export default function PatternDemo({ contrastColor, baseColor }: DemoProps) {
+  const [demo, setDemo] = useState<Demo>("flowers")
+  const [inverted, setInverted] = useState<boolean>(false)
+
   return (
     <main className="mb-2 max-w-full space-y-4 p-2">
       {/* Display */}
@@ -17,8 +22,39 @@ export default function PatternDemo({ contrastColor, baseColor }: DemoProps) {
         className="relative aspect-video w-full overflow-hidden rounded"
         style={{
           background: baseColor.css(),
+          color: contrastColor.css(),
         }}
       ></section>
+
+      {/* Controls */}
+      <section className="space-y-3 pl-2 select-none">
+        <div className="flex items-center justify-between pr-1">
+          <Label
+            htmlFor="demo-pattern-select"
+            className="text-caption-bold text-muted"
+          >
+            Pattern
+          </Label>
+          <Select value={demo} onValueChange={(v) => setDemo(v as Demo)}>
+            <Select.Option value="flowers">Flowers</Select.Option>
+            <Select.Option value="radial">Radial</Select.Option>
+            <Select.Option value="stripes">Stripes</Select.Option>
+          </Select>
+        </div>
+        <div className="flex items-center justify-between">
+          <Label
+            htmlFor="demo-pattern-invert"
+            className="text-caption-bold text-muted cursor-pointer"
+          >
+            Invert?
+          </Label>
+          <Switch
+            id="demo-pattern-invert"
+            checked={inverted}
+            onCheckedChange={(v) => setInverted(v)}
+          />
+        </div>
+      </section>
     </main>
   )
 }

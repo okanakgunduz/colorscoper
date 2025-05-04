@@ -20,11 +20,12 @@ import {
   SelectViewport,
 } from "@radix-ui/react-select"
 import { ElementRef, type ReactNode, forwardRef } from "react"
+import If from "./if"
 
 /* Root */
 
 type SelectProps = {
-  title: string
+  title?: string
   placeholder?: string
   children?: ReactNode[] | ReactNode
 } & RootProps
@@ -38,9 +39,17 @@ export default function Select({
   return (
     <Root {...rest}>
       <div className="flex flex-col">
-        <p aria-label={title} className="text-caption text-muted select-none">
-          {title}
-        </p>
+        <If
+          condition={!!title}
+          renderItem={() => (
+            <p
+              aria-label={title}
+              className="text-caption text-muted select-none"
+            >
+              {title}
+            </p>
+          )}
+        />
         <SelectTrigger
           className="flex w-full items-center justify-between gap-1 font-medium focus-visible:ring-0"
           aria-label={title}

@@ -1,9 +1,8 @@
 import { Label } from "@radix-ui/react-label"
 import * as RadioGroup from "@radix-ui/react-radio-group"
-import * as Switch from "@radix-ui/react-switch"
 import { Color } from "chroma-js"
-import { motion } from "motion/react"
 import { useState } from "react"
+import Switch from "@components/common/switch"
 import cx from "@utils/cx"
 
 interface DemoProps {
@@ -52,6 +51,7 @@ export default function TextDemo({ contrastColor, baseColor }: DemoProps) {
 
       {/* Controls */}
       <section className="space-y-3 pl-2 select-none">
+        {/* Text Content */}
         <div className="flex items-center justify-between">
           <Label
             htmlFor="demo-text-content"
@@ -71,6 +71,8 @@ export default function TextDemo({ contrastColor, baseColor }: DemoProps) {
             }
           />
         </div>
+
+        {/* Text Size */}
         <div className="flex items-center justify-between">
           <Label
             htmlFor="demo-text-size"
@@ -104,6 +106,8 @@ export default function TextDemo({ contrastColor, baseColor }: DemoProps) {
             </RadioGroup.Item>
           </RadioGroup.Root>
         </div>
+
+        {/* Font Style */}
         <div className="flex items-center justify-between">
           <Label
             htmlFor="demo-text-style"
@@ -137,6 +141,8 @@ export default function TextDemo({ contrastColor, baseColor }: DemoProps) {
             </RadioGroup.Item>
           </RadioGroup.Root>
         </div>
+
+        {/* Inverted? */}
         <div className="flex items-center justify-between">
           <Label
             htmlFor="demo-text-invert"
@@ -144,20 +150,11 @@ export default function TextDemo({ contrastColor, baseColor }: DemoProps) {
           >
             Invert?
           </Label>
-          <Switch.Root
-            className="state-checked:justify-end state-checked:border-accent state-checked:bg-accent bg-muted-background flex h-6 w-10 cursor-pointer justify-start rounded-full border p-[3px] transition-colors duration-300"
+          <Switch
             id="demo-text-invert"
             checked={inverted}
             onCheckedChange={(v) => setInverted(v)}
-          >
-            <Switch.Thumb asChild>
-              <motion.div
-                layout
-                transition={{ duration: 0.3 }}
-                className="state-checked:bg-white bg-accent aspect-square h-full rounded-full transition-colors duration-300"
-              ></motion.div>
-            </Switch.Thumb>
-          </Switch.Root>
+          />
         </div>
       </section>
     </main>

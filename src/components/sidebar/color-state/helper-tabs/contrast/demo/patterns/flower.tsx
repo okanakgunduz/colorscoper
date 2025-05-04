@@ -1,11 +1,11 @@
 import React from "react"
 
-type FlowerProps = {
+type Props = {
   foregroundColor?: string
   backgroundColor?: string
 }
 
-const FlowerSVG: React.FC<FlowerProps> = ({
+const FlowerSVG: React.FC<Props> = ({
   foregroundColor = "#000000",
   backgroundColor = "#FFFFFF",
 }) => (
@@ -16,6 +16,7 @@ const FlowerSVG: React.FC<FlowerProps> = ({
     width="100%"
     height="100%"
     role="img"
+    preserveAspectRatio="xMidYMid slice"
     className="**:transition-colors **:duration-300"
   >
     <>
@@ -25,7 +26,6 @@ const FlowerSVG: React.FC<FlowerProps> = ({
         width="864.567"
         height="484.724"
       />
-      <rect fill={backgroundColor} width="864.567" height="484.724" />
       <path
         fill={foregroundColor}
         d="M50.021,31.586c-0.263-1.909-2.088-5.028,0-6.086c0.445-0.049,0.891-0.099,1.336-0.148c0.656,0.314,1.022,0.517,1.336,1.187

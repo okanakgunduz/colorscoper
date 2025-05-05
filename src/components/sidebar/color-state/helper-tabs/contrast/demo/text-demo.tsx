@@ -61,6 +61,7 @@ export default function TextDemo({ contrastColor, baseColor }: DemoProps) {
           </Label>
           <input
             type="text"
+            autoComplete="off"
             id="demo-text-content"
             className="bg-muted-background focus:border-accent w-36 rounded border border-transparent px-2 py-1 font-medium text-black/90"
             value={text}

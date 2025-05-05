@@ -14,7 +14,7 @@ enum TabKeys {
   Pattern = "pattern",
 }
 
-export default function Playground({ contrastColor }: Props) {
+export default function Demo({ contrastColor }: Props) {
   const baseColor: Color =
     useSelectionStore.use.color()?.value ?? chroma("#fff")
 

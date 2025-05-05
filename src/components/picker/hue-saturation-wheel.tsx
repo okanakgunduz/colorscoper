@@ -58,14 +58,12 @@ export default function HueSaturationWheel() {
               >
                 <Layout size={{ x: 40, y: 40 }}>
                   {largeGrid.current.map(({ q, r, s }, i) => {
-                    // Calculate distance from center (0,0,0)
                     const distance =
                       (Math.abs(q) + Math.abs(r) + Math.abs(s)) / 2
 
-                    // Calculate hue based on angle
-                    let hue = 0 // Base hue is fixed at 0 (red)
+                    let hue = 0
                     const angle = hexToAngle(q, r, s)
-                    hue = angle // Hue directly corresponds to angle
+                    hue = angle
 
                     const saturation = Math.min(
                       map(distance, 0, LARGE_SIZE, 0, 1),
@@ -89,9 +87,10 @@ export default function HueSaturationWheel() {
                             fill: color.css(),
                           }}
                         >
-                          {/* <Text>
-                            {q} {r} {s}
-                          </Text> */}
+                          <circle
+                            r={3}
+                            className="fill-white/20 stroke-0 transition group-hover:fill-white"
+                          ></circle>
                         </Hexagon>
                         <Hexagon
                           q={q}
@@ -129,19 +128,16 @@ export default function HueSaturationWheel() {
                   }}
                 >
                   {smallGrid.current.map(({ q, r, s }, i) => {
-                    // Calculate distance from center (0,0,0)
                     const distance =
                       (Math.abs(q) + Math.abs(r) + Math.abs(s)) / 2
 
-                    // Calculate hue based on angle
-                    let hue = 0 // Base hue is fixed at 0 (red)
-                    // For non-center cells, calculate hue based on angle
+                    let hue = 0
+
                     if (q !== 0 || r !== 0 || s !== 0) {
                       const angle = hexToAngle(q, r, s)
-                      hue = angle // Hue directly corresponds to angle
+                      hue = angle
                     }
 
-                    // Saturation increases from center to edge
                     const saturation = Math.min(
                       map(distance, 0, SMALL_SIZE, 0, 1),
                       1,

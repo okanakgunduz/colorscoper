@@ -19,9 +19,9 @@ export default function PatternDemo({ contrastColor, baseColor }: DemoProps) {
   const [inverted, setInverted] = useState<boolean>(false)
 
   return (
-    <main className="mb-2 max-w-full space-y-4 p-2">
+    <main className="mb-2 max-w-full space-y-4">
       {/* Display */}
-      <section className="relative aspect-video w-full overflow-hidden rounded">
+      <section className="relative aspect-square w-full overflow-hidden">
         {(
           {
             flowers: Flower,
@@ -35,7 +35,7 @@ export default function PatternDemo({ contrastColor, baseColor }: DemoProps) {
       </section>
 
       {/* Controls */}
-      <section className="space-y-3 pl-2 select-none">
+      <section className="space-y-3 pr-2 pl-4 select-none">
         <div className="flex items-center justify-between pr-1">
           <Label
             htmlFor="demo-pattern-select"

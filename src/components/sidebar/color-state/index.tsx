@@ -12,7 +12,7 @@ export default function ColorState() {
       <aside className="size-full overflow-y-auto">
         <Header />
         <ColorSlots />
-        <Accordion defaultValue={["contrast"]} type="multiple">
+        <Accordion defaultValue={["color-harmony", "contrast"]} type="multiple">
           <Accordion.Section value="color-harmony">
             <Accordion.Header>Color Harmony</Accordion.Header>
             <Accordion.Content>

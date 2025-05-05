@@ -26,13 +26,6 @@ export default function ContrastHelper() {
           )
         }}
       />
-
-      {/* <ContrastLine
-        type="hue"
-        base={base!.value}
-        contrastColor={contrastColor}
-        contrastValue={contrastValue}
-      /> */}
     </div>
   )
 }

@@ -2,7 +2,7 @@ import chroma from "chroma-js"
 import { motion } from "motion/react"
 import { MouseEventHandler, useRef } from "react"
 import { GridGenerator, HexGrid, Hexagon, Layout } from "react-hexgrid"
-import hexToAngle from "@utils/hex-to-angle"
+import { easeInQuad } from "@utils/easing"
 import map from "@utils/map"
 import { useSelectionStore } from "@stores/selection.store"
 
@@ -10,23 +10,23 @@ interface Props {
   size: number
   factor?: number
   style: object
-  luminosity: number
+  hue: number
   handleMouseDown: MouseEventHandler<SVGGElement>
   handleMouseMove: MouseEventHandler<SVGGElement>
   handleMouseUp: (func?: () => void) => void
 }
 
-export default function SVGHexGrid({
+export default function SVGHexPyramid({
   size,
   factor = 1,
   style,
-  luminosity,
+  hue,
   handleMouseDown,
   handleMouseUp,
   handleMouseMove,
 }: Props) {
   const setPickerSelection = useSelectionStore.use.setPickerSelection()
-  const grid = useRef(GridGenerator.hexagon(size))
+  const grid = useRef(GridGenerator.triangle(size))
 
   return (
     <motion.div
@@ -40,27 +40,24 @@ export default function SVGHexGrid({
       >
         <Layout size={{ x: 40 * factor, y: 40 * factor }}>
           {grid.current.map(({ q, r, s }, i) => {
-            const distance = (Math.abs(q) + Math.abs(r) + Math.abs(s)) / 2
-
-            let hue = 0
-            const angle = hexToAngle(q, r, s)
-            hue = angle
-
-            const saturation = Math.min(map(distance, 0, size, 0, 1), 1)
-
-            const color = chroma.hsl(hue, saturation, luminosity)
+            const color = chroma.hsl(
+              hue,
+              map(r + q, 0, size, 0.2, 1),
+              map(s + r, -size, 0, 0.05, 0.9, easeInQuad),
+            )
 
             return (
               <g className="group" key={`pyramid-hex-grid-${size}-${i}`}>
                 <Hexagon
-                  q={q}
-                  r={r}
-                  s={s}
+                  q={q - size / 4}
+                  r={r - size / 4}
+                  s={s - size / 4}
                   className="group pointer-events-none origin-center rotate-30 transform-fill [&_polygon]:transition-transform [&_polygon]:group-hover:scale-88"
                   cellStyle={{
                     transform: "scale(0.95)",
                     fill: color.css(),
                   }}
+                  stroke={chroma.hsl(hue, 1, 0.7).css()}
                 >
                   <circle
                     r={3 * factor}
@@ -68,9 +65,9 @@ export default function SVGHexGrid({
                   ></circle>
                 </Hexagon>
                 <Hexagon
-                  q={q}
-                  r={r}
-                  s={s}
+                  q={q - size / 4}
+                  r={r - size / 4}
+                  s={s - size / 4}
                   onMouseDown={handleMouseDown}
                   onMouseMove={handleMouseMove}
                   onMouseUp={() =>

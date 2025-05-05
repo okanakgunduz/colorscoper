@@ -4,7 +4,7 @@ import Help from "@components/help"
 import cx, { type Class } from "@utils/cx"
 import HueSaturationWheel from "./hue-sat-wheel"
 import HueWBMap from "./hue-wb-map"
-import SaturationWBPyramid from "./saturation-wb-pyramid"
+import SaturationWBPyramid from "./sat-wb-pyramid"
 
 interface Props {
   className?: Class

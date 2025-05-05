@@ -29,7 +29,7 @@ export default function ContrastLine({
   return (
     <div
       ref={lineRef}
-      className="hover:bg-muted-background mx-4 flex cursor-pointer items-center gap-4 rounded border border-transparent p-2 pr-3 transition-colors select-none active:border-black/10 active:duration-75"
+      className="hover:bg-muted-background group mx-4 flex cursor-pointer items-center gap-4 rounded border border-transparent p-2 pr-3 transition-colors select-none active:border-black/10 active:duration-75"
     >
       {/* Indicator */}
       <RadixPopover
@@ -72,7 +72,7 @@ export default function ContrastLine({
 
         {/* Contrast Checker */}
 
-        <div className="space-x-1 rounded border bg-white px-2 py-0.5 select-none">
+        <div className="scale-90 space-x-1 rounded border bg-[#f8f8f8] px-2 py-0.5 transition-colors select-none group-hover:bg-white">
           <span className="text-caption-bold italic opacity-60">
             {getWcagContrastRating(contrastValue)}
           </span>

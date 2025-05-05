@@ -12,7 +12,7 @@ interface DemoProps {
   baseColor: Color
 }
 
-type Demo = "flowers" | "random-shapes" | "stripes"
+type Demo = "flowers" | "shapes" | "stripes"
 
 export default function PatternDemo({ contrastColor, baseColor }: DemoProps) {
   const [demo, setDemo] = useState<Demo>("flowers")
@@ -25,7 +25,7 @@ export default function PatternDemo({ contrastColor, baseColor }: DemoProps) {
         {(
           {
             flowers: Flower,
-            "random-shapes": RandomShapes,
+            shapes: RandomShapes,
             stripes: Stripes,
           } as Record<Demo, FC>
         )[demo]({
@@ -45,7 +45,7 @@ export default function PatternDemo({ contrastColor, baseColor }: DemoProps) {
           </Label>
           <Select value={demo} onValueChange={(v) => setDemo(v as Demo)}>
             <Select.Option value="flowers">Flowers</Select.Option>
-            <Select.Option value="random-shapes">Random Shapes</Select.Option>
+            <Select.Option value="shapes">Shapes</Select.Option>
             <Select.Option value="stripes">Stripes</Select.Option>
           </Select>
         </div>

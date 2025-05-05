@@ -2,7 +2,7 @@ import * as Tabs from "@radix-ui/react-tabs"
 import For from "@components/common/for"
 import Help from "@components/help"
 import cx, { type Class } from "@utils/cx"
-import HueSaturationWheel from "./hue-saturation-wheel"
+import HueSaturationWheel from "./hue-sat-wheel"
 import HueWBMap from "./hue-wb-map"
 import SaturationWBPyramid from "./saturation-wb-pyramid"
 

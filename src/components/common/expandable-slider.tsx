@@ -174,18 +174,18 @@ function ExpandedView({
           transition={{ ...springTransition, delay: 0.2 }}
           className="relative flex h-full grow items-center"
         >
-          <Slider.Track className="relative h-1 flex-1 rounded bg-gray-300">
+          <Slider.Track className="relative flex h-1 flex-1 items-center justify-center rounded bg-gray-300">
             <Slider.Range className="bg-accent absolute h-full rounded" />
+            <Slider.Thumb asChild>
+              <motion.span
+                layoutId={`thumb-${layoutkey}`}
+                transition={springTransition}
+                className="bg-muted-accent text-accent text-caption-bold cursor-grab rounded p-1 select-none active:cursor-grabbing"
+              >
+                {format(localValue)}
+              </motion.span>
+            </Slider.Thumb>
           </Slider.Track>
-          <Slider.Thumb asChild>
-            <motion.span
-              layoutId={`thumb-${layoutkey}`}
-              transition={springTransition}
-              className="bg-muted-accent text-accent text-caption-bold cursor-grab rounded p-1 select-none active:cursor-grabbing"
-            >
-              {format(localValue)}
-            </motion.span>
-          </Slider.Thumb>
         </motion.div>
       </Slider.Root>
     </motion.div>

@@ -13,7 +13,7 @@ interface Props {
   section: number
 }
 
-type Rotation = "5" | "10" | "15"
+type Rotation = "5" | "10" | "15" | "20"
 
 export default function LineDetails({ section }: Props) {
   const [rotation, setRotation] = useState<Rotation>("10")
@@ -59,14 +59,14 @@ export default function LineDetails({ section }: Props) {
           htmlFor="coverage-slider"
           className="text-caption-bold text-muted"
         >
-          Reach
+          Spread
         </Label>
 
         <RadioGroup.Root
           id="coverage-slider"
           value={rotation}
           onValueChange={(v) => setRotation(v as Rotation)}
-          className="bg-muted-background flex h-7 w-36 items-stretch justify-stretch overflow-hidden rounded"
+          className="bg-muted-background flex h-7 w-36 items-stretch justify-stretch divide-x overflow-hidden rounded"
         >
           <RadioGroup.Item
             value="5"
@@ -85,6 +85,12 @@ export default function LineDetails({ section }: Props) {
             className="text-caption-bold state-checked:bg-accent state-checked:text-white/85 text-accent grow cursor-pointer transition"
           >
             15°
+          </RadioGroup.Item>
+          <RadioGroup.Item
+            value="20"
+            className="text-caption-bold state-checked:bg-accent state-checked:text-white/85 text-accent grow cursor-pointer transition"
+          >
+            20°
           </RadioGroup.Item>
         </RadioGroup.Root>
       </div>

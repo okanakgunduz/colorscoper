@@ -9,7 +9,7 @@ interface Props {
 
 export default function useZoomableGrid({
   transitionPoints = [2],
-  transitionSpan = 0.1,
+  transitionSpan = 0.2,
 }: Props = {}) {
   const zoomLevel = useMotionValue(1)
   const dragX = useMotionValue(0)
@@ -30,12 +30,12 @@ export default function useZoomableGrid({
       gridStyles[i] = {
         opacity: useTransform(
           zoomLevel,
-          [exitPoint - transitionSpan / 2, exitPoint + transitionSpan / 2],
+          [exitPoint, exitPoint + transitionSpan / 2],
           [1, 0],
         ),
         pointerEvents: useTransform(
           zoomLevel,
-          [exitPoint - transitionSpan / 2, exitPoint + transitionSpan / 2],
+          [exitPoint, exitPoint + transitionSpan / 2],
           ["auto", "none"],
         ),
       }
@@ -45,12 +45,12 @@ export default function useZoomableGrid({
       gridStyles[i] = {
         opacity: useTransform(
           zoomLevel,
-          [enterPoint - transitionSpan / 2, enterPoint + transitionSpan / 2],
+          [enterPoint, enterPoint + transitionSpan / 2],
           [0, 1],
         ),
         pointerEvents: useTransform(
           zoomLevel,
-          [enterPoint - transitionSpan / 2, enterPoint + transitionSpan / 2],
+          [enterPoint, enterPoint + transitionSpan / 2],
           ["none", "auto"],
         ),
       }
@@ -62,9 +62,9 @@ export default function useZoomableGrid({
         opacity: useTransform(
           zoomLevel,
           [
-            enterPoint - transitionSpan / 2,
+            enterPoint,
             enterPoint + transitionSpan / 2,
-            exitPoint - transitionSpan / 2,
+            exitPoint,
             exitPoint + transitionSpan / 2,
           ],
           [0, 1, 1, 0],
@@ -72,9 +72,9 @@ export default function useZoomableGrid({
         pointerEvents: useTransform(
           zoomLevel,
           [
-            enterPoint - transitionSpan / 2,
+            enterPoint,
             enterPoint + transitionSpan / 2,
-            exitPoint - transitionSpan / 2,
+            exitPoint,
             exitPoint + transitionSpan / 2,
           ],
           ["none", "auto", "auto", "none"],

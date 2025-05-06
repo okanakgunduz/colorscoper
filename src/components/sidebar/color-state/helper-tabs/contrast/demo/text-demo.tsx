@@ -83,7 +83,7 @@ export default function TextDemo({ contrastColor, baseColor }: DemoProps) {
             id="demo-text-size"
             value={size}
             onValueChange={(v) => setSize(v as TextSize)}
-            className="bg-muted-background *:text-accent flex h-7 w-36 items-stretch justify-stretch overflow-hidden rounded *:grow *:cursor-pointer *:font-medium *:italic *:transition"
+            className="bg-muted-background *:text-accent flex h-7 w-36 items-stretch justify-stretch divide-x overflow-hidden rounded *:grow *:cursor-pointer *:font-medium *:italic *:transition"
           >
             <RadioGroup.Item
               value="sm"
@@ -118,7 +118,7 @@ export default function TextDemo({ contrastColor, baseColor }: DemoProps) {
             id="demo-text-style"
             value={fontStyle}
             onValueChange={(v) => setFontStyle(v as FontStyle)}
-            className="bg-muted-background flex h-7 w-36 items-stretch justify-stretch overflow-hidden rounded"
+            className="bg-muted-background flex h-7 w-36 items-stretch justify-stretch divide-x overflow-hidden rounded"
           >
             <RadioGroup.Item
               value="srf"

@@ -1,18 +1,18 @@
-import { Sparkle, X } from "@phosphor-icons/react"
+import { ChartDonut, X } from "@phosphor-icons/react"
 import { Close, Content } from "@radix-ui/react-dialog"
 import { AnimatePresence, motion } from "motion/react"
 import { useState } from "react"
 import If from "@components/common/if"
 import Analyzer from "./analyzer"
-import Assignment from "./assignment"
+import Assigner from "./assigner"
 
 enum Tabs {
-  Assignment = "assignment",
+  Assigner = "assigner",
   Analyzer = "analyzer",
 }
 
 export default function Modal() {
-  const [tab, setTab] = useState<Tabs>(Tabs.Assignment)
+  const [tab, setTab] = useState<Tabs>(Tabs.Assigner)
 
   return (
     <Content asChild>
@@ -21,7 +21,7 @@ export default function Modal() {
         animate={{ scale: 1, opacity: 1 }}
         exit={{ scale: 0.97, opacity: 0 }}
         layout
-        className="fixed inset-0 m-auto size-fit rounded-lg border bg-white"
+        className="fixed inset-0 m-auto size-fit overflow-hidden rounded-lg border bg-white"
       >
         <motion.div layout="preserve-aspect">
           <motion.header
@@ -29,13 +29,13 @@ export default function Modal() {
             className="text-caption relative flex h-10 w-full shrink-0 items-center justify-between border-b px-3"
           >
             <div className="flex items-center justify-center gap-1 select-none">
-              <Sparkle className="text-accent size-4" weight="fill" />
-              <h2 className="text-muted">Scene Analyzer</h2>
+              <ChartDonut className="text-accent size-4" weight="fill" />
+              <h2 className="gradient-title font-[450]">Scene Analyzer</h2>
             </div>
             <AnimatePresence initial={false}>
               <motion.div
                 layout
-                className="bg-muted-accent text-caption-bold text-accent absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 rounded-full px-4 py-1.5 capitalize"
+                className="text-caption-bold text-muted absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 capitalize"
               >
                 <motion.span
                   onClick={() => setTab(Tabs.Analyzer)}
@@ -45,7 +45,7 @@ export default function Modal() {
                   animate={{
                     opacity: 1,
                     transition: {
-                      delay: 0.15,
+                      delay: 0.2,
                     },
                   }}
                 >
@@ -60,8 +60,10 @@ export default function Modal() {
             </Close>
           </motion.header>
           <If
-            condition={tab === Tabs.Assignment}
-            renderItem={() => <Assignment />}
+            condition={tab === Tabs.Assigner}
+            renderItem={() => (
+              <Assigner onConfirmed={() => setTab(Tabs.Analyzer)} />
+            )}
             renderElse={() => <Analyzer />}
           />
         </motion.div>

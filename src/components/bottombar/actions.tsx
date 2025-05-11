@@ -1,4 +1,4 @@
-import { Play, Sparkle } from "@phosphor-icons/react"
+import { ChartDonut, Play } from "@phosphor-icons/react"
 import For from "@components/common/for"
 import Select from "@components/common/select"
 import SceneAnalyzer from "@components/scene-analyzer"
@@ -35,9 +35,12 @@ export default function Actions({ className }: Props) {
       <SceneAnalyzer
         trigger={
           <button className="px-sidebar group hover:bg-muted-background text-accent flex h-full cursor-pointer items-center justify-center gap-1.5 border-l">
-            <Sparkle weight="fill" className="size-5 group-active:opacity-50" />
+            <ChartDonut
+              weight="fill"
+              className="size-5 group-active:opacity-50"
+            />
             <span className="text-heading-3 font-normal group-active:opacity-50">
-              Analyze
+              Scene Analyzer
             </span>
           </button>
         }

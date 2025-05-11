@@ -1,11 +1,10 @@
 import type { Icon } from "@phosphor-icons/react"
 import { type VariantProps, cva } from "class-variance-authority"
 import { HTMLProps, PropsWithChildren } from "react"
-
 import cx, { type Class } from "@utils/cx"
 
 const button = cva(
-  "transition-colors h-fit active:opacity-50 duration-150 cursor-pointer rounded-full select-none inline-flex items-center justify-center",
+  "transition-colors px-3 py-0.5 h-fit active:opacity-50 duration-150 cursor-pointer rounded-full select-none inline-flex items-center justify-center",
   {
     variants: {
       type: {
@@ -18,9 +17,8 @@ const button = cva(
         true: "pointer-events-none text-gray-400",
       },
       size: {
-        sm: "px-3 py-0.5 font-medium gap-1",
+        sm: "font-medium gap-1",
         md: null,
-        lg: null,
       },
       content: {
         "icon-only": "rounded p-2",

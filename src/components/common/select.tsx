@@ -20,6 +20,7 @@ import {
   SelectViewport,
 } from "@radix-ui/react-select"
 import { ElementRef, type ReactNode, forwardRef } from "react"
+import cx, { Class } from "@utils/cx"
 import If from "./if"
 
 /* Root */
@@ -28,17 +29,19 @@ type SelectProps = {
   title?: string
   placeholder?: string
   children?: ReactNode[] | ReactNode
+  className?: Class
 } & RootProps
 
 export default function Select({
   title,
   children,
   placeholder,
+  className,
   ...rest
 }: SelectProps) {
   return (
     <Root {...rest}>
-      <div className="flex flex-col">
+      <div className={cx(className, "flex flex-col")}>
         <If
           condition={!!title}
           renderItem={() => (

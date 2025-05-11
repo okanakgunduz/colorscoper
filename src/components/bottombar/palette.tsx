@@ -3,7 +3,6 @@ import { AnimatePresence, motion } from "motion/react"
 import { useMemo } from "react"
 import { useShallow } from "zustand/shallow"
 import For from "@components/common/for"
-import If from "@components/common/if"
 import useKeyListener from "@hooks/useKeyListener"
 import cx, { Class } from "@utils/cx"
 import { MAX_PALETTE_COUNT, usePaletteStore } from "@stores/palette.store"
@@ -46,15 +45,6 @@ export default function Palette({ className }: Props) {
           )}
         />
 
-        {/* Placeholders */}
-        {/* <If
-          condition={paletteColors.length === 0}
-          renderItem={() => (
-            <div>
-              <button className="bg-muted-background relative size-7 rounded-md border border-dashed border-black/20" />
-            </div>
-          )}
-        /> */}
         <For
           times={Math.min(MAX_PALETTE_COUNT - paletteColors.length, 2)}
           renderItem={(i) => (

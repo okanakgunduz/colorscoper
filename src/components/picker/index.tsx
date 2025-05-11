@@ -20,8 +20,8 @@ export default function Picker({ className }: Props) {
   return (
     <div className={cx(className, "relative")}>
       <Tabs.Root
-        defaultValue={TabKeys.HueSaturationWheel}
-        className="bg-muted-background relative grid h-full w-full place-items-center"
+        defaultValue={TabKeys.HueWBMap}
+        className="bg-muted-background relative isolate grid h-full w-full place-items-center"
       >
         {/* Picker Select */}
 

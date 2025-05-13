@@ -1,3 +1,3 @@
 export default function Analyzer() {
-  return <section className="h-64 w-4xl">Analyzer</section>
+  return <section className="h-96 w-2xl">Analyzer</section>
 }

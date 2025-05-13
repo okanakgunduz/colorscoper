@@ -26,7 +26,7 @@ export default function Modal() {
         <div>
           <motion.header
             layout
-            className="text-caption relative flex h-10 w-full shrink-0 items-center justify-between border-b px-3"
+            className="text-caption relative flex h-10 w-full shrink-0 items-center justify-between border-b px-3 select-none"
           >
             <motion.div
               layout="preserve-aspect"

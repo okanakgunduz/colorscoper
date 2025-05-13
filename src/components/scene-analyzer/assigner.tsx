@@ -13,7 +13,7 @@ interface Props {
 
 export default function Assigner({ onConfirmed }: Props) {
   return (
-    <section className="flex h-96 w-3xl flex-col divide-y">
+    <section className="flex h-80 w-xl flex-col divide-y">
       <main className="grow"></main>
       <footer className="bg-muted-background px-sidebar flex h-14 items-center justify-between">
         <p className="text-caption text-muted flex items-center gap-2">

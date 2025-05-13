@@ -56,6 +56,7 @@ export default function SVGHexPyramid({
                   cellStyle={{
                     transform: "scale(0.95)",
                     fill: color.css(),
+                    strokeWidth: factor,
                   }}
                   stroke={chroma.hsl(hue, 1, 0.7).css()}
                 >

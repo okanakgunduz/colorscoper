@@ -18,8 +18,19 @@ export default function Modal() {
     <Content asChild>
       <motion.div
         initial={{ scale: 1.05, opacity: 0 }}
-        animate={{ scale: 1, opacity: 1 }}
-        exit={{ scale: 0.97, opacity: 0 }}
+        animate={{
+          scale: 1,
+          opacity: 1,
+        }}
+        exit={{
+          scale: 0.97,
+          opacity: 0,
+          transition: {
+            type: "tween",
+            ease: "easeOut",
+            duration: 0.15,
+          },
+        }}
         layout
         className="fixed inset-0 m-auto size-fit overflow-hidden rounded-lg border bg-white"
       >

@@ -38,9 +38,9 @@ export default function Copy<T extends ElementType = "span">({
       className: cx(
         "cursor-pointer no-opsz text-caption-bold whitespace-nowrap overflow-hidden text-ellipsis",
         className,
-        {
-          uppercase: !copied && !hovering,
-        },
+        // {
+        //   uppercase: !copied && !hovering,
+        // },
       ),
       onClick: (e: MouseEvent) => {
         e.stopPropagation()

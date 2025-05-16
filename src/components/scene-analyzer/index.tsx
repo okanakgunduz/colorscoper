@@ -1,4 +1,10 @@
-import { DialogTrigger, Overlay, Portal, Root } from "@radix-ui/react-dialog"
+import {
+  Content,
+  DialogTrigger,
+  Overlay,
+  Portal,
+  Root,
+} from "@radix-ui/react-dialog"
 import { AnimatePresence, Variants } from "motion/react"
 import { motion } from "motion/react"
 import { ReactNode, useState } from "react"
@@ -38,7 +44,9 @@ export default function SceneAnalyzer({ trigger }: Props) {
                 className="fixed inset-0 bg-black/20"
               />
             </Overlay>
-            <Modal />
+            <Content>
+              <Modal />
+            </Content>
           </Portal>
         )}
       />

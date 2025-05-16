@@ -9,15 +9,18 @@ import { Color } from "chroma-js"
 import { CSSProperties, useState } from "react"
 import If from "@components/common/if"
 import { passIf } from "@components/common/pass-if"
+import { getCombinationCount } from "@utils/resolve-scene-state"
 import Snapper from "./snapper"
 
-enum BGPattern {
-  Square,
-  VerticalStrip,
-  HorizontalStrip,
-  T,
-  TReverse,
-}
+export const BGPattern = {
+  Square: "square",
+  VerticalStrip: "vertical-strip",
+  HorizontalStrip: "horizontal-strip",
+  T: "t",
+  TReverse: "t-reverse",
+} as const
+
+export type BGPattern = Enumize<typeof BGPattern>
 
 export type BGState = { index: number; pattern: BGPattern }
 
@@ -33,10 +36,10 @@ export default function Analyzer({ foreground, background }: Props) {
   })
 
   return (
-    <section className="flex h-96 w-2xl items-stretch divide-x">
-      <aside className="grow"></aside>
+    <section className="flex h-96 w-2xl items-stretch divide-x overflow-hidden">
+      <aside className="bg-muted-background grow"></aside>
       <main
-        className="flex flex-col divide-y"
+        className="flex flex-col"
         style={
           {
             "--footer-height": 12,
@@ -46,8 +49,10 @@ export default function Analyzer({ foreground, background }: Props) {
         <Snapper
           className="aspect-square h-[calc(100%_-_calc(var(--spacing)_*_var(--footer-height)))]"
           state={backgroundState}
+          background={background}
+          foreground={foreground}
         />
-        <footer className="flex h-[calc(var(--spacing)_*_var(--footer-height))] items-center gap-2 px-4">
+        <footer className="flex h-[calc(var(--spacing)_*_var(--footer-height))] items-center justify-center gap-2 px-4">
           <If
             condition={background.length >= 1}
             renderItem={() => (
@@ -56,7 +61,12 @@ export default function Analyzer({ foreground, background }: Props) {
                 type={BGPattern.Square}
                 current={backgroundState.pattern}
                 onClick={(type) => {
-                  setBackgroundState({ ...backgroundState, pattern: type })
+                  setBackgroundState({
+                    pattern: type,
+                    index:
+                      backgroundState.index %
+                      getCombinationCount(background.length, type),
+                  })
                 }}
               />
             )}
@@ -71,7 +81,12 @@ export default function Analyzer({ foreground, background }: Props) {
                   type={BGPattern.VerticalStrip}
                   current={backgroundState.pattern}
                   onClick={(type) => {
-                    setBackgroundState({ ...backgroundState, pattern: type })
+                    setBackgroundState({
+                      pattern: type,
+                      index:
+                        backgroundState.index %
+                        getCombinationCount(background.length, type),
+                    })
                   }}
                 />
                 <LayoutButton
@@ -79,7 +94,12 @@ export default function Analyzer({ foreground, background }: Props) {
                   type={BGPattern.HorizontalStrip}
                   current={backgroundState.pattern}
                   onClick={(type) => {
-                    setBackgroundState({ ...backgroundState, pattern: type })
+                    setBackgroundState({
+                      pattern: type,
+                      index:
+                        backgroundState.index %
+                        getCombinationCount(background.length, type),
+                    })
                   }}
                 />
               </>
@@ -95,7 +115,12 @@ export default function Analyzer({ foreground, background }: Props) {
                   type={BGPattern.T}
                   current={backgroundState.pattern}
                   onClick={(type) => {
-                    setBackgroundState({ ...backgroundState, pattern: type })
+                    setBackgroundState({
+                      pattern: type,
+                      index:
+                        backgroundState.index %
+                        getCombinationCount(background.length, type),
+                    })
                   }}
                 />
                 <LayoutButton
@@ -103,12 +128,33 @@ export default function Analyzer({ foreground, background }: Props) {
                   type={BGPattern.TReverse}
                   current={backgroundState.pattern}
                   onClick={(type) => {
-                    setBackgroundState({ ...backgroundState, pattern: type })
+                    setBackgroundState({
+                      pattern: type,
+                      index:
+                        backgroundState.index %
+                        getCombinationCount(background.length, type),
+                    })
                   }}
                 />
               </>
             )}
           />
+
+          <button
+            onClick={() =>
+              setBackgroundState({
+                ...backgroundState,
+                index:
+                  (backgroundState.index + 1) %
+                  getCombinationCount(
+                    background.length,
+                    backgroundState.pattern,
+                  ),
+              })
+            }
+          >
+            +
+          </button>
         </footer>
       </main>
     </section>
@@ -131,7 +177,7 @@ function LayoutButton({
   return (
     <button
       {...passIf(type === current, { "data-active": true })}
-      className="bg-muted-background data-[active]:border-accent data-[active]:bg-accent rounded border p-1 transition-colors data-[active]:text-white"
+      className="bg-muted-background data-[active]:border-accent data-[active]:bg-accent cursor-pointer rounded border p-1 transition-colors data-[active]:text-white"
       onClick={() => onClick?.(type)}
     >
       <Icon size={16} />

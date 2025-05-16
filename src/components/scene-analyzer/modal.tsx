@@ -1,5 +1,6 @@
 import { ChartDonut, X } from "@phosphor-icons/react"
 import { Close, Description, Title } from "@radix-ui/react-dialog"
+import { Color } from "chroma-js"
 import { AnimatePresence, motion } from "motion/react"
 import { useState } from "react"
 import If from "@components/common/if"
@@ -13,6 +14,8 @@ enum Tabs {
 
 export default function Modal() {
   const [tab, setTab] = useState<Tabs>(Tabs.Assigner)
+  const [foreground, setForeground] = useState<Color[]>([])
+  const [background, setBackground] = useState<Color[]>([])
 
   return (
     <motion.div
@@ -72,12 +75,16 @@ export default function Modal() {
           condition={tab === Tabs.Assigner}
           renderItem={() => (
             <Assigner
-              onConfirmed={() => {
+              onConfirmed={(colorState) => {
+                setForeground(colorState.foreground)
+                setBackground(colorState.background)
                 setTab(Tabs.Analyzer)
               }}
             />
           )}
-          renderElse={() => <Analyzer />}
+          renderElse={() => (
+            <Analyzer foreground={foreground} background={background} />
+          )}
         />
       </div>
     </motion.div>

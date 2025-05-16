@@ -12,8 +12,8 @@ import { useColorModeStore } from "@stores/color-mode.store"
 import { usePaletteStore } from "@stores/palette.store"
 
 type AssignerState = {
-  foreground: Array<Color>
-  background: Array<Color>
+  foreground: Color[]
+  background: Color[]
 }
 
 interface Props {
@@ -35,7 +35,7 @@ export default function Assigner({ onConfirmed }: Props) {
     <section className="flex h-80 w-xl flex-col divide-y">
       <main className="flex grow items-stretch justify-between divide-x overflow-hidden *:px-4 *:pb-4">
         <div className="h-full w-1/2 overflow-auto">
-          <h2 className="text-heading-3 sticky top-0 z-10 bg-gradient-to-b from-white from-50% to-transparent pt-3 pb-5">
+          <h2 className="text-heading-3 sticky top-0 z-10 bg-gradient-to-b from-white from-50% to-transparent pt-3 pb-5 select-none">
             Foreground
           </h2>
           <div className="space-y-3">
@@ -72,7 +72,7 @@ export default function Assigner({ onConfirmed }: Props) {
           </div>
         </div>
         <div className="h-full w-1/2 overflow-auto">
-          <h2 className="text-heading-3 sticky top-0 z-10 bg-gradient-to-b from-white from-60% to-transparent py-4">
+          <h2 className="text-heading-3 sticky top-0 z-10 bg-gradient-to-b from-white from-60% to-transparent py-4 select-none">
             Background
           </h2>
           <div className="space-y-3">

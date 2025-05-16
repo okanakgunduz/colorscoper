@@ -6,7 +6,7 @@ export default function Header() {
       <div className="flex w-full justify-between">
         <h1 className="text-heading flex items-center gap-1">
           <CircleHalf size={20} />
-          <span>Palette Helper</span>
+          <span>Suleyman The Kivi</span>
         </h1>
       </div>
       <p className="text-paragraph text-muted">

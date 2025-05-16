@@ -39,7 +39,7 @@ export default function Actions({ className }: Props) {
               weight="fill"
               className="size-5 group-active:opacity-50"
             />
-            <span className="text-heading-3 font-normal group-active:opacity-50">
+            <span className="text-heading-3 hidden font-normal group-active:opacity-50 xl:inline">
               Scene Analyzer
             </span>
           </button>
@@ -48,7 +48,7 @@ export default function Actions({ className }: Props) {
 
       <button className="px-sidebar group hover:bg-muted-background text-accent flex h-full cursor-pointer items-center justify-center gap-1.5 border-l">
         <Play weight="fill" className="size-5 group-active:opacity-50" />
-        <span className="text-heading-3 font-normal group-active:opacity-50">
+        <span className="text-heading-3 hidden font-normal group-active:opacity-50 xl:inline">
           Export
         </span>
       </button>

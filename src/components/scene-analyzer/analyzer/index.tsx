@@ -1,5 +1,7 @@
+import HorizontalSplitTriple from "@assets/HorizontalSplitTriple"
 import T from "@assets/T"
 import TReverse from "@assets/TReverse"
+import VerticalSplitTriple from "@assets/VerticalSplitTriple"
 import { Icon, Square } from "@phosphor-icons/react"
 import {
   SquareSplitHorizontal,
@@ -9,13 +11,15 @@ import { Color } from "chroma-js"
 import { CSSProperties, useState } from "react"
 import If from "@components/common/if"
 import { passIf } from "@components/common/pass-if"
-import { getCombinationCount } from "@utils/resolve-scene-state"
 import Snapper from "./snapper"
+import { getCombinationCount } from "./snapper/resolve-snapper-state"
 
 export const BGPattern = {
   Square: "square",
-  VerticalStrip: "vertical-strip",
-  HorizontalStrip: "horizontal-strip",
+  VerticalStripDouble: "vertical-strip-double",
+  HorizontalStripDouble: "horizontal-strip-double",
+  VerticalStripTriple: "vertical-strip-triple",
+  HorizontalStripTriple: "horizontal-strip-triple",
   T: "t",
   TReverse: "t-reverse",
 } as const
@@ -39,19 +43,24 @@ export default function Analyzer({ foreground, background }: Props) {
     <section className="flex h-96 w-2xl items-stretch divide-x overflow-hidden">
       <aside className="bg-muted-background grow"></aside>
       <main
-        className="flex flex-col"
+        className="flex flex-col divide-y"
         style={
           {
             "--footer-height": 12,
           } as CSSProperties
         }
       >
+        {/* Snapper */}
+
         <Snapper
           className="aspect-square h-[calc(100%_-_calc(var(--spacing)_*_var(--footer-height)))]"
           state={backgroundState}
           background={background}
           foreground={foreground}
         />
+
+        {/* Footer */}
+
         <footer className="flex h-[calc(var(--spacing)_*_var(--footer-height))] items-center justify-center gap-2 px-4">
           <If
             condition={background.length >= 1}
@@ -78,7 +87,7 @@ export default function Analyzer({ foreground, background }: Props) {
               <>
                 <LayoutButton
                   icon={SquareSplitHorizontal}
-                  type={BGPattern.VerticalStrip}
+                  type={BGPattern.VerticalStripDouble}
                   current={backgroundState.pattern}
                   onClick={(type) => {
                     setBackgroundState({
@@ -91,7 +100,7 @@ export default function Analyzer({ foreground, background }: Props) {
                 />
                 <LayoutButton
                   icon={SquareSplitVertical}
-                  type={BGPattern.HorizontalStrip}
+                  type={BGPattern.HorizontalStripDouble}
                   current={backgroundState.pattern}
                   onClick={(type) => {
                     setBackgroundState({
@@ -110,6 +119,32 @@ export default function Analyzer({ foreground, background }: Props) {
             condition={background.length >= 3}
             renderItem={() => (
               <>
+                <LayoutButton
+                  icon={HorizontalSplitTriple as Icon}
+                  type={BGPattern.HorizontalStripTriple}
+                  current={backgroundState.pattern}
+                  onClick={(type) => {
+                    setBackgroundState({
+                      pattern: type,
+                      index:
+                        backgroundState.index %
+                        getCombinationCount(background.length, type),
+                    })
+                  }}
+                />
+                <LayoutButton
+                  icon={VerticalSplitTriple as Icon}
+                  type={BGPattern.VerticalStripTriple}
+                  current={backgroundState.pattern}
+                  onClick={(type) => {
+                    setBackgroundState({
+                      pattern: type,
+                      index:
+                        backgroundState.index %
+                        getCombinationCount(background.length, type),
+                    })
+                  }}
+                />
                 <LayoutButton
                   icon={T as Icon}
                   type={BGPattern.T}
@@ -141,6 +176,7 @@ export default function Analyzer({ foreground, background }: Props) {
           />
 
           <button
+            className="ml-auto"
             onClick={() =>
               setBackgroundState({
                 ...backgroundState,

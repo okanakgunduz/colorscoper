@@ -9,27 +9,33 @@ interface Props {
   className: Class
   foreground: Color[]
   background: Color[]
+  onFilled?: () => void
 }
 
-export default function Snapper({ state, className, background }: Props) {
+export default function Snapper({
+  state,
+  className,
+  background,
+  foreground,
+  onFilled,
+}: Props) {
   return (
-    <div
-      className={cx(
-        className,
-        "grid grid-cols-1 grid-rows-1 items-center justify-center",
-      )}
-    >
+    <div className={cx(className, "relative")}>
       {/* Background */}
 
       <SnapperBackground
-        className="col-span-full row-span-full h-full w-full"
+        className="absolute inset-0"
         state={state}
         background={background}
       />
 
       {/* Foreground */}
 
-      <SnapperForeground className="col-span-full row-span-full h-full w-full" />
+      <SnapperForeground
+        onFilled={onFilled}
+        items={foreground}
+        className="absolute inset-1"
+      />
     </div>
   )
 }

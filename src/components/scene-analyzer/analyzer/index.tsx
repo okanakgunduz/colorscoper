@@ -39,11 +39,22 @@ export default function Analyzer({ foreground, background }: Props) {
     index: 0,
   })
 
+  const [items, setItems] = useState<Color[]>([])
+
+  const [disabled, setDisabled] = useState(false)
+
   return (
     <section className="flex h-96 w-2xl items-stretch divide-x overflow-hidden">
-      <aside className="bg-muted-background grow"></aside>
+      <aside className="bg-muted-background grow">
+        <button
+          disabled={disabled}
+          onClick={() => setItems((state) => [...state, foreground.at(0)])}
+        >
+          Add
+        </button>
+      </aside>
       <main
-        className="flex flex-col divide-y"
+        className="dividey flex flex-col"
         style={
           {
             "--footer-height": 12,
@@ -56,7 +67,8 @@ export default function Analyzer({ foreground, background }: Props) {
           className="aspect-square h-[calc(100%_-_calc(var(--spacing)_*_var(--footer-height)))]"
           state={backgroundState}
           background={background}
-          foreground={foreground}
+          foreground={items}
+          onFilled={() => setDisabled(true)}
         />
 
         {/* Footer */}
@@ -213,7 +225,7 @@ function LayoutButton({
   return (
     <button
       {...passIf(type === current, { "data-active": true })}
-      className="bg-muted-background data-[active]:border-accent data-[active]:bg-accent cursor-pointer rounded border p-1 transition-colors data-[active]:text-white"
+      className="bg-muted-background text-accent data-[active]:border-accent data-[active]:bg-accent cursor-pointer rounded border p-1 transition-colors data-[active]:text-white"
       onClick={() => onClick?.(type)}
     >
       <Icon size={16} />

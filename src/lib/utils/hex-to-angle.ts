@@ -1,4 +1,4 @@
-export default function hexToAngle(q, r, s) {
+export default function hexToAngle(q: number, r: number, s: number) {
   if (q === 0 && r === 0 && s === 0) return 0 // Center point
 
   // Convert to cartesian coordinates

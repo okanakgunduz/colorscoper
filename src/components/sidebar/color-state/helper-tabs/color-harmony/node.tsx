@@ -1,4 +1,4 @@
-import { CardsThree, CircleHalfTilt } from "@phosphor-icons/react"
+import { CardsThree } from "@phosphor-icons/react"
 import { Color } from "chroma-js"
 import { Variants } from "motion/react"
 import { motion } from "motion/react"

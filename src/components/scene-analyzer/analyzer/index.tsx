@@ -2,15 +2,17 @@ import HorizontalSplitTriple from "@assets/HorizontalSplitTriple"
 import T from "@assets/T"
 import TReverse from "@assets/TReverse"
 import VerticalSplitTriple from "@assets/VerticalSplitTriple"
-import { Icon, Square } from "@phosphor-icons/react"
+import { Icon, Plus, Square } from "@phosphor-icons/react"
 import {
   SquareSplitHorizontal,
   SquareSplitVertical,
 } from "@phosphor-icons/react/dist/ssr"
 import { Color } from "chroma-js"
-import { CSSProperties, useState } from "react"
+import { CSSProperties, useEffect, useState } from "react"
+import { v4 as uuid } from "uuid"
 import If from "@components/common/if"
 import { passIf } from "@components/common/pass-if"
+import ColorLine from "../color-line"
 import Snapper from "./snapper"
 import { getCombinationCount } from "./snapper/resolve-snapper-state"
 
@@ -39,19 +41,31 @@ export default function Analyzer({ foreground, background }: Props) {
     index: 0,
   })
 
-  const [items, setItems] = useState<Color[]>([])
+  const [items, setItems] = useState<{ id: string; color: Color }[]>([])
+
+  useEffect(() => {
+    if (items.length === 25) setDisabled(true)
+    else setDisabled(false)
+  }, [items])
 
   const [disabled, setDisabled] = useState(false)
 
   return (
     <section className="flex h-96 w-2xl items-stretch divide-x overflow-hidden">
-      <aside className="bg-muted-background grow">
-        <button
-          disabled={disabled}
-          onClick={() => setItems((state) => [...state, foreground.at(0)])}
-        >
-          Add
-        </button>
+      <aside className="bg-muted-background grow space-y-3 overflow-hidden px-4 pt-4">
+        {foreground.map((color) => (
+          <ColorLine
+            key={`assigner-background-${color.hex()}`}
+            className="origin-top-left"
+            color={color}
+            id={color.hex()}
+            icon={Plus}
+            disabled={disabled}
+            onAction={() =>
+              setItems((state) => [...state, { id: uuid(), color }])
+            }
+          />
+        ))}
       </aside>
       <main
         className="dividey flex flex-col"
@@ -68,7 +82,9 @@ export default function Analyzer({ foreground, background }: Props) {
           state={backgroundState}
           background={background}
           foreground={items}
-          onFilled={() => setDisabled(true)}
+          onRemove={(id) =>
+            setItems((prev) => prev.filter((item) => item.id !== id))
+          }
         />
 
         {/* Footer */}

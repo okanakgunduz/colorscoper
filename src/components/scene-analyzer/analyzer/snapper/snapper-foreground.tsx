@@ -1,33 +1,35 @@
 import { Color } from "chroma-js"
-import { motion } from "motion/react"
-import { useEffect, useRef, useState } from "react"
+import { AnimatePresence } from "motion/react"
+import { useEffect, useMemo, useRef, useState } from "react"
 import For from "@components/common/for"
-import { useDragSnap } from "@hooks/useDragSnap"
 import cx, { Class } from "@utils/cx"
 import randomPick from "@utils/random-pick"
+import Draggable from "./draggable"
 
 interface Props {
   className?: Class
-  items: Color[]
+  items: { id: string; color: Color }[]
   onFilled?: () => void
+  onRemove?: (id: string) => void
 }
 
 export default function SnapperForeground({
   className,
   items,
   onFilled,
+  onRemove,
 }: Props) {
   const [occupancy, setOccupancy] = useState<number[]>(() => Array(25).fill(0))
   const [positions, setPositions] = useState<Record<string, number>>({})
+
   const constraintRef = useRef<HTMLDivElement>(null)
 
   const getItemPositions = () => {
     const occ = [...occupancy]
     const pos = { ...positions }
 
-    items.forEach((color, i) => {
-      const key = `${i}-${color.hex()}`
-      if (pos[key] == null) {
+    items.forEach((item) => {
+      if (positions[item.id] == null) {
         const free = occ
           .map((c, idx) => (c === 0 ? idx : -1))
           .filter((idx) => idx >= 0)
@@ -43,7 +45,7 @@ export default function SnapperForeground({
 
         if (chosen != null) {
           occ[chosen]++
-          pos[key] = chosen
+          pos[item.id] = chosen
         }
       }
     })
@@ -57,8 +59,23 @@ export default function SnapperForeground({
   }
 
   useEffect(() => {
-    getItemPositions()
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    const validIds = new Set(items.map((item) => item.id))
+
+    setPositions((prevPositions) => {
+      const newPositions: Record<string, number> = {}
+      const newOccupancy = [...occupancy]
+
+      for (const [id, idx] of Object.entries(prevPositions)) {
+        if (validIds.has(id)) {
+          newPositions[id] = idx
+        } else {
+          newOccupancy[idx] = Math.max(0, newOccupancy[idx] - 1)
+        }
+      }
+
+      setOccupancy(newOccupancy)
+      return newPositions
+    })
   }, [items])
 
   useEffect(() => {
@@ -75,7 +92,7 @@ export default function SnapperForeground({
     setPositions((pos) => ({ ...pos, [key]: next }))
   }
 
-  const currentPositions = getItemPositions()
+  const currentPositions = useMemo(() => getItemPositions(), [items])
 
   return (
     <div
@@ -86,83 +103,23 @@ export default function SnapperForeground({
       )}
     >
       <For
+        element={AnimatePresence}
         each={items}
-        renderItem={(color, i) => {
-          const key = `${i}-${color.hex()}`
-          const initialSnap = currentPositions[key]
+        renderItem={(item) => {
+          const initialSnap = currentPositions[item.id]
           return (
             <Draggable
-              key={key}
-              color={color}
+              key={item.id}
+              id={item.id}
+              color={item.color}
               constraint={constraintRef}
               initialSnap={initialSnap}
-              onSnapChange={handleSnapChange(key)}
+              onSnapChange={handleSnapChange(item.id)}
+              onRemove={onRemove}
             />
           )
         }}
       />
     </div>
-  )
-}
-
-interface DraggableProps {
-  color: Color
-  constraint: React.RefObject<HTMLDivElement>
-  initialSnap: number
-  onSnapChange: (prev: number, next: number) => void
-}
-
-function Draggable({
-  color,
-  constraint,
-  initialSnap,
-  onSnapChange,
-}: DraggableProps) {
-  const ref = useRef<HTMLDivElement>(null)
-  const lastIndexRef = useRef<number>(initialSnap)
-
-  const { dragProps, snapTo, currentSnappointIndex } = useDragSnap({
-    direction: "both",
-    ref,
-    constraints: constraint,
-    dragElastic: 0.2,
-    snapPoints: {
-      type: "constraints-box",
-      unit: "percent",
-      points: Array(25)
-        .fill(0)
-        .map((_, idx) => ({
-          x: (idx % 5) * 0.25,
-          y: Math.floor(idx / 5) * 0.25,
-        })),
-    },
-  })
-
-  useEffect(() => {
-    snapTo(initialSnap)
-    lastIndexRef.current = initialSnap
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
-
-  useEffect(() => {
-    if (currentSnappointIndex == null) return
-    const prev = lastIndexRef.current
-    const next = currentSnappointIndex
-    if (prev !== next) {
-      lastIndexRef.current = next
-      onSnapChange(prev, next)
-    }
-  }, [currentSnappointIndex, onSnapChange])
-
-  return (
-    <motion.div
-      ref={ref}
-      drag
-      {...dragProps}
-      whileDrag={{ scale: 1.1, opacity: 0.7 }}
-      whileTap={{ scale: 1.1 }}
-      className="absolute size-15 cursor-pointer rounded-lg shadow-xl"
-      style={{ background: color.css() }}
-    />
   )
 }

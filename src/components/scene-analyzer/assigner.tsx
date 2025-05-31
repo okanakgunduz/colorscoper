@@ -1,15 +1,12 @@
-import { Icon, Info, X } from "@phosphor-icons/react"
+import { Info, X } from "@phosphor-icons/react"
 import { ArrowRight } from "@phosphor-icons/react/dist/ssr"
 import { Color } from "chroma-js"
 import { AnimatePresence, motion } from "motion/react"
 import { useState } from "react"
-import Copy from "@components/common/copy"
 import If from "@components/common/if"
 import { passIf } from "@components/common/pass-if"
-import cx from "@utils/cx"
-import nameColor from "@utils/name-color"
-import { useColorModeStore } from "@stores/color-mode.store"
 import { usePaletteStore } from "@stores/palette.store"
+import ColorLine from "./color-line"
 
 type AssignerState = {
   foreground: Color[]
@@ -41,11 +38,12 @@ export default function Assigner({ onConfirmed }: Props) {
           <div className="space-y-3">
             <AnimatePresence initial={false} mode="popLayout">
               {state.foreground.map((color) => (
-                <AssignerLine
+                <ColorLine
                   key={`assigner-foreground-${color.hex()}`}
+                  className="origin-top-right"
                   color={color}
+                  id={color.hex()}
                   icon={ArrowRight}
-                  animateLeft={false}
                   onAction={(color) =>
                     setState((state) => ({
                       foreground: state.foreground.filter((c) => c !== color),
@@ -78,11 +76,11 @@ export default function Assigner({ onConfirmed }: Props) {
           <div className="space-y-3">
             <AnimatePresence initial={false} mode="popLayout">
               {state.background.map((color) => (
-                <AssignerLine
+                <ColorLine
                   key={`assigner-background-${color.hex()}`}
+                  className="origin-top-left"
                   color={color}
                   icon={X}
-                  animateLeft
                   onAction={(color) =>
                     setState((state) => ({
                       foreground: [...state.foreground, color],
@@ -124,59 +122,5 @@ export default function Assigner({ onConfirmed }: Props) {
         </button>
       </footer>
     </section>
-  )
-}
-
-interface AssignerLineProps {
-  color: Color
-  icon: Icon
-  onAction?: (color: Color) => void
-  animateLeft?: boolean
-}
-
-function AssignerLine({
-  color,
-  onAction,
-  animateLeft = false,
-  icon: Icon,
-}: AssignerLineProps) {
-  const getRoundedColorString = useColorModeStore.use.getRoundedColorString()
-  const getColorString = useColorModeStore.use.getColorString()
-
-  return (
-    <motion.div
-      layout
-      initial={{
-        opacity: 0,
-        scale: 0.9,
-      }}
-      animate={{
-        opacity: 1,
-        scale: 1,
-      }}
-      className={cx("flex h-12 w-full items-center gap-2", {
-        "origin-top-left": animateLeft,
-        "origin-top-right": !animateLeft,
-      })}
-    >
-      <div
-        className="aspect-square h-full rounded border border-black/10"
-        style={{
-          background: color.css(),
-        }}
-      ></div>
-      <header className="flex flex-col justify-center">
-        <h2 className="text-caption-bold">{nameColor(color)}</h2>
-        <Copy data={getColorString(color)} className="opacity-75">
-          {getRoundedColorString(color)}
-        </Copy>
-      </header>
-      <button
-        className="ml-auto cursor-pointer rounded border p-2"
-        onClick={() => onAction?.(color)}
-      >
-        <Icon size={14} />
-      </button>
-    </motion.div>
   )
 }

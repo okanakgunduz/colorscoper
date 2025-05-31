@@ -47,7 +47,7 @@ export default function Modal() {
           >
             <ChartDonut className="text-accent size-4" weight="fill" />
             <Title asChild>
-              <h2 className="gradient-title font-[450]">Scene Analyzer</h2>
+              <h2 className="text-muted">Scene Analyzer</h2>
             </Title>
             <Description className="sr-only">
               Scene analyzer for selected colors in the palette.

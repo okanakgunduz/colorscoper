@@ -185,7 +185,7 @@ export function useDragSnap({
     onDragEnd?.(event, info)
 
     if (!ref.current) {
-      throw new Error("element ref is not set")
+      return
     }
 
     const points = convertSnappoints(snapPoints)

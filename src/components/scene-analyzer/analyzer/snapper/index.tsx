@@ -7,9 +7,10 @@ import SnapperForeground from "./snapper-foreground"
 interface Props {
   state: BGState
   className: Class
-  foreground: Color[]
+  foreground: { id: string; color: Color }[]
   background: Color[]
   onFilled?: () => void
+  onRemove?: (id: string) => void
 }
 
 export default function Snapper({
@@ -18,6 +19,7 @@ export default function Snapper({
   background,
   foreground,
   onFilled,
+  onRemove,
 }: Props) {
   return (
     <div className={cx(className, "relative")}>
@@ -33,6 +35,7 @@ export default function Snapper({
 
       <SnapperForeground
         onFilled={onFilled}
+        onRemove={onRemove}
         items={foreground}
         className="absolute inset-1"
       />

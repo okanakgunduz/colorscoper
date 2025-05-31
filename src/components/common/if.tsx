@@ -1,4 +1,11 @@
-import { ElementType, Fragment, ReactNode } from "react"
+import {
+  ElementType,
+  ForwardedRef,
+  Fragment,
+  ReactNode,
+  createElement,
+  forwardRef,
+} from "react"
 
 interface Props {
   condition: boolean
@@ -7,11 +14,22 @@ interface Props {
   wrapper?: ElementType
 }
 
-export default function If({
-  condition,
-  renderItem,
-  renderElse = () => null,
-  wrapper: Wrapper = Fragment,
-}: Props) {
-  return <Wrapper>{condition ? renderItem() : renderElse()}</Wrapper>
-}
+const If = forwardRef(function (
+  {
+    condition,
+    renderItem,
+    renderElse = () => null,
+    wrapper: Wrapper = Fragment,
+  }: Props,
+  ref: ForwardedRef<unknown>,
+) {
+  const children = condition ? renderItem() : renderElse()
+
+  if (Wrapper === Fragment) {
+    return <>{children}</>
+  }
+
+  return createElement(Wrapper, { ref }, children)
+})
+
+export default If

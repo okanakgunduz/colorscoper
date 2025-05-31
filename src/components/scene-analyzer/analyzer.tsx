@@ -12,9 +12,9 @@ import { CSSProperties, useEffect, useState } from "react"
 import { v4 as uuid } from "uuid"
 import If from "@components/common/if"
 import { passIf } from "@components/common/pass-if"
-import ColorLine from "../color-line"
-import Snapper from "./snapper"
-import { getCombinationCount } from "./snapper/resolve-snapper-state"
+import ColorLine from "./components/color-line"
+import Snapper from "./components/snapper"
+import { getCombinationCount } from "./components/snapper/resolve-snapper-state"
 
 export const BGPattern = {
   Square: "square",

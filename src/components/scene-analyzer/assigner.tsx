@@ -6,7 +6,7 @@ import { useState } from "react"
 import If from "@components/common/if"
 import { passIf } from "@components/common/pass-if"
 import { usePaletteStore } from "@stores/palette.store"
-import ColorLine from "./color-line"
+import ColorLine from "./components/color-line"
 
 type AssignerState = {
   foreground: Color[]

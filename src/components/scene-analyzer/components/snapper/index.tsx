@@ -1,6 +1,6 @@
 import { Color } from "chroma-js"
+import { BGState } from "@components/scene-analyzer/analyzer"
 import cx, { Class } from "@utils/cx"
-import { BGState } from ".."
 import SnapperBackground from "./snapper-background"
 import SnapperForeground from "./snapper-foreground"
 

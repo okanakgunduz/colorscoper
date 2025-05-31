@@ -1,7 +1,7 @@
 import { Color } from "chroma-js"
 import If from "@components/common/if"
+import { BGPattern, BGState } from "@components/scene-analyzer/analyzer"
 import cx, { Class } from "@utils/cx"
-import { BGPattern, BGState } from ".."
 import { resolveSceneState } from "./resolve-snapper-state"
 
 interface Props {

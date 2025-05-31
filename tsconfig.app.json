@@ -23,6 +23,7 @@
     "noUncheckedSideEffectImports": true,
 
     "paths": {
+      "@/*": ["./src/*"],
       "@assets/*": ["./src/assets/*"],
       "@routes/*": ["./src/routes/*"],
       "@components/*": ["./src/components/*"],

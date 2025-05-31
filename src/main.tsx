@@ -1,22 +1,19 @@
+// @ts-expect-error no ts declarations of css files
+import "@/global.css"
+import { Editor, Export } from "@/views"
 import { StrictMode } from "react"
 import { createRoot } from "react-dom/client"
-import { RouterProvider } from "react-router"
-import router from "@routes/router"
-import loadPolyfills from "@utils/load-polyfills"
-// @ts-expect-error no ts declarations of css files
-import "./global.css"
-
-await loadPolyfills()
+import { BrowserRouter, Route, Routes } from "react-router"
 
 const root = document.getElementById("root")!
 
 createRoot(root).render(
   <StrictMode>
-    <RouterProvider
-      future={{
-        v7_startTransition: true,
-      }}
-      router={router}
-    />
+    <BrowserRouter>
+      <Routes>
+        <Route index element={<Editor />} />
+        <Route path="/export" element={<Export />} />
+      </Routes>
+    </BrowserRouter>
   </StrictMode>,
 )

@@ -1,9 +1,11 @@
 import For from "@/components/common/for"
+import { buildQuery } from "@/lib/utils/search-query"
 import { usePaletteStore } from "@/stores/palette.store"
 import { Export as ExportIcon, Play, X } from "@phosphor-icons/react"
 import { Close, Description, Title } from "@radix-ui/react-dialog"
 import { Color } from "chroma-js"
 import { useMemo, useState } from "react"
+import { Link } from "react-router"
 import ExportLine from "./export-line"
 
 export default function Export() {
@@ -70,10 +72,24 @@ export default function Export() {
           {paletteColors.length} colors are ready to be exported.
         </p>
 
-        <button className="text-caption-bold disabled:bg-muted bg-accent flex cursor-pointer items-center gap-1 rounded py-1.5 pr-4 pl-3 text-white transition select-none hover:brightness-95 disabled:opacity-75">
-          <Play weight="fill" />
-          Export
-        </button>
+        <Link
+          to={{
+            pathname: "/export",
+            search: buildQuery({
+              hello: "world",
+              attempt: 2,
+              arr: [1, 2, 4],
+              obj: {
+                hello: "wordl.",
+              },
+            }),
+          }}
+        >
+          <button className="text-caption-bold disabled:bg-muted bg-accent flex cursor-pointer items-center gap-1 rounded py-1.5 pr-4 pl-3 text-white transition select-none hover:brightness-95 disabled:opacity-75">
+            <Play weight="fill" />
+            Export
+          </button>
+        </Link>
       </div>
     </div>
   )

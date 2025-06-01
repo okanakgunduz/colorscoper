@@ -60,12 +60,12 @@ const computed = createComputed(
   (state: State & Action): Computed => ({
     hasSelection: state.type !== null,
 
-    getHueRotated: (angle) => {
+    getHueRotated: angle => {
       if (state.type === null) return null
       return rotateHue(state.color.value, angle)
     },
 
-    getContrasted: (type) => {
+    getContrasted: type => {
       if (state.type === null) return null
 
       const contrastColor = getContrasted(type, state.color.value)
@@ -81,15 +81,13 @@ const computed = createComputed(
 /* Store */
 
 const useSelectionStoreBase = create<State & Action>()(
-  computed((set) => ({
+  computed(set => ({
     /* State */
-    type: SelectionType.Picker,
-    color: {
-      value: chroma("#7f00ff"),
-    },
+    type: null,
+    color: null,
 
     /* Utils */
-    setPickerSelection: (color) => {
+    setPickerSelection: color => {
       useSidebarStore.getState().reset()
       set({ type: SelectionType.Picker, color: { value: color } })
     },

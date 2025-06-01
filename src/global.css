@@ -2,17 +2,19 @@
 @import "lib/utils/custom-variants.css";
 
 @theme {
-  /* Color Theming */
+  /* Color */
 
   --color-accent: #098be7;
   --color-muted-accent: #ebf7ff;
   --color-muted-background: #f8f8f8;
   --color-muted: #636669;
 
-  --padding-sidebar: 24px;
-  --margin-sidebar: 24px;
+  /* Spacing */
 
-  /* Font Theming */
+  --spacing-sidebar: 24px;
+  --spacing-header-height: calc(var(--spacing) * 9);
+
+  /* Font */
   --font-body: "Inter Variable", Helvetica, Arial, sans-serif;
 
   /* --text-*: initial; */
@@ -45,19 +47,6 @@
   --text-heading-3: 14px;
   --text-heading-3--line-height: 1.5;
   --text-heading-3--font-weight: 500;
-
-  /*
-  --text-heading-3: 16px;
-  --text-heading-3--line-height: 20px;
-  --text-heading-3--font-weight: 600;
-
-  --text-heading-2: 20px;
-  --text-heading-2--line-height: 24px;
-  --text-heading-2--font-weight: 600;
-
-  --text-heading-1: 30px;
-  --text-heading-1--line-height: 36px;
-  --text-heading-1--font-weight: 500; */
 
   --text-heading-popover: 14px;
   --text-heading-popover--line-height: 20px;

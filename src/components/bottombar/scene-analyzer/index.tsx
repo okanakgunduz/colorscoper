@@ -25,7 +25,7 @@ export default function SceneAnalyzer() {
       <motion.div>
         <motion.header
           layout
-          className="text-caption relative flex h-10 w-full shrink-0 items-center justify-between border-b px-3 select-none"
+          className="text-caption h-header-height relative flex w-full shrink-0 items-center justify-between border-b px-3 select-none"
         >
           <motion.div
             layout="preserve-aspect"

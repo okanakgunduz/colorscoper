@@ -1,11 +1,12 @@
+import SceneAnalyzer from "@/components/bottombar/scene-analyzer"
 import { ChartDonut, Play } from "@phosphor-icons/react"
 import For from "@components/common/for"
 import Modal from "@components/common/modal"
 import Select from "@components/common/select"
-import SceneAnalyzer from "@components/scene-analyzer"
 import { ColorMode } from "@utils/color"
 import cx, { Class } from "@utils/cx"
 import { useColorModeStore } from "@stores/color-mode.store"
+import Export from "./export"
 
 interface Props {
   className?: Class
@@ -45,13 +46,7 @@ export default function Actions({ className }: Props) {
         </button>
       </Modal>
 
-      <Modal
-        content={() => (
-          <div className="fixed inset-0 m-auto size-fit overflow-hidden rounded-lg border bg-white">
-            <div className="h-[20rem] w-xl"></div>
-          </div>
-        )}
-      >
+      <Modal content={() => <Export />}>
         <button className="px-sidebar group hover:bg-muted-background text-accent flex h-full cursor-pointer items-center justify-center gap-1.5 border-l">
           <Play weight="fill" className="size-5 group-active:opacity-50" />
           <span className="text-heading-3 hidden font-normal group-active:opacity-50 xl:inline">

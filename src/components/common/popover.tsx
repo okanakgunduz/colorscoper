@@ -39,7 +39,7 @@ export function RadixPopover({
           }}
         >
           <div className="flex size-full flex-col">
-            <header className="text-caption flex h-10 w-full shrink-0 items-center justify-between border-b px-3">
+            <header className="text-caption h-header-height flex w-full shrink-0 items-center justify-between border-b px-3">
               <div className="flex items-center justify-center gap-1 select-none">
                 {Icon && <Icon className="text-accent size-4" weight="fill" />}
                 <h2 className="text-muted">{title}</h2>

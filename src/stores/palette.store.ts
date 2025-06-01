@@ -14,16 +14,17 @@ interface State {
 interface Action {
   delete: (index: number) => void
   insert: (color: Color) => void
+  setColors: (colors: Color[]) => void
   clearAll: () => void
 }
 
-const usePaletteStoreBase = create<State & Action>()((set) => ({
+const usePaletteStoreBase = create<State & Action>()(set => ({
   /* State */
   colors: [chroma("#4393FA"), chroma("#2B2B81"), chroma("#D5A9F6")],
 
   /* Action */
-  insert: (color) => {
-    set((state) => {
+  insert: color =>
+    set(state => {
       if (state.colors.length >= MAX_PALETTE_COUNT)
         return {
           colors: state.colors,
@@ -32,15 +33,15 @@ const usePaletteStoreBase = create<State & Action>()((set) => ({
       return {
         colors: impush(state.colors, color),
       }
-    })
-  },
+    }),
 
-  delete: (index) => {
+  delete: index => {
     useSidebarStore.getState().reset()
     useSelectionStore.getState().clearSelection()
-    set((state) => ({ colors: state.colors.filter((_, i) => i !== index) }))
+    set(state => ({ colors: state.colors.filter((_, i) => i !== index) }))
   },
 
+  setColors: colors => set({ colors: colors.slice(0, MAX_PALETTE_COUNT) }),
   clearAll: () => set({ colors: [] }),
 }))
 

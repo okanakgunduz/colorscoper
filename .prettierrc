@@ -4,14 +4,15 @@
     "@trivago/prettier-plugin-sort-imports",
     "prettier-plugin-tailwindcss"
   ],
+  "arrowParens": "avoid",
   "importOrderSeparation": false,
   "importOrderSortSpecifiers": true,
   "importOrder": [
     "^@routes/(.*)$",
+    "^@stores/(.*)$",
     "^@components/(.*)$",
     "^@hooks/(.*)$",
     "^@utils/(.*)$",
-    "^@stores/(.*)$",
     "^[./]"
   ]
 }

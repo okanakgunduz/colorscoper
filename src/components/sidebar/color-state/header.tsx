@@ -1,12 +1,12 @@
-import { CircleHalf } from "@phosphor-icons/react"
+import Logo from "@/assets/Logo"
 
 export default function Header() {
   return (
     <header className="p-sidebar space-y-2">
       <div className="flex w-full justify-between">
         <h1 className="text-heading flex items-center gap-1">
-          <CircleHalf size={20} />
-          <span>Suleyman The Kivi</span>
+          <Logo width={20} height={20} />
+          <span>ColorScope</span>
         </h1>
       </div>
       <p className="text-paragraph text-muted">

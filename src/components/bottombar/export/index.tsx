@@ -76,12 +76,10 @@ export default function Export() {
           to={{
             pathname: "/export",
             search: buildQuery({
-              hello: "world",
-              attempt: 2,
-              arr: [1, 2, 4],
-              obj: {
-                hello: "wordl.",
-              },
+              config: config.map(entry => [
+                entry.isBackground ? 1 : 0,
+                entry.color.hex(),
+              ]),
             }),
           }}
         >

@@ -27,10 +27,10 @@ export default function ColorHarmonyHelper() {
           } as CSSProperties
         }
       >
-        <Select
+        <Select<ColorRelationship>
           title="Relationship"
           value={relationship}
-          onValueChange={(value) => setRelationship(value as ColorRelationship)}
+          onValueChange={setRelationship}
         >
           <For
             each={Object.entries(ColorRelationship)}

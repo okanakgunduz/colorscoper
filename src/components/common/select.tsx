@@ -23,24 +23,37 @@ import { ElementRef, type ReactNode, forwardRef } from "react"
 import cx, { Class } from "@utils/cx"
 import If from "./if"
 
-/* Root */
+/* ----------------- Types ------------------ */
 
-type SelectProps = {
+type SelectBaseProps<T extends string> = {
   title?: string
   placeholder?: string
   children?: ReactNode[] | ReactNode
   className?: Class
-} & RootProps
+  value?: T
+  defaultValue?: T
+  onValueChange?: (value: T) => void
+} & Omit<RootProps, "value" | "defaultValue" | "onValueChange">
 
-export default function Select({
+/* ----------------- Component ------------------ */
+
+function SelectComponent<T extends string>({
   title,
   children,
   placeholder,
   className,
+  value,
+  defaultValue,
+  onValueChange,
   ...rest
-}: SelectProps) {
+}: SelectBaseProps<T>) {
   return (
-    <Root {...rest}>
+    <Root
+      value={value}
+      defaultValue={defaultValue}
+      onValueChange={onValueChange}
+      {...rest}
+    >
       <div className={cx(className, "flex flex-col")}>
         <If
           condition={!!title}
@@ -57,7 +70,7 @@ export default function Select({
           className="flex w-full items-center justify-between gap-1 font-medium focus-visible:ring-0"
           aria-label={title}
         >
-          <SelectValue {...{ placeholder }} />
+          <SelectValue className="bg-red-400!" placeholder={placeholder} />
           <SelectIcon>
             <CaretDown weight="bold" />
           </SelectIcon>
@@ -72,7 +85,7 @@ export default function Select({
   )
 }
 
-/* Option */
+/* ----------------- Subcomponents ------------------ */
 
 const Option = forwardRef<ElementRef<typeof SelectItem>, SelectItemProps>(
   ({ children, ...rest }, ref) => (
@@ -88,34 +101,41 @@ const Option = forwardRef<ElementRef<typeof SelectItem>, SelectItemProps>(
     </SelectItem>
   ),
 )
-
-Select.Option = Option
-Select.Option.displayName = Option.displayName
-
-/* Group */
+Option.displayName = "Select.Option"
 
 const Group = forwardRef<ElementRef<typeof SelectGroup>, SelectGroupProps>(
   (props, ref) => <SelectGroup {...props} ref={ref} />,
 )
-
-Select.Group = Group
-Select.Group.displayName = Group.displayName
-
-/* Separator */
+Group.displayName = "Select.Group"
 
 const Separator = forwardRef<
   ElementRef<typeof SelectSeparator>,
   SelectSeparatorProps
 >((props, ref) => <SelectSeparator {...props} ref={ref} />)
-
-Select.Separator = Separator
-Select.Separator.displayName = Separator.displayName
-
-/* GroupLabel */
+Separator.displayName = "Select.Separator"
 
 const GroupLabel = forwardRef<ElementRef<typeof SelectLabel>, SelectLabelProps>(
   (props, ref) => <SelectLabel {...props} ref={ref} />,
 )
+GroupLabel.displayName = "Select.GroupLabel"
 
+/* ----------------- Attach with static props ------------------ */
+
+type SelectGeneric = <T extends string>(
+  props: SelectBaseProps<T>,
+) => JSX.Element
+
+type SelectWithStatics = SelectGeneric & {
+  Option: typeof Option
+  Group: typeof Group
+  Separator: typeof Separator
+  GroupLabel: typeof GroupLabel
+}
+
+const Select = SelectComponent as SelectWithStatics
+Select.Option = Option
+Select.Group = Group
+Select.Separator = Separator
 Select.GroupLabel = GroupLabel
-Select.GroupLabel.displayName = GroupLabel.displayName
+
+export default Select

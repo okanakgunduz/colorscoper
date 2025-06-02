@@ -1,6 +1,10 @@
 import Logo from "@/assets/Logo"
+import For from "@/components/common/for"
+import Select from "@/components/common/select"
 import ColorDivision from "@/components/export/color-division"
+import { ColorMode } from "@/lib/utils/color"
 import { parseQuery } from "@/lib/utils/search-query"
+import { useColorModeStore } from "@/stores/color-mode.store"
 import { usePaletteStore } from "@/stores/palette.store"
 import { useSelectionStore } from "@/stores/selection.store"
 import { useSidebarStore } from "@/stores/sidebar.store"
@@ -18,9 +22,13 @@ export default function Export() {
   const { search } = useLocation()
   const navigate = useNavigate()
 
+  const colorMode = useColorModeStore.use.mode()
+  const setColorMode = useColorModeStore.use.setColorMode()
+
   const setPaletteColors = usePaletteStore.use.setColors()
   const clearPaletteColors = usePaletteStore.use.clearAll()
   const clearSelection = useSelectionStore.use.clearSelection()
+  const setPaletteSelection = useSelectionStore.use.setPaletteSelection()
   const resetSidebar = useSidebarStore.use.reset()
 
   const { config } = useMemo(
@@ -47,6 +55,7 @@ export default function Export() {
   return (
     <div className="w-full">
       <main className="mx-auto my-8 w-full max-w-2xl px-4">
+        {/* Header */}
         <header className="flex items-center justify-between">
           <div className="flex items-center gap-2">
             <Logo width={40} height={40} />
@@ -59,7 +68,7 @@ export default function Export() {
           </div>
           <div className="flex items-center select-none">
             <button
-              onClick={() => window.print()}
+              onClick={window.print}
               className="hover:bg-muted-background flex cursor-pointer flex-col items-center gap-0.5 rounded px-2 pt-1.5 pb-1 transition active:opacity-60 print:hidden"
             >
               <Printer />
@@ -68,7 +77,7 @@ export default function Export() {
             <button
               onClick={() => {
                 setPaletteColors(config.map(entry => chroma(entry[1])))
-                clearSelection()
+                setPaletteSelection(config.map(entry => chroma(entry[1]))[0], 0)
                 resetSidebar()
 
                 navigate("/")
@@ -100,7 +109,26 @@ export default function Export() {
             </a>
           </div>
         </header>
-        <hr className="mt-2" />
+
+        <hr className="mt-2 mb-4" />
+
+        <Select
+          className="w-fit"
+          title="Color Mode"
+          value={colorMode}
+          onValueChange={setColorMode}
+        >
+          <For
+            each={Object.entries(ColorMode)}
+            renderItem={([key, value]) => (
+              <Select.Option key={key} value={value}>
+                {key}
+              </Select.Option>
+            )}
+          />
+        </Select>
+
+        {/* Main Content */}
         <div className="mt-10 space-y-8">
           <ColorDivision
             title="Foreground"

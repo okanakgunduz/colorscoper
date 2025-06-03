@@ -15,7 +15,7 @@ export default function SupportUs() {
           <Heart weight="fill" className="text-pink-500" size={24} />
           Support Us
         </h2>
-        <p>If you liked our product, you can consider supporting us!</p>
+        <p>If you liked ColorScope, you can consider supporting us!</p>
       </div>
 
       <a

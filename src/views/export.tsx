@@ -103,7 +103,7 @@ export default function Export() {
               <span className="font-medium">New</span>
             </button>
             <a
-              href={`${import.meta.env.VITE_BASE_URL}/export${search}`}
+              href={`${window.location.origin}/export${search}`}
               className="bg-muted-accent text-accent hidden flex-col items-center rounded-lg px-2 py-1 print:flex"
             >
               <LinkSimpleHorizontal size={20} />

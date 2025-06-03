@@ -63,7 +63,7 @@ export default function Modal({ children, content }: Props) {
                 onClick={() => setOpen(false)}
                 className="fixed inset-0"
               >
-                <div onClick={(e) => e.stopPropagation()}>{content()}</div>
+                <div onClick={e => e.stopPropagation()}>{content()}</div>
               </motion.div>
             </Content>
           </Portal>

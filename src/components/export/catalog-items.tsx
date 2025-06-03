@@ -38,7 +38,7 @@ export function CatalogColumn({
   return (
     <motion.div
       onMouseEnter={() => setHovered?.(index)}
-      onMouseLeave={() => setHovered?.(0)}
+      // onMouseLeave={() => setHovered?.(0)}
       className="relative flex grow cursor-pointer items-center justify-center overflow-hidden"
       style={{
         backgroundColor: color.hex(),

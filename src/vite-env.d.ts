@@ -6,7 +6,8 @@ interface ViteTypeOptions {
 }
 
 interface ImportMetaEnv {
-  readonly VITE_BASE_URL: string
+  readonly VITE_BMAC_PROFILE_URL: string
+  readonly VITE_BMAC_ACCESS_TOKEN: string
 }
 
 interface ImportMeta {

@@ -71,7 +71,10 @@ export default function EditorPreview({ className, colors }: Props) {
                           <For
                             each={colors.foreground}
                             renderItem={color => (
-                              <span className="line">
+                              <span
+                                key={`${format}-${color.hex()}`}
+                                className="line"
+                              >
                                 <span className="text-pink-400">
                                   {format === "css" ? "--color-" : "$color-"}
                                   {kebabize(nameColor(color))}:
@@ -96,7 +99,10 @@ export default function EditorPreview({ className, colors }: Props) {
                           <For
                             each={colors.background}
                             renderItem={color => (
-                              <span className="line">
+                              <span
+                                key={`${format}-${color.hex()}`}
+                                className="line"
+                              >
                                 <span className="text-pink-400">
                                   {format === "css" ? "--color-" : "$color-"}
                                   {kebabize(nameColor(color))}:
@@ -132,7 +138,10 @@ export default function EditorPreview({ className, colors }: Props) {
                           <For
                             each={colors.foreground}
                             renderItem={color => (
-                              <span className="line">
+                              <span
+                                key={`${format}-${color.hex()}`}
+                                className="line"
+                              >
                                 <span className="text-cyan-400">
                                   {" "}
                                   &lt;color
@@ -163,7 +172,10 @@ export default function EditorPreview({ className, colors }: Props) {
                           <For
                             each={colors.background}
                             renderItem={color => (
-                              <span className="line">
+                              <span
+                                key={`${format}-${color.hex()}`}
+                                className="line"
+                              >
                                 <span className="text-cyan-400">
                                   {" "}
                                   &lt;color
@@ -206,7 +218,10 @@ export default function EditorPreview({ className, colors }: Props) {
                           <For
                             each={colors.foreground}
                             renderItem={color => (
-                              <span className="line">
+                              <span
+                                key={`${format}-${color.hex()}`}
+                                className="line"
+                              >
                                 <span className="text-purple-400">
                                   static let
                                 </span>{" "}
@@ -234,7 +249,10 @@ export default function EditorPreview({ className, colors }: Props) {
                           <For
                             each={colors.background}
                             renderItem={color => (
-                              <span className="line">
+                              <span
+                                key={`${format}-${color.hex()}`}
+                                className="line"
+                              >
                                 <span className="text-purple-400">
                                   static let
                                 </span>{" "}

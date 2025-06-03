@@ -1,4 +1,4 @@
-# Color Palette Generator
+# ColorScope
 
 This is a CSR SPA that has advanced color analysis systems for designers, photographers and editors.
 

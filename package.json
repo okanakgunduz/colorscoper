@@ -5,9 +5,11 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "tsc -b && vite build",
+    "build": "npm run clean && tsc -b && vite build",
     "lint": "eslint .",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "clean": "rm -rf dist",
+    "clean-all": "rm -rf dist node_modules"
   },
   "dependencies": {
     "@fontsource-variable/inter": "^5.1.1",

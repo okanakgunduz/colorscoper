@@ -4,6 +4,8 @@ import Select from "@/components/common/select"
 import ColorDivision from "@/components/export/color-division"
 import EditorPreview from "@/components/export/editor-preview"
 import SupportUs from "@/components/export/support-us"
+import { ToolboxButton, ToolboxLink } from "@/components/export/toolbox"
+import useCopyToClipboard from "@/lib/hooks/useCopyToClipboard"
 import { ColorMode } from "@/lib/utils/color"
 import { parseQuery } from "@/lib/utils/search-query"
 import { useColorModeStore } from "@/stores/color-mode.store"
@@ -11,6 +13,7 @@ import { usePaletteStore } from "@/stores/palette.store"
 import { useSelectionStore } from "@/stores/selection.store"
 import { useSidebarStore } from "@/stores/sidebar.store"
 import {
+  ClipboardText,
   LinkSimpleHorizontal,
   PencilSimple,
   Plus,
@@ -32,6 +35,10 @@ export default function Export() {
   const clearSelection = useSelectionStore.use.clearSelection()
   const setPaletteSelection = useSelectionStore.use.setPaletteSelection()
   const resetSidebar = useSidebarStore.use.reset()
+
+  const { copy } = useCopyToClipboard({
+    data: `${window.location.origin}/export${search}`,
+  })
 
   const { config } = useMemo(
     () => parseQuery(search) as { config: Array<[number, string]> },
@@ -69,14 +76,7 @@ export default function Export() {
             </div>
           </div>
           <div className="flex items-center select-none">
-            <button
-              onClick={window.print}
-              className="hover:bg-muted-background flex cursor-pointer flex-col items-center gap-0.5 rounded px-2 pt-1.5 pb-1 transition active:opacity-60 print:hidden"
-            >
-              <Printer />
-              <span className="font-medium">Print</span>
-            </button>
-            <button
+            <ToolboxButton
               onClick={() => {
                 setPaletteColors(config.map(entry => chroma(entry[1])))
                 setPaletteSelection(config.map(entry => chroma(entry[1]))[0], 0)
@@ -84,12 +84,11 @@ export default function Export() {
 
                 navigate("/")
               }}
-              className="hover:bg-muted-background flex cursor-pointer flex-col items-center gap-0.5 rounded px-2 pt-1.5 pb-1 transition active:opacity-60 print:hidden"
-            >
-              <PencilSimple />
-              <span className="font-medium">Edit</span>
-            </button>
-            <button
+              icon={PencilSimple}
+              title="Edit"
+            />
+
+            <ToolboxButton
               onClick={() => {
                 clearPaletteColors()
                 clearSelection()
@@ -97,18 +96,24 @@ export default function Export() {
 
                 navigate("/")
               }}
-              className="hover:bg-muted-background flex cursor-pointer flex-col items-center gap-0.5 rounded px-2 pt-1.5 pb-1 transition active:opacity-60 print:hidden"
-            >
-              <Plus />
-              <span className="font-medium">New</span>
-            </button>
-            <a
+              icon={Plus}
+              title="New"
+            />
+
+            <ToolboxLink
               href={`${window.location.origin}/export${search}`}
-              className="bg-muted-accent text-accent hidden flex-col items-center rounded-lg px-2 py-1 print:flex"
-            >
-              <LinkSimpleHorizontal size={20} />
-              <span className="font-medium">Playground</span>
-            </a>
+              icon={LinkSimpleHorizontal}
+              title="Edit"
+              className="text-accent bg-muted-accent hidden print:flex"
+            />
+
+            <ToolboxButton onClick={copy} icon={ClipboardText} title="Copy" />
+
+            <ToolboxButton
+              onClick={window.print}
+              icon={Printer}
+              title="Print"
+            />
           </div>
         </header>
 
@@ -154,8 +159,7 @@ export default function Export() {
             }}
           />
 
-          <hr />
-
+          <hr className="break-before-page" />
           <SupportUs />
         </div>
       </main>

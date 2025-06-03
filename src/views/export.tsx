@@ -3,6 +3,7 @@ import For from "@/components/common/for"
 import Select from "@/components/common/select"
 import ColorDivision from "@/components/export/color-division"
 import EditorPreview from "@/components/export/editor-preview"
+import SupportUs from "@/components/export/support-us"
 import { ColorMode } from "@/lib/utils/color"
 import { parseQuery } from "@/lib/utils/search-query"
 import { useColorModeStore } from "@/stores/color-mode.store"
@@ -143,7 +144,7 @@ export default function Export() {
             colors={background}
           />
 
-          <hr />
+          <hr className="print:hidden" />
 
           <EditorPreview
             className="print:hidden"
@@ -152,6 +153,10 @@ export default function Export() {
               background,
             }}
           />
+
+          <hr />
+
+          <SupportUs />
         </div>
       </main>
     </div>

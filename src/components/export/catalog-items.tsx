@@ -38,7 +38,7 @@ export function CatalogColumn({
   return (
     <motion.div
       onMouseEnter={() => setHovered?.(index)}
-      onMouseLeave={() => setHovered?.(null)}
+      onMouseLeave={() => setHovered?.(0)}
       className="relative flex grow cursor-pointer items-center justify-center overflow-hidden"
       style={{
         backgroundColor: color.hex(),
@@ -55,7 +55,7 @@ export function CatalogColumn({
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             onClick={copy}
-            className="absolute inset-0 flex flex-col overflow-hidden p-6 pb-10"
+            className="absolute inset-0 flex flex-col overflow-hidden p-6 md:pb-10"
             style={{ color: optimizedTextColor.css() }}
           >
             <p className="text-2xl font-bold">0{index + 1}</p>
@@ -256,9 +256,9 @@ export function CatalogRow({ color }: RowProps) {
   })
 
   return (
-    <div className="odd:bg-muted-background flex items-center gap-4 rounded-lg p-2">
+    <div className="odd:bg-muted-background flex h-16 items-center gap-4 rounded-lg p-2">
       <div
-        className="size-16 rounded-md border border-black/10"
+        className="aspect-square h-full rounded-md border border-black/10"
         style={{ backgroundColor: color.hex() }}
       />
       <div className="flex flex-col gap-0.5">

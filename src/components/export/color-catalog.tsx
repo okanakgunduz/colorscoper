@@ -24,23 +24,15 @@ export default function ColorCatalog({ colors, variant, className }: Props) {
           className,
         )}
       >
-        <If
-          condition={colors.length === 1}
-          renderItem={() => (
-            <CatalogColumn color={colors.at(0)!} index={0} hovered={0} />
-          )}
-          renderElse={() => (
-            <For
-              each={colors}
-              renderItem={(color, index) => (
-                <CatalogColumn
-                  key={index}
-                  color={color}
-                  index={index}
-                  hovered={hovered}
-                  setHovered={setHovered}
-                />
-              )}
+        <For
+          each={colors}
+          renderItem={(color, index, { length }) => (
+            <CatalogColumn
+              key={index}
+              color={color}
+              index={index}
+              hovered={length < 4 ? index : hovered}
+              setHovered={length < 4 ? undefined : setHovered}
             />
           )}
         />

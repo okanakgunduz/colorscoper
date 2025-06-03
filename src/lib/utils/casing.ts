@@ -16,6 +16,10 @@ export function capitalize(text: string): string {
     .split(" ")
 
   return words
-    .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+    .map(word => word.charAt(0).toUpperCase() + word.slice(1))
     .join(" ")
+}
+
+export function kebabize(str: string) {
+  return str.toLowerCase().replace(" ", "-")
 }

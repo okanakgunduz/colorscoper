@@ -2,6 +2,7 @@ import Logo from "@/assets/Logo"
 import For from "@/components/common/for"
 import Select from "@/components/common/select"
 import ColorDivision from "@/components/export/color-division"
+import EditorPreview from "@/components/export/editor-preview"
 import { ColorMode } from "@/lib/utils/color"
 import { parseQuery } from "@/lib/utils/search-query"
 import { useColorModeStore } from "@/stores/color-mode.store"
@@ -135,10 +136,21 @@ export default function Export() {
             subtitle="The foreground colors of the palette."
             colors={foreground}
           />
+
           <ColorDivision
             title="Background"
             subtitle="The background colors of the palette."
             colors={background}
+          />
+
+          <hr />
+
+          <EditorPreview
+            className="print:hidden"
+            colors={{
+              foreground,
+              background,
+            }}
           />
         </div>
       </main>

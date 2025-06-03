@@ -20,7 +20,7 @@ export default function ColorDivision({ colors, title, subtitle }: Props) {
     <section className="space-y-4">
       <div className="flex items-end justify-between">
         <div className="space-y-1">
-          <h1 className="text-heading">{title}</h1>
+          <h2 className="text-heading">{title}</h2>
           <p>{subtitle}</p>
         </div>
 

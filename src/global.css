@@ -97,6 +97,11 @@
   }
 }
 
+@page {
+  size: A4 portrait;
+  margin: 0;
+}
+
 @utility no-opsz {
   font-variation-settings: initial;
 }
@@ -134,7 +139,29 @@
   letter-spacing: -0.01em;
 }
 
-@page {
-  size: A4 portrait;
-  margin: 0;
+.with-line-numbers .line:before {
+  content: counter(line);
+  width: calc(var(--spacing) * 6);
+  text-align: right;
+  -webkit-user-select: none;
+  user-select: none;
+  color: #f8fafc66;
+  font-family: var(--font-plex-mono);
+  display: inline-block;
+  position: absolute;
+  left: 0;
+}
+
+.with-line-numbers .line:before {
+  color: color-mix(in oklab, var(--color-slate-50) 40%, transparent);
+}
+
+.with-line-numbers .line {
+  counter-increment: line;
+  margin-left: calc(var(--spacing) * 9);
+}
+
+.with-line-numbers code {
+  counter-reset: line;
+  position: relative;
 }

@@ -1,5 +1,5 @@
 @import "tailwindcss";
-@import "lib/utils/custom-variants.css";
+@import "./lib/utils/custom-variants.css";
 
 @theme {
   /* Color */
@@ -71,6 +71,10 @@
   ::before,
   ::backdrop,
   ::file-selector-button {
+    -webkit-print-color-adjust: exact !important;
+    color-adjust: exact !important;
+    print-color-adjust: exact !important;
+
     border-color: var(--color-gray-200, currentColor);
     @apply outline-hidden;
   }
@@ -132,4 +136,5 @@
 
 @page {
   size: A4 portrait;
+  margin: 0;
 }

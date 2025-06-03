@@ -1,9 +1,9 @@
-import usePrinting from "@/lib/hooks/usePrinting"
 import { Columns, ListDashes } from "@phosphor-icons/react"
 import { Color } from "chroma-js"
 import { useState } from "react"
 import Select from "@components/common/select"
 import ColorCatalog from "./color-catalog"
+import PrintCatalog from "./print-catalog"
 
 interface Props {
   colors: Color[]
@@ -15,7 +15,6 @@ type Variant = "columns" | "list"
 
 export default function ColorDivision({ colors, title, subtitle }: Props) {
   const [variant, setVariant] = useState<Variant>("columns")
-  const isPrinting = usePrinting()
 
   return (
     <section className="space-y-4">
@@ -44,7 +43,8 @@ export default function ColorDivision({ colors, title, subtitle }: Props) {
           </Select.Option>
         </Select>
       </div>
-      <ColorCatalog colors={colors} variant={isPrinting ? "list" : variant} />
+      <ColorCatalog {...{ colors, variant }} className="print:hidden" />
+      <PrintCatalog {...{ colors }} className="hidden print:block" />
     </section>
   )
 }

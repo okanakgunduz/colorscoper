@@ -8,6 +8,7 @@ declare module "*.svg" {
 }
 
 /// <reference types="vite/client" />
+/// <reference types="vite/types/importMeta.d.ts" />
 
 type Enumize<T> = T[keyof T]
 

@@ -54,7 +54,7 @@ export default function Export() {
 
   return (
     <div className="w-full">
-      <main className="mx-auto my-8 w-full max-w-2xl px-4">
+      <main className="mx-auto my-8 w-full max-w-3xl px-4">
         {/* Header */}
         <header className="flex items-center justify-between">
           <div className="flex items-center gap-2">
@@ -101,7 +101,7 @@ export default function Export() {
               <span className="font-medium">New</span>
             </button>
             <a
-              href={`${import.meta.env.BASE_URL}/export${search}`}
+              href={`${import.meta.env.VITE_BASE_URL}/export${search}`}
               className="bg-muted-accent text-accent hidden flex-col items-center rounded-lg px-2 py-1 print:flex"
             >
               <LinkSimpleHorizontal size={20} />

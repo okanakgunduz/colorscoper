@@ -1,3 +1,4 @@
+import tailwindcss from "@tailwindcss/vite"
 import react from "@vitejs/plugin-react-swc"
 import { defineConfig } from "vite"
 import svgr from "vite-plugin-svgr"
@@ -6,6 +7,6 @@ import zig from "vite-plugin-zig"
 import tsConfig from "vite-tsconfig-paths"
 
 export default defineConfig({
-  plugins: [zig(), tsConfig(), react(), svgr()],
+  plugins: [zig(), tsConfig(), react(), tailwindcss(), svgr()],
   build: { target: "esnext" },
 })

@@ -1,4 +1,4 @@
-import React from "react"
+import React, { CSSProperties } from "react"
 
 const Logo: React.FC<React.SVGProps<SVGSVGElement>> = props => (
   <svg
@@ -9,7 +9,7 @@ const Logo: React.FC<React.SVGProps<SVGSVGElement>> = props => (
     x="0px"
     y="0px"
     viewBox="0 0 64 64"
-    style={{ enableBackground: "new 0 0 64 64" }}
+    style={{ enableBackground: "new 0 0 64 64" } as CSSProperties}
     xmlSpace="preserve"
     {...props}
   >

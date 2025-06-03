@@ -1,4 +1,4 @@
-import chroma, { Color } from "chroma-js"
+import { Color } from "chroma-js"
 import { create } from "zustand"
 import { createComputed } from "zustand-computed"
 import {

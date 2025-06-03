@@ -1,4 +1,3 @@
-// @ts-expect-error no ts declarations of css files
 import "@/global.css"
 import { Editor, Export } from "@/views"
 import { StrictMode } from "react"

@@ -1,3 +1,18 @@
+/// <reference types="vite/client" />
+/// <reference types="vite/types/importMeta.d.ts" />
+
+interface ViteTypeOptions {
+  strictImportMetaEnv: unknown
+}
+
+interface ImportMetaEnv {
+  readonly VITE_BASE_URL: string
+}
+
+interface ImportMeta {
+  readonly env: ImportMetaEnv
+}
+
 declare module "*.svg" {
   import * as React from "react"
   export const ReactComponent: React.FunctionComponent<
@@ -6,9 +21,6 @@ declare module "*.svg" {
   const src: string
   export default src
 }
-
-/// <reference types="vite/client" />
-/// <reference types="vite/types/importMeta.d.ts" />
 
 type Enumize<T> = T[keyof T]
 

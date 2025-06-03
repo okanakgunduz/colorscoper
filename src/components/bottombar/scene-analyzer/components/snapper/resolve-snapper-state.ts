@@ -1,5 +1,8 @@
 import { Color } from "chroma-js"
-import { BGPattern, BGState } from "@components/scene-analyzer/analyzer"
+import {
+  BGPattern,
+  BGState,
+} from "@components/bottombar/scene-analyzer/analyzer"
 import { kCombine, permutations, permute } from "@utils/counting"
 
 export function resolveSceneState(
@@ -26,7 +29,7 @@ export function resolveSceneState(
   }
 
   const comb: Color[][] = []
-  kCombine(colors, count).forEach((combination) =>
+  kCombine(colors, count).forEach(combination =>
     comb.push(...permute(combination)),
   )
   return comb[index]

@@ -16,6 +16,8 @@ type Variant = "columns" | "list"
 export default function ColorDivision({ colors, title, subtitle }: Props) {
   const [variant, setVariant] = useState<Variant>("columns")
 
+  if (colors.length === 0) return null
+
   return (
     <section className="space-y-4">
       <div className="flex items-end justify-between">

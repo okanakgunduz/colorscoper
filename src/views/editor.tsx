@@ -6,7 +6,7 @@ import Picker from "@components/picker"
 import Sidebar from "@components/sidebar"
 
 export default function Editor() {
-  const mobile = useMediaQuery("(max-width: 640px)")
+  const mobile = useMediaQuery("(max-width: 64rem)")
 
   if (mobile)
     return (
@@ -27,9 +27,9 @@ export default function Editor() {
   return (
     <main className="h-dvh max-h-dvh min-h-dvh">
       <div className="grid size-full grid-cols-[21rem_1fr] grid-rows-[1fr_3.75rem] divide-x divide-y overflow-hidden">
-        <Sidebar className="col-span-1 row-span-2 hidden lg:block" />
-        <Picker className="col-span-full row-span-1 flex min-h-0 overflow-hidden lg:col-span-1" />
-        <BottomBar className="col-span-full row-span-1 lg:col-span-1" />
+        <Sidebar className="col-span-1 row-span-2 block" />
+        <Picker className="col-span-1 row-span-1 flex min-h-0 overflow-hidden" />
+        <BottomBar className="col-span-1 row-span-1" />
       </div>
     </main>
   )

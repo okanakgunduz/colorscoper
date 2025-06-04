@@ -19,7 +19,7 @@ export default function ColorCatalog({ colors, variant, className }: Props) {
     return (
       <div
         className={cx(
-          "flex aspect-[2/1] w-full overflow-hidden rounded-lg border border-black/10",
+          "flex aspect-[2/1] min-h-64 w-full overflow-hidden rounded-lg border border-black/10",
           className,
         )}
       >

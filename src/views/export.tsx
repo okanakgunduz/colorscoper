@@ -86,6 +86,7 @@ export default function Export() {
               }}
               icon={PencilSimple}
               title="Edit"
+              className="hidden sm:flex"
             />
 
             <ToolboxButton
@@ -98,6 +99,7 @@ export default function Export() {
               }}
               icon={Plus}
               title="New"
+              className="hidden sm:flex"
             />
 
             <ToolboxLink

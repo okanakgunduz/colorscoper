@@ -25,20 +25,20 @@ export default function SupportUs() {
       <a
         href={import.meta.env.VITE_BMAC_PROFILE_URL}
         target="_blank"
-        className="ring-accent mt-6 flex h-28 w-full cursor-pointer items-center justify-between rounded-3xl bg-yellow-400 pr-12 pl-8 active:brightness-95"
+        className="ring-accent mt-6 flex h-28 w-full cursor-pointer items-center justify-center rounded-3xl bg-yellow-400 pr-12 pl-8 active:brightness-95 sm:justify-between"
       >
         <BuyMeCoffee className="max-w-56" />
-        <p className="text-sm">
+        <p className="hidden text-sm sm:block">
           🍵 <strong>{totalCups ?? 0}</strong> cups gifted.
         </p>
       </a>
       <a
         href="https://github.com/XenoverseUp/colorscope"
         target="_blank"
-        className="ring-accent mt-4 flex h-28 w-full cursor-pointer items-center justify-between rounded-3xl bg-slate-900 pr-12 pl-8 active:brightness-95"
+        className="ring-accent mt-4 flex h-28 w-full cursor-pointer items-center justify-center rounded-3xl bg-slate-900 pr-12 pl-8 active:brightness-95 sm:justify-between"
       >
         <Github className="max-w-48" />
-        <p className="text-sm text-slate-300">
+        <p className="hidden text-sm text-slate-300 sm:block">
           ⭐ <strong>{stars ?? 0}</strong> stars given.
         </p>
       </a>

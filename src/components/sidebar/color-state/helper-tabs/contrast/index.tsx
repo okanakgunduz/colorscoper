@@ -13,6 +13,7 @@ export default function ContrastHelper() {
         each={Object.values(ContrastType)}
         renderItem={type => {
           const { contrastColor, contrastValue } = getContrasted(type)!
+
           return (
             <ContrastLine
               type={type}

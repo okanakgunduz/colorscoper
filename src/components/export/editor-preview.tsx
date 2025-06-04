@@ -1,6 +1,7 @@
 import For from "@/components/common/for"
 import Select from "@/components/common/select"
 import { kebabize, pascalize } from "@/lib/utils/casing"
+import { toString } from "@/lib/utils/color"
 import cx, { Class } from "@/lib/utils/cx"
 import nameColor from "@/lib/utils/name-color"
 import { useColorModeStore } from "@/stores/color-mode.store"
@@ -80,9 +81,7 @@ export default function EditorPreview({ className, colors }: Props) {
                                   {kebabize(nameColor(color))}:
                                 </span>{" "}
                                 <span className="text-orange-300">
-                                  {colorMode === "hex"
-                                    ? color.hex().toUpperCase()
-                                    : color.css(colorMode)}
+                                  {toString(color, colorMode)}
                                 </span>
                                 <span className="text-slate-50">;</span>
                               </span>
@@ -108,9 +107,7 @@ export default function EditorPreview({ className, colors }: Props) {
                                   {kebabize(nameColor(color))}:
                                 </span>{" "}
                                 <span className="text-orange-300">
-                                  {colorMode === "hex"
-                                    ? color.hex().toUpperCase()
-                                    : color.css(colorMode)}
+                                  {toString(color, colorMode)}
                                 </span>
                                 <span className="text-slate-50">;</span>
                               </span>
@@ -154,7 +151,7 @@ export default function EditorPreview({ className, colors }: Props) {
                                 </span>
                                 <span className="text-cyan-400">&gt;</span>
                                 <span className="text-orange-300">
-                                  {color.hex().toUpperCase()}
+                                  {toString(color, colorMode)}
                                 </span>
                                 <span className="text-cyan-400">
                                   &lt;/color&gt;
@@ -188,7 +185,7 @@ export default function EditorPreview({ className, colors }: Props) {
                                 </span>
                                 <span className="text-cyan-400">&gt;</span>
                                 <span className="text-orange-300">
-                                  {color.hex().toUpperCase()}
+                                  {toString(color, colorMode)}
                                 </span>
                                 <span className="text-cyan-400">
                                   &lt;/color&gt;
@@ -233,7 +230,7 @@ export default function EditorPreview({ className, colors }: Props) {
                                 <span className="text-slate-50">(</span>
                                 <span className="text-pink-400">hex:</span>{" "}
                                 <span className="text-orange-300">
-                                  &quot;{color.hex().toUpperCase()}&quot;
+                                  &quot;{toString(color, "hex")}&quot;
                                 </span>
                                 <span className="text-slate-50">)</span>
                               </span>
@@ -264,7 +261,7 @@ export default function EditorPreview({ className, colors }: Props) {
                                 <span className="text-slate-50">(</span>
                                 <span className="text-pink-400">hex:</span>{" "}
                                 <span className="text-orange-300">
-                                  &quot;{color.hex().toUpperCase()}&quot;
+                                  &quot;{toString(color, "hex")}&quot;
                                 </span>
                                 <span className="text-slate-50">)</span>
                               </span>

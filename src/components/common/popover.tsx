@@ -37,6 +37,7 @@ export function RadixPopover({
             top: 24,
             bottom: 64,
           }}
+          onClick={e => e.stopPropagation()}
         >
           <div className="flex size-full flex-col">
             <header className="text-caption h-header-height flex w-full shrink-0 items-center justify-between border-b px-3">
@@ -82,7 +83,7 @@ export function NativePopover({
 
   useEventListener(
     "toggle",
-    (e) => {
+    e => {
       setIsOpen((e.target as HTMLDialogElement).matches(":popover-open"))
     },
     dialogRef,

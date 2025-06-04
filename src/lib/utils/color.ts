@@ -13,13 +13,10 @@ export const ColorMode = {
 export type ColorMode = Enumize<typeof ColorMode>
 
 export const ContrastType = {
+  LIGHTNESS: "lightness",
+  HUE_LIGHTNESS: "hue - lightness",
+  SATURATION_LIGHTNESS: "chroma - lightness",
   HUE: "hue",
-  SAT: "sat",
-  LUM: "lum",
-  HUE_SAT: "hue-sat",
-  HUE_LUM: "hue-lum",
-  SAT_LUM: "sat-lum",
-  HUE_SAT_LUM: "hue-sat-lum",
 } as const
 
 export type ContrastType = Enumize<typeof ContrastType>
@@ -61,53 +58,56 @@ export const relationshipMap: Record<ColorRelationship, Array<number>> = {
 export const getHueSections = (relationship: ColorRelationship) =>
   relationshipMap[relationship]
 
-const adjustSaturation = (s: number) => {
-  if (s < 0.6 && s >= 0.5) return 0.1
-  if (s > 0.4 && s < 0.5) return 1
-  return 1 - s
-}
+const CONTRAST_DELTA = 60
 
-export function getContrasted(type: ContrastType, color: Color): Color {
-  const [h, s, l] = chroma(color).hsl()
+export function getContrasted(type: ContrastType, color: Color): chroma.Color {
+  let [L, C, h] = chroma(color).lch()
 
   switch (type) {
+    case ContrastType.LIGHTNESS:
+      L =
+        L < 50
+          ? Math.min(100, L + CONTRAST_DELTA)
+          : Math.max(0, L - CONTRAST_DELTA)
+      return chroma.lch(L, C, h)
+
     case ContrastType.HUE:
-      return chroma.hsl((h + 180) % 360, s, l)
+      return chroma(color).set(
+        "hsl.h",
+        (chroma(color).get("hsl.h") + 180) % 360,
+      )
 
-    case ContrastType.SAT:
-      return chroma.hsl(h, adjustSaturation(s), l)
+    case ContrastType.HUE_LIGHTNESS: {
+      const hsl = chroma(color).hsl()
+      const h = (hsl[0] + 180) % 360
+      let l = hsl[2]
 
-    case ContrastType.LUM:
-      return chroma.hsl(h, s, 1 - l)
+      l =
+        l < 0.5
+          ? Math.min(1, l + CONTRAST_DELTA / 100)
+          : Math.max(0, l - CONTRAST_DELTA / 100)
 
-    case ContrastType.HUE_SAT:
-      return chroma.hsl((h + 180) % 360, adjustSaturation(s), l)
+      return chroma.hsl(h, hsl[1], l)
+    }
 
-    case ContrastType.HUE_LUM:
-      return chroma.hsl((h + 180) % 360, s, 1 - l)
-
-    case ContrastType.SAT_LUM:
-      return chroma.hsl(h, adjustSaturation(s), 1 - l)
-
-    case ContrastType.HUE_SAT_LUM:
-      return chroma.hsl((h + 180) % 360, adjustSaturation(s), 1 - l)
+    case ContrastType.SATURATION_LIGHTNESS:
+      L =
+        L < 50
+          ? Math.min(100, L + CONTRAST_DELTA)
+          : Math.max(0, L - CONTRAST_DELTA)
+      C =
+        C < 50
+          ? Math.min(100, C + CONTRAST_DELTA)
+          : Math.max(0, C - CONTRAST_DELTA)
+      return chroma.lch(L, C, h)
 
     default:
-      throw new Error("Unknown contrast type")
+      throw new Error(`Unknown contrast type: ${type}`)
   }
 }
 
 export function getContrastValue(color1: Color, color2: Color): number {
-  const luminance1 = chroma(color1).luminance()
-  const luminance2 = chroma(color2).luminance()
-
-  const [L1, L2] =
-    luminance1 > luminance2
-      ? [luminance1, luminance2]
-      : [luminance2, luminance1]
-
-  // WCAG contrast ratio formula
-  return (L1 + 0.05) / (L2 + 0.05)
+  return chroma.contrast(color1, color2)
 }
 
 export function rotateHue(color: Color, degrees: number): Color {

@@ -12,7 +12,11 @@ export default function SupportUs() {
     <div>
       <div className="space-y-1">
         <h2 className="text-heading flex items-center gap-1.5">
-          <Heart weight="fill" className="text-pink-500" size={24} />
+          <Heart
+            weight="fill"
+            className="animate-bounce text-pink-500"
+            size={24}
+          />
           Support Us
         </h2>
         <p>If you liked ColorScope, you can consider supporting us!</p>

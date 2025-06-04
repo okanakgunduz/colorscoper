@@ -20,7 +20,7 @@ interface Action {
 
 const usePaletteStoreBase = create<State & Action>()(set => ({
   /* State */
-  colors: [chroma("#4393FA"), chroma("#2B2B81"), chroma("#D5A9F6")],
+  colors: [],
 
   /* Action */
   insert: color =>

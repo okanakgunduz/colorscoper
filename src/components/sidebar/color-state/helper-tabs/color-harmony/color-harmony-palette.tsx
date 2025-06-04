@@ -1,10 +1,10 @@
+import { useSelectionStore } from "@stores/selection.store"
+import { useSidebarStore } from "@stores/sidebar.store"
 import For from "@components/common/for"
 import { ColorRelationship, getHueSections, rotateHue } from "@utils/color"
 import cx, { Class } from "@utils/cx"
 import getOptimizedTextColor from "@utils/get-optimized-text-color"
 import romanize from "@utils/romanize"
-import { useSelectionStore } from "@stores/selection.store"
-import { useSidebarStore } from "@stores/sidebar.store"
 
 interface Props {
   relationship: ColorRelationship
@@ -24,7 +24,7 @@ export default function ColorHarmonyPalette({
   return (
     <div
       className={cx(
-        "bg-muted-background has-adjacent-hover:opacity-50 grid h-10 w-full grid-rows-1 overflow-hidden",
+        "bg-muted-background has-adjacent-hover:opacity-50 grid h-12 w-full grid-rows-1 overflow-hidden rounded",
         className,
       )}
       style={{
@@ -33,23 +33,23 @@ export default function ColorHarmonyPalette({
     >
       <For
         each={getHueSections(relationship)}
-        renderItem={(section) => {
+        renderItem={section => {
           const color = rotateHue(base.value, section * 30)
 
           return (
             <button
               onClick={() => insertSlot(color)}
-              className="flex cursor-pointer px-[1px] active:brightness-90"
+              className="flex cursor-pointer active:brightness-90"
               key={`color-harmony-palette-${section}`}
             >
               <span
-                className="flex size-full items-center justify-center"
+                className="flex size-full items-center justify-center font-medium"
                 style={{
                   background: color.css(),
                   color: getOptimizedTextColor(color).css(),
                 }}
               >
-                {romanize(section + 1)}.
+                {romanize(section + 1)}
               </span>
             </button>
           )

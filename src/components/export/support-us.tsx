@@ -1,5 +1,6 @@
 import BuyMeCoffee from "@/assets/BuyMeCoffee"
 import Github from "@/assets/Github"
+import { appConfig } from "@/config"
 import { useGithubStars } from "@/lib/hooks/useGithubStars"
 import { useTotalCupsGifted } from "@/lib/hooks/useTotalCupsGifted"
 import { Heart } from "@phosphor-icons/react"
@@ -19,7 +20,7 @@ export default function SupportUs() {
           />
           Support Us
         </h2>
-        <p>If you liked ColorScope, you can consider supporting us!</p>
+        <p>If you liked {appConfig.appName}, you can consider supporting us!</p>
       </div>
 
       <a

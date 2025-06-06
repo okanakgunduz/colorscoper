@@ -1,4 +1,5 @@
 import For from "@/components/common/for"
+import { appConfig } from "@/config"
 import { buildQuery } from "@/lib/utils/search-query"
 import { usePaletteStore } from "@/stores/palette.store"
 import { Export as ExportIcon, Play, X } from "@phosphor-icons/react"
@@ -19,7 +20,9 @@ export default function Export() {
   >(paletteColors.map(color => ({ isBackground: false, color })))
 
   const disabled = useMemo(
-    () => config.filter(entry => entry.isBackground).length >= 3,
+    () =>
+      config.filter(entry => entry.isBackground).length >=
+      appConfig.maxBackgroundLimit,
     [config],
   )
 

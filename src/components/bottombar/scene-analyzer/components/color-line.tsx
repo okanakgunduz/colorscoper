@@ -3,10 +3,10 @@ import { ProhibitInset } from "@phosphor-icons/react/dist/ssr"
 import { Color } from "chroma-js"
 import { motion } from "motion/react"
 import { ForwardedRef, forwardRef } from "react"
+import { useColorModeStore } from "@stores/color-mode.store"
 import Copy from "@components/common/copy"
 import cx, { Class } from "@utils/cx"
 import nameColor from "@utils/name-color"
-import { useColorModeStore } from "@stores/color-mode.store"
 
 interface Props {
   color: Color
@@ -18,15 +18,7 @@ interface Props {
 }
 
 export default forwardRef(function ColorLine(
-  {
-    color,
-    onAction,
-    icon: Icon,
-    className,
-    disabled,
-
-    id,
-  }: Props,
+  { color, onAction, icon: Icon, className, disabled, id }: Props,
   ref: ForwardedRef<HTMLDivElement>,
 ) {
   const getRoundedColorString = useColorModeStore.use.getRoundedColorString()

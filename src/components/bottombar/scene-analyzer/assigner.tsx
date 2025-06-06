@@ -1,11 +1,12 @@
+import ScrollArea from "@/components/common/scroll-area"
 import { Info, X } from "@phosphor-icons/react"
 import { ArrowRight } from "@phosphor-icons/react/dist/ssr"
 import { Color } from "chroma-js"
 import { AnimatePresence, motion } from "motion/react"
 import { useState } from "react"
+import { usePaletteStore } from "@stores/palette.store"
 import If from "@components/common/if"
 import { passIf } from "@components/common/pass-if"
-import { usePaletteStore } from "@stores/palette.store"
 import ColorLine from "./components/color-line"
 
 type AssignerState = {
@@ -30,23 +31,24 @@ export default function Assigner({ onConfirmed }: Props) {
 
   return (
     <section className="flex h-80 w-xl flex-col divide-y">
-      <main className="flex grow items-stretch justify-between divide-x overflow-hidden *:px-4 *:pb-4">
-        <div className="h-full w-1/2 overflow-auto">
+      <main className="flex grow items-stretch justify-between divide-x overflow-hidden *:px-4">
+        <ScrollArea className="h-full w-1/2 overflow-auto">
           <h2 className="text-heading-3 sticky top-0 z-10 bg-gradient-to-b from-white from-50% to-transparent pt-3 pb-5 select-none">
             Foreground
           </h2>
-          <div className="space-y-3">
-            <AnimatePresence initial={false} mode="popLayout">
-              {state.foreground.map((color) => (
+          <div className="space-y-3 pb-4">
+            <AnimatePresence initial={false} mode="sync">
+              {state.foreground.map(color => (
                 <ColorLine
                   key={`assigner-foreground-${color.hex()}`}
                   className="origin-top-right"
                   color={color}
                   id={color.hex()}
                   icon={ArrowRight}
-                  onAction={(color) =>
-                    setState((state) => ({
-                      foreground: state.foreground.filter((c) => c !== color),
+                  disabled={state.background.length === 3}
+                  onAction={color =>
+                    setState(state => ({
+                      foreground: state.foreground.filter(c => c !== color),
                       background: [...state.background, color],
                     }))
                   }
@@ -68,23 +70,23 @@ export default function Assigner({ onConfirmed }: Props) {
               />
             </AnimatePresence>
           </div>
-        </div>
-        <div className="h-full w-1/2 overflow-auto">
+        </ScrollArea>
+        <ScrollArea className="h-full w-1/2 overflow-auto">
           <h2 className="text-heading-3 sticky top-0 z-10 bg-gradient-to-b from-white from-60% to-transparent py-4 select-none">
             Background
           </h2>
-          <div className="space-y-3">
+          <div className="space-y-3 pb-4">
             <AnimatePresence initial={false} mode="popLayout">
-              {state.background.map((color) => (
+              {state.background.map(color => (
                 <ColorLine
                   key={`assigner-background-${color.hex()}`}
                   className="origin-top-left"
                   color={color}
                   icon={X}
-                  onAction={(color) =>
-                    setState((state) => ({
+                  onAction={color =>
+                    setState(state => ({
                       foreground: [...state.foreground, color],
-                      background: state.background.filter((c) => c !== color),
+                      background: state.background.filter(c => c !== color),
                     }))
                   }
                 />
@@ -105,7 +107,7 @@ export default function Assigner({ onConfirmed }: Props) {
               />
             </AnimatePresence>
           </div>
-        </div>
+        </ScrollArea>
       </main>
       <footer className="bg-muted-background flex h-12 items-center justify-between p-5">
         <p className="text-caption text-muted flex items-center gap-2">

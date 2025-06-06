@@ -1,11 +1,10 @@
+import { appConfig } from "@/config"
 import { type Color } from "chroma-js"
 import { create } from "zustand"
 import createSelectors from "@utils/create-selectors"
 import { impush } from "@utils/immutable"
 import { useSelectionStore } from "./selection.store"
 import { useSidebarStore } from "./sidebar.store"
-
-export const MAX_PALETTE_COUNT = 8
 
 interface State {
   colors: Array<Color>
@@ -25,7 +24,7 @@ const usePaletteStoreBase = create<State & Action>()(set => ({
   /* Action */
   insert: color =>
     set(state => {
-      if (state.colors.length >= MAX_PALETTE_COUNT)
+      if (state.colors.length >= appConfig.maxPaletteLimit)
         return {
           colors: state.colors,
         }
@@ -41,7 +40,8 @@ const usePaletteStoreBase = create<State & Action>()(set => ({
     set(state => ({ colors: state.colors.filter((_, i) => i !== index) }))
   },
 
-  setColors: colors => set({ colors: colors.slice(0, MAX_PALETTE_COUNT) }),
+  setColors: colors =>
+    set({ colors: colors.slice(0, appConfig.maxPaletteLimit) }),
   clearAll: () => set({ colors: [] }),
 }))
 

@@ -1,4 +1,5 @@
 import Logo from "@/assets/Logo"
+import { appConfig } from "@/config"
 import { Hexagon } from "@phosphor-icons/react"
 
 export default function EmptyState() {
@@ -12,7 +13,7 @@ export default function EmptyState() {
       <div className="absolute bottom-6 left-1/2 -translate-x-1/2">
         <h1 className="text-heading-2 flex items-center gap-1">
           <Logo width={18} height={18} />
-          <span>ColorScope</span>
+          <span>{appConfig.appName}</span>
         </h1>
       </div>
     </aside>

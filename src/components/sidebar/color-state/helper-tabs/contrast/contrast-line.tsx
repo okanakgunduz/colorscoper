@@ -1,3 +1,5 @@
+import If from "@/components/common/if"
+import { appConfig } from "@/config"
 import { useSidebarStore } from "@/stores/sidebar.store"
 import { CircleHalfTilt } from "@phosphor-icons/react"
 import { Color } from "chroma-js"
@@ -47,15 +49,57 @@ export default function ContrastLine({
             style={{ background: base.css() }}
             onClick={e => e.stopPropagation()}
           >
-            <div
-              className="flex size-9 items-center justify-center rounded-full"
-              style={{ background: contrastColor.css() }}
-            >
-              <div
-                className="size-4 rounded-full"
-                style={{ background: base.css() }}
-              ></div>
-            </div>
+            <If
+              condition={appConfig.contrastPlaygroundType === "square"}
+              renderItem={() => (
+                <div
+                  className="size-8 rounded"
+                  style={{ background: contrastColor.css() }}
+                />
+              )}
+            />
+            <If
+              condition={appConfig.contrastPlaygroundType === "donut"}
+              renderItem={() => (
+                <div
+                  className="flex size-9 items-center justify-center rounded-full"
+                  style={{ background: contrastColor.css() }}
+                >
+                  <div
+                    className="size-4 rounded-full"
+                    style={{ background: base.css() }}
+                  ></div>
+                </div>
+              )}
+            />
+            <If
+              condition={appConfig.contrastPlaygroundType === "triangle"}
+              renderItem={() => (
+                <svg width="32" height="28" viewBox="0 0 32 28">
+                  <path
+                    d="M16 2 L30 26 H2 Z"
+                    fill={contrastColor.css()}
+                    stroke={contrastColor.css()}
+                    strokeWidth="3"
+                    strokeLinejoin="round"
+                  />
+                </svg>
+              )}
+            />
+            <If
+              condition={appConfig.contrastPlaygroundType === "square-donut"}
+              renderItem={() => (
+                <div
+                  className="flex size-8 items-center justify-center rounded"
+                  style={{ background: contrastColor.css() }}
+                >
+                  <div
+                    className="size-2 rounded-xs"
+                    style={{ background: base.css() }}
+                  />
+                </div>
+              )}
+            />
           </div>
         }
         content={<Demo contrastColor={contrastColor} />}

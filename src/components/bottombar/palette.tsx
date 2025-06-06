@@ -1,12 +1,13 @@
+import { appConfig } from "@/config"
 import type { Color } from "chroma-js"
 import { AnimatePresence, motion } from "motion/react"
 import { useMemo } from "react"
 import { useShallow } from "zustand/shallow"
+import { usePaletteStore } from "@stores/palette.store"
+import { type PaletteColor, useSelectionStore } from "@stores/selection.store"
 import For from "@components/common/for"
 import useKeyListener from "@hooks/useKeyListener"
 import cx, { Class } from "@utils/cx"
-import { MAX_PALETTE_COUNT, usePaletteStore } from "@stores/palette.store"
-import { type PaletteColor, useSelectionStore } from "@stores/selection.store"
 
 interface Props {
   className?: Class
@@ -17,7 +18,7 @@ export default function Palette({ className }: Props) {
   const deleteColor = usePaletteStore.use.delete()
 
   const [selectType, selectedColor, clearSelection] = useSelectionStore(
-    useShallow((state) => [state.type, state.color, state.clearSelection]),
+    useShallow(state => [state.type, state.color, state.clearSelection]),
   )
 
   useKeyListener({
@@ -46,8 +47,8 @@ export default function Palette({ className }: Props) {
         />
 
         <For
-          times={Math.min(MAX_PALETTE_COUNT - paletteColors.length, 2)}
-          renderItem={(i) => (
+          times={Math.min(appConfig.maxPaletteLimit - paletteColors.length, 2)}
+          renderItem={i => (
             <div key={`palette-color-${i + paletteColors.length}`}>
               <button className="bg-muted-background relative size-7 rounded-md border border-dashed border-black/20" />
             </div>
@@ -64,7 +65,7 @@ type PaletteColorProps = { index: number; color: Color }
 
 const PaletteColor = ({ index, color }: PaletteColorProps) => {
   const [selectType, selectedColor, select, clear] = useSelectionStore(
-    useShallow((state) => [
+    useShallow(state => [
       state.type,
       state.color,
       state.setPaletteSelection,

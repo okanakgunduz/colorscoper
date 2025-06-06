@@ -1,4 +1,5 @@
 import Logo from "@/assets/Logo"
+import { appConfig } from "@/config"
 
 export default function Header() {
   return (
@@ -6,7 +7,7 @@ export default function Header() {
       <div className="flex w-full justify-between">
         <h1 className="text-heading flex items-center gap-1">
           <Logo width={20} height={20} />
-          <span>ColorScope</span>
+          <span>{appConfig.appName}</span>
         </h1>
       </div>
       <p className="text-paragraph text-muted">

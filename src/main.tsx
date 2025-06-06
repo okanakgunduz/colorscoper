@@ -1,3 +1,5 @@
+import PageTitle from "@/components/common/page-title"
+import { appConfig } from "@/config"
 import "@/global.css"
 import { Editor, Export } from "@/views"
 import { StrictMode } from "react"
@@ -9,6 +11,8 @@ const root = document.getElementById("root")!
 createRoot(root).render(
   <StrictMode>
     <BrowserRouter>
+      <PageTitle title={appConfig.appName} />
+
       <Routes>
         <Route index element={<Editor />} />
         <Route path="/export" element={<Export />} />

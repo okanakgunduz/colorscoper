@@ -14,8 +14,8 @@ export type ColorMode = Enumize<typeof ColorMode>
 
 export const ContrastType = {
   LIGHTNESS: "lightness",
-  HUE_LIGHTNESS: "hue - lightness",
   SATURATION_LIGHTNESS: "chroma - lightness",
+  HUE_LIGHTNESS: "hue - lightness",
   HUE: "hue",
 } as const
 

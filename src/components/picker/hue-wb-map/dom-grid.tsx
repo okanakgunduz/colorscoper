@@ -1,10 +1,10 @@
 import chroma from "chroma-js"
 import { motion } from "motion/react"
 import { MouseEvent, useMemo } from "react"
+import { useSelectionStore } from "@stores/selection.store"
 import For from "@components/common/for"
 import linearTo2D from "@utils/linear-to-2d"
 import map from "@utils/map"
-import { useSelectionStore } from "@stores/selection.store"
 import { CellsInfo, getCells } from "./helpers"
 
 interface Props {
@@ -51,7 +51,7 @@ export default function DOMGrid({
     >
       <For
         times={cells.count}
-        renderItem={(i) => {
+        renderItem={i => {
           const { x } = linearTo2D(i, cells.x)
           const { hue, luminosity } = gridHueLum(cells, i)
 

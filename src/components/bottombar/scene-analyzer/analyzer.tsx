@@ -1,8 +1,9 @@
+import ScrollArea from "@/components/common/scroll-area"
 import HorizontalSplitTriple from "@assets/HorizontalSplitTriple"
 import T from "@assets/T"
 import TReverse from "@assets/TReverse"
 import VerticalSplitTriple from "@assets/VerticalSplitTriple"
-import { Icon, Plus, Square } from "@phosphor-icons/react"
+import { ArrowsClockwise, Icon, Plus, Square } from "@phosphor-icons/react"
 import {
   SquareSplitHorizontal,
   SquareSplitVertical,
@@ -52,21 +53,23 @@ export default function Analyzer({ foreground, background }: Props) {
 
   return (
     <section className="flex h-96 w-2xl items-stretch divide-x overflow-hidden">
-      <aside className="bg-muted-background grow space-y-3 overflow-hidden px-4 pt-4">
-        {foreground.map((color) => (
-          <ColorLine
-            key={`assigner-background-${color.hex()}`}
-            className="origin-top-left"
-            color={color}
-            id={color.hex()}
-            icon={Plus}
-            disabled={disabled}
-            onAction={() =>
-              setItems((state) => [...state, { id: uuid(), color }])
-            }
-          />
-        ))}
-      </aside>
+      <ScrollArea className="bg-muted-background grow">
+        <aside className="space-y-3 overflow-hidden px-4 pt-4 pb-4">
+          {foreground.map(color => (
+            <ColorLine
+              key={`assigner-background-${color.hex()}`}
+              className="origin-top-left"
+              color={color}
+              id={color.hex()}
+              icon={Plus}
+              disabled={disabled}
+              onAction={() =>
+                setItems(state => [...state, { id: uuid(), color }])
+              }
+            />
+          ))}
+        </aside>
+      </ScrollArea>
       <main
         className="dividey flex flex-col"
         style={
@@ -82,9 +85,7 @@ export default function Analyzer({ foreground, background }: Props) {
           state={backgroundState}
           background={background}
           foreground={items}
-          onRemove={(id) =>
-            setItems((prev) => prev.filter((item) => item.id !== id))
-          }
+          onRemove={id => setItems(prev => prev.filter(item => item.id !== id))}
         />
 
         {/* Footer */}
@@ -97,7 +98,7 @@ export default function Analyzer({ foreground, background }: Props) {
                 icon={Square}
                 type={BGPattern.Square}
                 current={backgroundState.pattern}
-                onClick={(type) => {
+                onClick={type => {
                   setBackgroundState({
                     pattern: type,
                     index:
@@ -117,7 +118,7 @@ export default function Analyzer({ foreground, background }: Props) {
                   icon={SquareSplitHorizontal}
                   type={BGPattern.VerticalStripDouble}
                   current={backgroundState.pattern}
-                  onClick={(type) => {
+                  onClick={type => {
                     setBackgroundState({
                       pattern: type,
                       index:
@@ -130,7 +131,7 @@ export default function Analyzer({ foreground, background }: Props) {
                   icon={SquareSplitVertical}
                   type={BGPattern.HorizontalStripDouble}
                   current={backgroundState.pattern}
-                  onClick={(type) => {
+                  onClick={type => {
                     setBackgroundState({
                       pattern: type,
                       index:
@@ -151,7 +152,7 @@ export default function Analyzer({ foreground, background }: Props) {
                   icon={HorizontalSplitTriple as Icon}
                   type={BGPattern.HorizontalStripTriple}
                   current={backgroundState.pattern}
-                  onClick={(type) => {
+                  onClick={type => {
                     setBackgroundState({
                       pattern: type,
                       index:
@@ -164,7 +165,7 @@ export default function Analyzer({ foreground, background }: Props) {
                   icon={VerticalSplitTriple as Icon}
                   type={BGPattern.VerticalStripTriple}
                   current={backgroundState.pattern}
-                  onClick={(type) => {
+                  onClick={type => {
                     setBackgroundState({
                       pattern: type,
                       index:
@@ -177,7 +178,7 @@ export default function Analyzer({ foreground, background }: Props) {
                   icon={T as Icon}
                   type={BGPattern.T}
                   current={backgroundState.pattern}
-                  onClick={(type) => {
+                  onClick={type => {
                     setBackgroundState({
                       pattern: type,
                       index:
@@ -190,7 +191,7 @@ export default function Analyzer({ foreground, background }: Props) {
                   icon={TReverse as Icon}
                   type={BGPattern.TReverse}
                   current={backgroundState.pattern}
-                  onClick={(type) => {
+                  onClick={type => {
                     setBackgroundState({
                       pattern: type,
                       index:
@@ -204,7 +205,7 @@ export default function Analyzer({ foreground, background }: Props) {
           />
 
           <button
-            className="ml-auto"
+            className="ml-auto cursor-pointer"
             onClick={() =>
               setBackgroundState({
                 ...backgroundState,
@@ -217,7 +218,7 @@ export default function Analyzer({ foreground, background }: Props) {
               })
             }
           >
-            +
+            <ArrowsClockwise />
           </button>
         </footer>
       </main>

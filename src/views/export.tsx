@@ -1,10 +1,12 @@
 import Logo from "@/assets/Logo"
+import Announcement from "@/components/announcement"
 import For from "@/components/common/for"
 import Select from "@/components/common/select"
 import ColorDivision from "@/components/export/color-division"
 import EditorPreview from "@/components/export/editor-preview"
 import SupportUs from "@/components/export/support-us"
 import { ToolboxButton, ToolboxLink } from "@/components/export/toolbox"
+import { appConfig } from "@/config"
 import useCopyToClipboard from "@/lib/hooks/useCopyToClipboard"
 import { ColorMode } from "@/lib/utils/color"
 import { parseQuery } from "@/lib/utils/search-query"
@@ -63,13 +65,14 @@ export default function Export() {
 
   return (
     <div className="w-full">
+      <Announcement />
       <main className="mx-auto my-8 w-full max-w-3xl px-4">
         {/* Header */}
         <header className="flex items-center justify-between">
           <div className="flex items-center gap-2">
             <Logo width={40} height={40} />
             <div>
-              <h1 className="text-heading">ColorScope</h1>
+              <h1 className="text-heading">{appConfig.appName}</h1>
               <p className="text-muted text-caption-bold">
                 Your reliable design & photography tool.
               </p>

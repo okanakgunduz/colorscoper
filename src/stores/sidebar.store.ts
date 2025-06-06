@@ -1,9 +1,10 @@
+import { appConfig } from "@/config"
 import { Color } from "chroma-js"
 import { create } from "zustand"
 import { createComputed } from "zustand-computed"
 import createSelectors from "@utils/create-selectors"
 import { immutate } from "@utils/immutable"
-import { MAX_PALETTE_COUNT, usePaletteStore } from "./palette.store"
+import { usePaletteStore } from "./palette.store"
 
 const SLOT_COUNT = 6
 
@@ -36,7 +37,7 @@ const computed = createComputed(
       return (
         state.selectedIndex !== null &&
         state.slots[state.selectedIndex] !== null &&
-        usePaletteStore.getState().colors.length < MAX_PALETTE_COUNT
+        usePaletteStore.getState().colors.length < appConfig.maxPaletteLimit
       )
     },
     insertSelectedToPalette: () => {
@@ -55,14 +56,14 @@ const computed = createComputed(
 )
 
 const useSidebarStoreBase = create<State & Action>()(
-  computed((set) => ({
+  computed(set => ({
     /* State */
     slots: new Array(SLOT_COUNT).fill(null),
     selectedIndex: null,
 
     /* Action */
-    insertSlot: (color) =>
-      set((state) => {
+    insertSlot: color =>
+      set(state => {
         if (state.selectedIndex === null) {
           const firstNullIndex = state.slots.indexOf(null)
 
@@ -79,8 +80,8 @@ const useSidebarStoreBase = create<State & Action>()(
         }
       }),
 
-    clearSlot: (i) =>
-      set((state) => ({
+    clearSlot: i =>
+      set(state => ({
         slots: immutate(state.slots, i, null),
         selectedIndex: null,
       })),
@@ -88,7 +89,7 @@ const useSidebarStoreBase = create<State & Action>()(
     clearSlots: () =>
       set({ slots: new Array(SLOT_COUNT).fill(null), selectedIndex: null }),
 
-    setSelectedIndex: (i) => set({ selectedIndex: i }),
+    setSelectedIndex: i => set({ selectedIndex: i }),
     unsetSelectedIndex: () => set({ selectedIndex: null }),
   })),
 )

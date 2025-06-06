@@ -19,7 +19,7 @@ export const appConfig: Config = {
   announcement: (
     <div className="bg-accent text-caption-bold flex size-full items-center justify-center gap-2 text-white">
       <a
-        href="https://www.youtube.com/watch?v=d3mhZbBOxbE"
+        href="https://www.youtube.com/watch?v=xvFZjo5PgG0"
         target="_blank"
         className="hover:underline"
       >

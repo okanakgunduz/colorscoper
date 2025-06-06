@@ -42,6 +42,8 @@ export default function Analyzer({ foreground, background }: Props) {
     index: 0,
   })
 
+  useEffect(() => console.log(backgroundState), [backgroundState])
+
   const [items, setItems] = useState<{ id: string; color: Color }[]>([])
 
   useEffect(() => {

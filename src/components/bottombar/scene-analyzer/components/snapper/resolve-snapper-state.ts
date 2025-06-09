@@ -5,6 +5,21 @@ import {
 } from "@components/bottombar/scene-analyzer/analyzer"
 import { kCombine, permutations, permute } from "@utils/counting"
 
+export function getCombinationCount(
+  colorLength: number,
+  pattern: BGPattern,
+): number {
+  switch (pattern) {
+    case "square":
+      return permutations(colorLength, 1)
+    case "horizontal-strip-double":
+    case "vertical-strip-double":
+      return permutations(colorLength, 2)
+    default:
+      return permutations(colorLength, 3)
+  }
+}
+
 export function resolveSceneState(
   { pattern, index }: BGState,
   colors: Color[],
@@ -33,19 +48,4 @@ export function resolveSceneState(
     comb.push(...permute(combination)),
   )
   return comb[index]
-}
-
-export function getCombinationCount(
-  colorLength: number,
-  pattern: BGPattern,
-): number {
-  switch (pattern) {
-    case "square":
-      return permutations(colorLength, 1)
-    case "horizontal-strip-double":
-    case "vertical-strip-double":
-      return permutations(colorLength, 2)
-    default:
-      return permutations(colorLength, 3)
-  }
 }

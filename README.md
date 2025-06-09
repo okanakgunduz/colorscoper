@@ -25,6 +25,4 @@ Since this is a web app, apparently, you need [NodeJS](https://nodejs.org/en) in
 
 ## Examples
 
----
-
 Muhammed Can Durmus | 2025

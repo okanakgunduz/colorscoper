@@ -1,58 +1,3 @@
-export function permute<T>(permutation: T[]) {
-  const length = permutation.length,
-    result = [permutation.slice()],
-    c = new Array(length).fill(0)
-  let i = 1,
-    k,
-    p
-
-  while (i < length) {
-    if (c[i] < i) {
-      k = i % 2 && c[i]
-      p = permutation[i]
-      permutation[i] = permutation[k]
-      permutation[k] = p
-      ++c[i]
-      i = 1
-      result.push(permutation.slice())
-    } else {
-      c[i] = 0
-      ++i
-    }
-  }
-  return result
-}
-
-export function kCombine<T>(set: T[], k: number): T[][] {
-  let i, j, combs, head, tailcombs
-
-  if (k > set.length || k <= 0) {
-    return []
-  }
-
-  if (k == set.length) {
-    return [set]
-  }
-
-  if (k == 1) {
-    combs = []
-    for (i = 0; i < set.length; i++) {
-      combs.push([set[i]])
-    }
-    return combs
-  }
-
-  combs = []
-  for (i = 0; i < set.length - k + 1; i++) {
-    head = set.slice(i, i + 1)
-    tailcombs = kCombine(set.slice(i + 1), k - 1)
-    for (j = 0; j < tailcombs.length; j++) {
-      combs.push(head.concat(tailcombs[j]))
-    }
-  }
-  return combs
-}
-
 export function permutations(sampleSpace: number, count: number = 1) {
   return factorial(sampleSpace) / factorial(sampleSpace - count)
 }
@@ -66,4 +11,33 @@ export function combinations(sampleSpace: number, count: number = 1) {
 export function factorial(n: number): number {
   if (n == 0) return 1
   return n * factorial(n - 1)
+}
+
+export function kCombine<T>(arr: T[], k: number): T[][] {
+  if (k > arr.length || k <= 0) return []
+  if (k === arr.length) return [arr.slice()]
+  if (k === 1) return arr.map(x => [x])
+
+  const result: T[][] = []
+  for (let i = 0; i <= arr.length - k; i++) {
+    const head = arr.slice(i, i + 1)
+    const tailCombs = kCombine(arr.slice(i + 1), k - 1)
+    for (const tail of tailCombs) {
+      result.push(head.concat(tail))
+    }
+  }
+  return result
+}
+
+export function permute<T>(arr: T[]): T[][] {
+  if (arr.length <= 1) return [arr]
+  const result: T[][] = []
+  for (let i = 0; i < arr.length; i++) {
+    const current = arr[i]
+    const rest = arr.slice(0, i).concat(arr.slice(i + 1))
+    for (const subPerm of permute(rest)) {
+      result.push([current].concat(subPerm))
+    }
+  }
+  return result
 }

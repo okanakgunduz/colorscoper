@@ -24,28 +24,29 @@ export function resolveSceneState(
   { pattern, index }: BGState,
   colors: Color[],
 ): Color[] {
-  let count = 1
-
-  switch (pattern) {
-    case "square":
-      count = 1
-      break
-    case "horizontal-strip-double":
-    case "vertical-strip-double":
-      count = 2
-      break
-
-    case "t":
-    case "t-reverse":
-    case "horizontal-strip-triple":
-    case "vertical-strip-triple":
-      count = 3
-      break
+  const countMap: Record<BGState["pattern"], number> = {
+    square: 1,
+    "horizontal-strip-double": 2,
+    "vertical-strip-double": 2,
+    t: 3,
+    "t-reverse": 3,
+    "horizontal-strip-triple": 3,
+    "vertical-strip-triple": 3,
   }
 
-  const comb: Color[][] = []
-  kCombine(colors, count).forEach(combination =>
-    comb.push(...permute(combination)),
-  )
-  return comb[index]
+  const k = countMap[pattern]
+
+  if (colors.length < k) {
+    return Array.from({ length: k }, (_, i) => colors[i % colors.length])
+  }
+
+  const combs = kCombine(colors, k)
+  if (combs.length === 0) {
+    return Array.from({ length: k }, (_, i) => colors[i % colors.length])
+  }
+
+  const selectedComb = combs[index % combs.length]
+  const perms = permute(selectedComb)
+
+  return perms[index % perms.length]
 }

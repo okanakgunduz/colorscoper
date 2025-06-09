@@ -17,7 +17,7 @@ export const appConfig: Config = {
   contrastPlaygroundType: "triangle",
 
   announcement: (
-    <div className="bg-accent text-caption-bold flex size-full items-center justify-center gap-2 text-white">
+    <div className="bg-accent text-caption-bold flex size-full h-8 items-center justify-center gap-2 text-white">
       <a
         href="https://www.youtube.com/watch?v=xvFZjo5PgG0"
         target="_blank"

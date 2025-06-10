@@ -28,11 +28,11 @@ export default function SnapperForeground({
     const occ = [...occupancy]
     const pos = { ...positions }
 
-    items.forEach((item) => {
+    items.forEach(item => {
       if (positions[item.id] == null) {
         const free = occ
           .map((c, idx) => (c === 0 ? idx : -1))
-          .filter((idx) => idx >= 0)
+          .filter(idx => idx >= 0)
 
         const chosen =
           free.length > 0
@@ -59,9 +59,9 @@ export default function SnapperForeground({
   }
 
   useEffect(() => {
-    const validIds = new Set(items.map((item) => item.id))
+    const validIds = new Set(items.map(item => item.id))
 
-    setPositions((prevPositions) => {
+    setPositions(prevPositions => {
       const newPositions: Record<string, number> = {}
       const newOccupancy = [...occupancy]
 
@@ -76,23 +76,28 @@ export default function SnapperForeground({
       setOccupancy(newOccupancy)
       return newPositions
     })
+    // eslint-disable-next-line
   }, [items])
 
   useEffect(() => {
-    if (occupancy.every((c) => c > 0)) onFilled?.()
+    if (occupancy.every(c => c > 0)) onFilled?.()
   }, [occupancy, onFilled])
 
   const handleSnapChange = (key: string) => (prev: number, next: number) => {
-    setOccupancy((occ) => {
+    setOccupancy(occ => {
       const o = [...occ]
       o[prev] = Math.max(0, o[prev] - 1)
       o[next] = o[next] + 1
       return o
     })
-    setPositions((pos) => ({ ...pos, [key]: next }))
+    setPositions(pos => ({ ...pos, [key]: next }))
   }
 
-  const currentPositions = useMemo(() => getItemPositions(), [items])
+  const currentPositions = useMemo(
+    () => getItemPositions(),
+    // eslint-disable-next-line
+    [items],
+  )
 
   return (
     <div
@@ -105,7 +110,7 @@ export default function SnapperForeground({
       <For
         element={AnimatePresence}
         each={items}
-        renderItem={(item) => {
+        renderItem={item => {
           const initialSnap = currentPositions[item.id]
           return (
             <Draggable

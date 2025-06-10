@@ -61,6 +61,7 @@ export const getHueSections = (relationship: ColorRelationship) =>
 const CONTRAST_DELTA = 60
 
 export function getContrasted(type: ContrastType, color: Color): chroma.Color {
+  // eslint-disable-next-line prefer-const
   let [L, C, h] = chroma(color).lch()
 
   switch (type) {

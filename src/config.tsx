@@ -11,7 +11,7 @@ interface Config {
 }
 
 export const appConfig: Config = {
-  appName: "ColorScope", // You can change the <title /> tag in the index.html, as well.
+  appName: import.meta.env.VITE_APP_NAME || "ColorScope", // You can change the <title /> tag in the index.html, as well.
   maxPaletteLimit: 8, // Max color count in the palette.
   maxBackgroundLimit: 3, // Maximum exportable background colors.
   contrastPlaygroundType: "triangle",

@@ -8,6 +8,7 @@ interface ViteTypeOptions {
 interface ImportMetaEnv {
   readonly VITE_BMAC_PROFILE_URL: string
   readonly VITE_BMAC_ACCESS_TOKEN: string
+  readonly VITE_APP_NAME: string
 }
 
 interface ImportMeta {

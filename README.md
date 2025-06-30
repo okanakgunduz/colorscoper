@@ -1,4 +1,4 @@
-# Color Analysis Tool (ColorScope)
+# Color Analysis Tool (ColorScoper)
 
 This is a color analysis and palette generation tool that has advanced color analysis systems for designers, photographers and editors, working on web technologies. After analyzing and composing, a color palette is exportable to different formates including web links, `pdf`, `css` or `xml`.
 

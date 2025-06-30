@@ -78,7 +78,7 @@ export default function HueSaturationWheel() {
         onValueChange={(value) => setLuminosity(value / 100)}
         className="absolute bottom-4 left-1/2 -translate-x-1/2"
         title="Luminosity"
-        min={15}
+        min={5}
         max={75}
         format={(value) => `${value.toFixed(0)}%`}
         debounceTimeout={150}
